@@ -23,8 +23,8 @@ export function Ground() {
       />
 
       <Cylinder
-        args={[4, 4, 0.2, 32]}
-        position={[0, 0.1, 20]}
+        args={[4, 4, 0.04, 32]}
+        position={[0, 0.02, 20]}
         material={buttonMaterial}
       />
 
@@ -35,8 +35,8 @@ export function Ground() {
       />
 
       <Cylinder
-        args={[4, 4, 0.2, 32]}
-        position={[0, 0.1, -20]}
+        args={[4, 4, 0.04, 32]}
+        position={[0, 0.02, -20]}
         material={buttonMaterial}
       />
     </group>

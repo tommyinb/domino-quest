@@ -1,13 +1,20 @@
-import { Box } from "@react-three/drei";
-import { MeshToonMaterial } from "three";
+import { useState } from "react";
+import { Vector3 } from "three";
+import { Domino } from "./Domino";
+import { Next } from "./Next";
 
 export function Build() {
-  const material = new MeshToonMaterial();
-  material.color.set(0x4ecdc4);
+  const [dominos, setDominos] = useState<Vector3[]>(() => [
+    new Vector3(0, 0, 20),
+  ]);
 
   return (
-    <group>
-      <Box args={[3, 6, 1]} position={[0, 3, 0]} material={material} />
-    </group>
+    <>
+      <Next dominos={dominos} setDominos={setDominos} />
+
+      {dominos.map((position, index) => (
+        <Domino key={index} position={position} />
+      ))}
+    </>
   );
 }
