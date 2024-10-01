@@ -7,7 +7,7 @@ import { depth, height, width } from "./Domino";
 export function Next({ dominos, setDominos }: Props) {
   const position = useMemo(() => {
     const lastDomino = dominos[dominos.length - 1];
-    return lastDomino.clone().add(new Vector3(0, 0, -5));
+    return lastDomino.clone().add(new Vector3(0, 0, -2.5));
   }, [dominos]);
 
   const lineOffset = 0.2;
@@ -30,7 +30,7 @@ export function Next({ dominos, setDominos }: Props) {
         ]}
         color={0x4ecdc4}
         dashed={true}
-        dashScale={5}
+        dashScale={8}
         dashOffset={dashOffset}
         lineWidth={2}
       />

@@ -6,7 +6,7 @@ import {
   Sky,
   Stats,
 } from "@react-three/drei";
-import { useThree } from "@react-three/fiber";
+import { Physics } from "@react-three/rapier";
 import { useControls } from "leva";
 import { PropsWithChildren, useRef } from "react";
 import {
@@ -18,7 +18,6 @@ import {
 import "./App.css";
 
 export function Scene({ children }: PropsWithChildren) {
-  const { camera } = useThree();
   const { debug } = useControls({
     debug: false,
   });
@@ -28,7 +27,7 @@ export function Scene({ children }: PropsWithChildren) {
   const spotLight = useRef<SpotLight>(null!);
 
   return (
-    <>
+    <Physics debug={debug}>
       {debug && <axesHelper args={[10]} />}
 
       <hemisphereLight ref={hemisphereLight} intensity={0.7} />
@@ -64,13 +63,7 @@ export function Scene({ children }: PropsWithChildren) {
 
       {children}
 
-      {debug && (
-        <OrbitControls
-          onChange={() => {
-            console.log(camera.position);
-          }}
-        />
-      )}
-    </>
+      {debug && <OrbitControls />}
+    </Physics>
   );
 }

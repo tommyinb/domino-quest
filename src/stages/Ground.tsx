@@ -1,4 +1,5 @@
 import { Box, Cylinder } from "@react-three/drei";
+import { CylinderCollider, RigidBody } from "@react-three/rapier";
 import { MeshToonMaterial } from "three";
 
 export function Ground() {
@@ -10,33 +11,45 @@ export function Ground() {
 
   return (
     <group>
-      <Box
-        args={[8, 0.5, 40]}
-        position={[0, -0.25, 0]}
-        material={groundMaterial}
-      />
+      <RigidBody type="fixed" friction={2}>
+        <Box
+          args={[4, 0.5, 20]}
+          position={[0, -0.25, 0]}
+          material={groundMaterial}
+        />
+      </RigidBody>
+
+      <RigidBody
+        position={[0, -0.25, 10]}
+        type="fixed"
+        friction={2}
+        colliders={false}
+      >
+        <Cylinder args={[4, 4, 0.5, 32]} material={groundMaterial} />
+
+        <CylinderCollider args={[0.25, 4]} />
+      </RigidBody>
 
       <Cylinder
-        args={[8, 8, 0.5, 32]}
-        position={[0, -0.25, 20]}
-        material={groundMaterial}
-      />
-
-      <Cylinder
-        args={[4, 4, 0.04, 32]}
-        position={[0, 0.02, 20]}
+        args={[2, 2, 0.04, 32]}
+        position={[0, 0.02, 10]}
         material={buttonMaterial}
       />
 
-      <Cylinder
-        args={[8, 8, 0.5, 32]}
-        position={[0, -0.25, -20]}
-        material={groundMaterial}
-      />
+      <RigidBody
+        position={[0, -0.25, -10]}
+        type="fixed"
+        friction={2}
+        colliders={false}
+      >
+        <Cylinder args={[4, 4, 0.5, 32]} material={groundMaterial} />
+
+        <CylinderCollider args={[0.25, 4]} />
+      </RigidBody>
 
       <Cylinder
-        args={[4, 4, 0.04, 32]}
-        position={[0, 0.02, -20]}
+        args={[2, 2, 0.04, 32]}
+        position={[0, 0.02, -10]}
         material={buttonMaterial}
       />
     </group>

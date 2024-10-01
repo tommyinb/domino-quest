@@ -8,14 +8,12 @@ import { Ground } from "./stages/Ground";
 function App() {
   return (
     <div className="App">
-      <Canvas shadows camera={{ position: [-80, 60, 100], fov: 15 }}>
+      <Canvas shadows camera={{ position: [-40, 30, 50], fov: 15 }}>
         <Suspense>
           <Scene>
-            <group>
-              <Ground />
+            <Ground />
 
-              <Build />
-            </group>
+            <Build />
           </Scene>
         </Suspense>
       </Canvas>
