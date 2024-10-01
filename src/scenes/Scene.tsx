@@ -1,14 +1,12 @@
 import { OrbitControls, Stats } from "@react-three/drei";
 import { Physics } from "@react-three/rapier";
-import { useControls } from "leva";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useContext } from "react";
 import { Lighting } from "./Lighting";
+import { SceneContext } from "./SceneContext";
 import { Sky } from "./Sky";
 
 export function Scene({ children }: PropsWithChildren) {
-  const { debug } = useControls({
-    debug: false,
-  });
+  const { debug, orbitControlEnabled } = useContext(SceneContext);
 
   return (
     <Physics debug={debug} gravity={[0, -400, 0]}>
@@ -24,7 +22,7 @@ export function Scene({ children }: PropsWithChildren) {
 
       {children}
 
-      <OrbitControls />
+      <OrbitControls enabled={orbitControlEnabled} />
     </Physics>
   );
 }

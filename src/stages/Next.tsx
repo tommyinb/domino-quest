@@ -1,7 +1,8 @@
 import { Box, Line } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
-import { useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { Vector3 } from "three";
+import { SceneContext } from "../scenes/SceneContext";
 import { depth, height, width } from "./Domino";
 
 export function Next({ dominos, setDominos }: Props) {
@@ -15,9 +16,26 @@ export function Next({ dominos, setDominos }: Props) {
   const [dashOffset, setDashOffset] = useState(0);
   useFrame(({ clock }) => setDashOffset(clock.getElapsedTime()));
 
+  const { setOrbitControlEnabled } = useContext(SceneContext);
+
   return (
     <group
       position={position}
+      onPointerDown={(event) => {
+        console.log("down");
+
+        (event.target as Element)?.setPointerCapture(event.pointerId);
+
+        setOrbitControlEnabled(false);
+      }}
+      onPointerUp={() => {
+        console.log("up");
+        setOrbitControlEnabled(true);
+      }}
+      onPointerCancel={() => {
+        console.log("cancel");
+        setOrbitControlEnabled(true);
+      }}
       onClick={() => setDominos([...dominos, position])}
     >
       <Line

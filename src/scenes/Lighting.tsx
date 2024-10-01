@@ -21,7 +21,7 @@ export function Lighting({ debug }: Props) {
         ref={directionalLight}
         color={0xffffff}
         position={[-150, 350, 350]}
-        castShadow={true}
+        castShadow
         intensity={3}
       />
       {debug && <directionalLightHelper args={[directionalLight.current, 1]} />}

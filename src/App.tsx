@@ -2,24 +2,26 @@ import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
 import "./App.css";
 import { Scene } from "./scenes/Scene";
+import { SceneProvider } from "./scenes/SceneProvider";
 import { Build } from "./stages/Build";
 import { Ground } from "./stages/Ground";
 
 function App() {
   return (
     <div className="App">
-      <Canvas
-        shadows
-        camera={{ position: [-75, 125, 200], fov: 60, near: 1, far: 10000 }}
-      >
-        <Suspense>
-          <Scene>
-            <Ground />
+      <Suspense>
+        <SceneProvider>
+          <Canvas
+            camera={{ position: [-75, 125, 200], fov: 60, near: 1, far: 10000 }}
+          >
+            <Scene>
+              <Ground />
 
-            <Build />
-          </Scene>
-        </Suspense>
-      </Canvas>
+              <Build />
+            </Scene>
+          </Canvas>
+        </SceneProvider>
+      </Suspense>
     </div>
   );
 }
