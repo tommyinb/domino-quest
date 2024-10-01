@@ -7,7 +7,7 @@ import { depth, height, width } from "./Domino";
 export function Next({ dominos, setDominos }: Props) {
   const position = useMemo(() => {
     const lastDomino = dominos[dominos.length - 1];
-    return lastDomino.clone().add(new Vector3(0, 0, -2.5));
+    return lastDomino.clone().add(new Vector3(0, 0, -25));
   }, [dominos]);
 
   const lineOffset = 0.2;

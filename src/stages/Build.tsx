@@ -5,7 +5,7 @@ import { Next } from "./Next";
 
 export function Build() {
   const [dominos, setDominos] = useState<Vector3[]>(() => [
-    new Vector3(0, 0, 10),
+    new Vector3(0, 0, 100),
   ]);
 
   return (

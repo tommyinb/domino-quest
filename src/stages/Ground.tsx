@@ -1,55 +1,47 @@
 import { Box, Cylinder } from "@react-three/drei";
 import { CylinderCollider, RigidBody } from "@react-three/rapier";
-import { MeshToonMaterial } from "three";
+import { MeshPhongMaterial } from "three";
 
 export function Ground() {
-  const groundMaterial = new MeshToonMaterial();
+  const groundMaterial = new MeshPhongMaterial();
   groundMaterial.color.set(0xf7fff7);
+  groundMaterial.flatShading = true;
 
-  const buttonMaterial = new MeshToonMaterial();
+  const buttonMaterial = new MeshPhongMaterial();
   buttonMaterial.color.set(0xffe66d);
+  buttonMaterial.flatShading = true;
 
   return (
     <group>
-      <RigidBody type="fixed" friction={2}>
+      <RigidBody type="fixed">
         <Box
-          args={[4, 0.5, 20]}
-          position={[0, -0.25, 0]}
+          args={[40, 5, 200]}
+          position={[0, -2.5, 0]}
           material={groundMaterial}
         />
       </RigidBody>
 
-      <RigidBody
-        position={[0, -0.25, 10]}
-        type="fixed"
-        friction={2}
-        colliders={false}
-      >
-        <Cylinder args={[4, 4, 0.5, 32]} material={groundMaterial} />
+      <RigidBody position={[0, -2.5, 100]} type="fixed" colliders={false}>
+        <Cylinder args={[40, 40, 5, 32]} material={groundMaterial} />
 
-        <CylinderCollider args={[0.25, 4]} />
+        <CylinderCollider args={[2.5, 40]} />
       </RigidBody>
 
       <Cylinder
-        args={[2, 2, 0.04, 32]}
-        position={[0, 0.02, 10]}
+        args={[20, 20, 0.4, 32]}
+        position={[0, 0.2, 100]}
         material={buttonMaterial}
       />
 
-      <RigidBody
-        position={[0, -0.25, -10]}
-        type="fixed"
-        friction={2}
-        colliders={false}
-      >
-        <Cylinder args={[4, 4, 0.5, 32]} material={groundMaterial} />
+      <RigidBody position={[0, -2.5, -100]} type="fixed" colliders={false}>
+        <Cylinder args={[40, 40, 5, 32]} material={groundMaterial} />
 
-        <CylinderCollider args={[0.25, 4]} />
+        <CylinderCollider args={[2.5, 40]} />
       </RigidBody>
 
       <Cylinder
-        args={[2, 2, 0.04, 32]}
-        position={[0, 0.02, -10]}
+        args={[20, 20, 0.4, 32]}
+        position={[0, 0.2, -100]}
         material={buttonMaterial}
       />
     </group>

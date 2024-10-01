@@ -8,8 +8,6 @@ export function Domino({ position }: Props) {
 
   const [hovered, setHovered] = useState(false);
 
-  const [pushed, setPushed] = useState(false);
-
   return (
     <RigidBody ref={ref} position={position}>
       <Box
@@ -18,14 +16,13 @@ export function Domino({ position }: Props) {
         onPointerEnter={() => setHovered(true)}
         onPointerLeave={() => setHovered(false)}
         onClick={() => {
-          if (!pushed) {
-            ref.current?.applyImpulse({ x: 0, y: 0, z: -10 }, true);
-
-            setPushed(true);
-          }
+          ref.current?.applyImpulse({ x: 0, y: 0, z: -100000 }, true);
         }}
       >
-        <meshToonMaterial color={hovered ? 0x5eddd4 : 0x4ecdc4} />
+        <meshPhongMaterial
+          color={hovered ? 0x5eddd4 : 0x68c3c0}
+          flatShading={true}
+        />
       </Box>
     </RigidBody>
   );
@@ -35,6 +32,6 @@ interface Props {
   position: Vector3;
 }
 
-export const width = 1.5;
-export const height = 3;
-export const depth = 0.5;
+export const width = 15;
+export const height = 30;
+export const depth = 5;
