@@ -20,7 +20,7 @@ export function Domino({ position }: Props) {
         }}
       >
         <meshPhongMaterial
-          color={hovered ? 0x5eddd4 : 0x68c3c0}
+          color={hovered ? 0x6eede4 : 0x5eddd4}
           flatShading={true}
         />
       </Box>

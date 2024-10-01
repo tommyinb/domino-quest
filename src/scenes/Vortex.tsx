@@ -15,7 +15,7 @@ export function Vortex({ positionZ, speed }: Props) {
       return {
         positionX: Math.cos(angle) * height,
         positionY: Math.sin(angle) * height,
-        positionZ: -200 - Math.random() * 400,
+        positionZ: (Math.random() - 0.5) * 2 * 200,
         rotationZ: angle + Math.PI / 2,
         size: 1 + Math.random() * 2,
       };
