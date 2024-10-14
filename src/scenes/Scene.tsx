@@ -1,15 +1,23 @@
 import { OrbitControls, Stats } from "@react-three/drei";
-import { Physics } from "@react-three/rapier";
+import { Canvas } from "@react-three/fiber";
 import { PropsWithChildren, useContext } from "react";
 import { Lighting } from "./Lighting";
 import { SceneContext } from "./SceneContext";
 import { Sky } from "./Sky";
 
 export function Scene({ children }: PropsWithChildren) {
-  const { debug, orbitControlEnabled } = useContext(SceneContext);
+  const { debug, clickHandles, orbitControlDisables } =
+    useContext(SceneContext);
 
   return (
-    <Physics debug={debug} gravity={[0, -400, 0]}>
+    <Canvas
+      camera={{ position: [-75, 125, 200], fov: 60, near: 1, far: 10000 }}
+      onClick={(event) => {
+        for (const handle of clickHandles) {
+          handle(event);
+        }
+      }}
+    >
       <fog attach="fog" args={[0xf7d9aa, 100, 950]} />
 
       {debug && <axesHelper args={[10]} />}
@@ -22,7 +30,7 @@ export function Scene({ children }: PropsWithChildren) {
 
       {children}
 
-      <OrbitControls enabled={orbitControlEnabled} />
-    </Physics>
+      <OrbitControls enabled={orbitControlDisables.length <= 0} />
+    </Canvas>
   );
 }

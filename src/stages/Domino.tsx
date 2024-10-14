@@ -1,12 +1,16 @@
 import { Box } from "@react-three/drei";
 import { Vector3 } from "@react-three/fiber";
 import { RapierRigidBody, RigidBody } from "@react-three/rapier";
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
+import { StageContext } from "./StageContext";
+import { StageState } from "./stageState";
 
 export function Domino({ position }: Props) {
   const ref = useRef<RapierRigidBody>(null);
 
   const [hovered, setHovered] = useState(false);
+
+  const { state } = useContext(StageContext);
 
   return (
     <RigidBody ref={ref} position={position}>
@@ -16,7 +20,9 @@ export function Domino({ position }: Props) {
         onPointerEnter={() => setHovered(true)}
         onPointerLeave={() => setHovered(false)}
         onClick={() => {
-          ref.current?.applyImpulse({ x: 0, y: 0, z: -100000 }, true);
+          if (state === StageState.Built) {
+            ref.current?.applyImpulse({ x: 0, y: 0, z: -100000 }, true);
+          }
         }}
       >
         <meshPhongMaterial

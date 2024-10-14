@@ -1,25 +1,20 @@
-import { Canvas } from "@react-three/fiber";
 import { Suspense } from "react";
 import "./App.css";
 import { Scene } from "./scenes/Scene";
 import { SceneProvider } from "./scenes/SceneProvider";
-import { Build } from "./stages/Build";
-import { Ground } from "./stages/Ground";
+import { Stage } from "./stages/Stage";
+import { StageProvider } from "./stages/StageProvider";
 
 function App() {
   return (
     <div className="App">
       <Suspense>
         <SceneProvider>
-          <Canvas
-            camera={{ position: [-75, 125, 200], fov: 60, near: 1, far: 10000 }}
-          >
+          <StageProvider>
             <Scene>
-              <Ground />
-
-              <Build />
+              <Stage />
             </Scene>
-          </Canvas>
+          </StageProvider>
         </SceneProvider>
       </Suspense>
     </div>
