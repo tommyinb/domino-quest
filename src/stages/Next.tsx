@@ -1,33 +1,24 @@
 import { Box, Line } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
-import { RapierRigidBody, RigidBody } from "@react-three/rapier";
-import {
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import { RigidBody } from "@react-three/rapier";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { Vector3 } from "three";
+import { Hint } from "../dominos/Hint";
+import { depth, height, width } from "../dominos/MiddleDomino";
 import { SceneContext } from "../scenes/SceneContext";
-import { depth, height, width } from "./Domino";
+import { BlockType } from "./blockType";
 import { endName } from "./Ground";
 import { StageContext } from "./StageContext";
 import { StageState } from "./stageState";
 
 export function Next() {
-  const {
-    setState,
-    dominos: points,
-    setDominos: setPoints,
-  } = useContext(StageContext);
+  const { setState, blocks, setBlocks } = useContext(StageContext);
 
   const [direction] = useState(new Vector3(0, 0, -25));
   const position = useMemo(() => {
-    const last = points[points.length - 1];
-    return last?.clone().add(direction) ?? direction;
-  }, [direction, points]);
+    const last = blocks[blocks.length - 1];
+    return last?.position.clone().add(direction) ?? direction;
+  }, [direction, blocks]);
 
   const lineOffset = 0.2;
   const [dashOffset, setDashOffset] = useState(0);
@@ -35,12 +26,14 @@ export function Next() {
 
   const [ending, setEnding] = useState(false);
   const addDomino = useCallback(() => {
-    setPoints([...points, position]);
-
     if (ending) {
+      setBlocks([...blocks, { type: BlockType.Last, position }]);
+
       setState(StageState.Built);
+    } else {
+      setBlocks([...blocks, { type: BlockType.Middle, position }]);
     }
-  }, [ending, points, position, setPoints, setState]);
+  }, [blocks, ending, position, setBlocks, setState]);
 
   const { setClickHandles } = useContext(SceneContext);
   useEffect(() => {
@@ -51,11 +44,6 @@ export function Next() {
         handles.filter((handle) => handle !== addDomino)
       );
   }, [addDomino, setClickHandles]);
-
-  const ref = useRef<RapierRigidBody>(null);
-  useFrame(() => {
-    ref.current?.setNextKinematicTranslation(position);
-  });
 
   return (
     <>
@@ -74,11 +62,22 @@ export function Next() {
           dashOffset={dashOffset}
           lineWidth={2}
         />
+
+        {blocks.length <= 1 && (
+          <Hint position={[0, height, 0]}>Press to build</Hint>
+        )}
+
+        {blocks.length > 1 && blocks.length < 4 && (
+          <Hint position={[0, height, 0]}>Press</Hint>
+        )}
+
+        {blocks.length === 4 && <Hint position={[0, height, 0]}>Press...</Hint>}
+
+        {ending && <Hint position={[0, height, 0]}>Last piece</Hint>}
       </group>
 
       <RigidBody
         key={position.toArray().join(",")}
-        ref={ref}
         position={position}
         solverGroups={1}
         gravityScale={0}

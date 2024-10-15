@@ -1,5 +1,17 @@
+@import url("https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap");
+
 .App {
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(#e4e0ba, #f7d9aa);
+  font-family: "Shadows Into Light", cursive;
+  font-weight: 400;
+  font-style: normal;
+  overflow: hidden;
+
+  > h1 {
+    position: absolute;
+    font-size: 15px;
+    opacity: 0;
+    pointer-events: none;
+  }
 }

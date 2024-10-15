@@ -1,28 +1,38 @@
-import { Physics } from "@react-three/rapier";
-import { useContext, useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Vector3 } from "three";
-import { SceneContext } from "../scenes/SceneContext";
-import { Domino } from "./Domino";
+import { Block } from "./block";
+import { BlockType } from "./blockType";
 import { Ground } from "./Ground";
 import { Next } from "./Next";
+import { Play } from "./Play";
 import { StageContext } from "./StageContext";
 import { StageState } from "./stageState";
 
 export function Stage() {
-  const { debug } = useContext(SceneContext);
+  const [state, setState] = useState(StageState.Building);
+  useEffect(() => console.log("state", state), [state]);
 
-  const { state, dominos, setDominos } = useContext(StageContext);
-  useEffect(() => setDominos([new Vector3(0, 0, 75)]), [setDominos]);
+  const [blocks, setBlocks] = useState<Block[]>(() => [
+    {
+      type: BlockType.First,
+      position: new Vector3(0, 0, 75),
+    },
+  ]);
 
   return (
-    <Physics debug={debug} gravity={[0, -400, 0]}>
-      <Ground />
+    <StageContext.Provider
+      value={useMemo(
+        () => ({ state, setState, blocks, setBlocks }),
+        [blocks, state]
+      )}
+    >
+      <group>
+        <Ground />
 
-      {state === StageState.Building && <Next />}
+        {state === StageState.Building && <Next />}
 
-      {dominos.map((position, index) => (
-        <Domino key={index} position={position} />
-      ))}
-    </Physics>
+        <Play />
+      </group>
+    </StageContext.Provider>
   );
 }

@@ -23,7 +23,7 @@ export function Ground() {
 
   const { state } = useContext(StageContext);
   const buttonColor = useMemo(
-    () => new Color(state === StageState.Building ? 0xffe66d : 0xff6b6b),
+    () => new Color(state === StageState.Building ? 0xffe66d : 0xef7a85),
     [state]
   );
   useFrame(() => buttonMaterial.color.lerp(buttonColor, 0.1));

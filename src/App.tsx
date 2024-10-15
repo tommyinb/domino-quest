@@ -3,18 +3,17 @@ import "./App.css";
 import { Scene } from "./scenes/Scene";
 import { SceneProvider } from "./scenes/SceneProvider";
 import { Stage } from "./stages/Stage";
-import { StageProvider } from "./stages/StageProvider";
 
 function App() {
   return (
     <div className="App">
+      <h1>Domino Quest</h1>
+
       <Suspense>
         <SceneProvider>
-          <StageProvider>
-            <Scene>
-              <Stage />
-            </Scene>
-          </StageProvider>
+          <Scene>
+            <Stage />
+          </Scene>
         </SceneProvider>
       </Suspense>
     </div>

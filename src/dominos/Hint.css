@@ -1,0 +1,21 @@
+.dominos-Hint {
+  font-size: min(8vw, 5vh);
+  line-height: min(8vw, 5vh);
+  color: white;
+  pointer-events: none;
+  user-select: none;
+
+  .content {
+    position: absolute;
+    bottom: 0.8em;
+    right: -1em;
+    text-align: right;
+    white-space: pre;
+  }
+
+  .arrow {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+  }
+}
