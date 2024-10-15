@@ -1,7 +1,11 @@
-import { useMemo, useState } from "react";
+import { Physics } from "@react-three/rapier";
+import { useContext, useMemo, useState } from "react";
+import { SceneContext } from "../scenes/SceneContext";
 import { StageState } from "../stages/stageState";
+import { CameraControl } from "./CameraControl";
 import { ControllerContext } from "./ControllerContext";
 import { Item } from "./item";
+import { Sky } from "./Sky";
 import { Slot } from "./Slot";
 
 export function Controller() {
@@ -20,6 +24,8 @@ export function Controller() {
 
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  const { debug } = useContext(SceneContext);
+
   return (
     <ControllerContext.Provider
       value={useMemo(
@@ -27,12 +33,18 @@ export function Controller() {
         [currentIndex, items]
       )}
     >
-      {items.map((item, index) => (
-        <Slot
-          key={`${index}-${item.majorLevel}-${item.minorLevel}`}
-          index={index}
-        />
-      ))}
+      <Sky />
+
+      <Physics debug={debug} gravity={[0, -400, 0]}>
+        {items.map((item, index) => (
+          <Slot
+            key={`${index}-${item.majorLevel}-${item.minorLevel}`}
+            index={index}
+          />
+        ))}
+      </Physics>
+
+      <CameraControl key={currentIndex} />
     </ControllerContext.Provider>
   );
 }

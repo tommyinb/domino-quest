@@ -10,7 +10,7 @@ export function Vortex({ positionZ, speed }: Props) {
 
     return Array.from({ length: count }, (_, i) => {
       const angle = stepAngle * i;
-      const height = 300 + Math.random() * 200;
+      const height = 200 + Math.random() * 200;
 
       return {
         positionX: Math.cos(angle) * height,

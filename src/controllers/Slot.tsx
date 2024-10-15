@@ -1,4 +1,4 @@
-import { animated, useSpring } from "@react-spring/three";
+import { animated } from "@react-spring/three";
 import { useCallback, useContext, useEffect, useMemo } from "react";
 import { Stage } from "../stages/Stage";
 import { StageState } from "../stages/stageState";
@@ -32,10 +32,8 @@ export function Slot({ index: slotIndex }: Props) {
     }
   }, [indexDifference, item, setState]);
 
-  const { y } = useSpring({ y: indexDifference * 500 });
-
   return (
-    <animated.group position-y={y}>
+    <animated.group position-y={slotIndex * slotHeight}>
       {item && Math.abs(indexDifference) <= 1 && (
         <Stage state={item.state} setState={setState} />
       )}
@@ -46,3 +44,5 @@ export function Slot({ index: slotIndex }: Props) {
 interface Props {
   index: number;
 }
+
+export const slotHeight = 500;

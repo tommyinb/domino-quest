@@ -12,15 +12,9 @@ export const SceneContext = createContext<{
   setClickHandles: Dispatch<
     SetStateAction<MouseEventHandler<HTMLDivElement>[]>
   >;
-
-  orbitControlDisables: unknown[];
-  setOrbitControlDisables: Dispatch<SetStateAction<unknown[]>>;
 }>({
   debug: false,
 
   clickHandles: [],
   setClickHandles: () => {},
-
-  orbitControlDisables: [],
-  setOrbitControlDisables: () => {},
 });

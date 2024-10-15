@@ -9,10 +9,6 @@ export function SceneProvider({ children }: PropsWithChildren) {
     MouseEventHandler<HTMLDivElement>[]
   >([]);
 
-  const [orbitControlDisables, setOrbitControlDisables] = useState<unknown[]>(
-    []
-  );
-
   return (
     <SceneContext.Provider
       value={useMemo(
@@ -20,10 +16,8 @@ export function SceneProvider({ children }: PropsWithChildren) {
           debug,
           clickHandles,
           setClickHandles,
-          orbitControlDisables,
-          setOrbitControlDisables,
         }),
-        [clickHandles, debug, orbitControlDisables]
+        [clickHandles, debug]
       )}
     >
       {children}
