@@ -1,4 +1,5 @@
 export enum StageState {
+  Idle = "idle",
   Building = "building",
   Built = "built",
   Playing = "playing",

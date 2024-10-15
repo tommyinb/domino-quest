@@ -1,8 +1,8 @@
 import { Suspense } from "react";
 import "./App.css";
+import { Controller } from "./controllers/Controller";
 import { Scene } from "./scenes/Scene";
 import { SceneProvider } from "./scenes/SceneProvider";
-import { Stage } from "./stages/Stage";
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
       <Suspense>
         <SceneProvider>
           <Scene>
-            <Stage />
+            <Controller />
           </Scene>
         </SceneProvider>
       </Suspense>

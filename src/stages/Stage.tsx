@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Vector3 } from "three";
 import { Block } from "./block";
 import { BlockType } from "./blockType";
@@ -8,10 +8,7 @@ import { Play } from "./Play";
 import { StageContext } from "./StageContext";
 import { StageState } from "./stageState";
 
-export function Stage() {
-  const [state, setState] = useState(StageState.Building);
-  useEffect(() => console.log("state", state), [state]);
-
+export function Stage({ state, setState }: Props) {
   const [blocks, setBlocks] = useState<Block[]>(() => [
     {
       type: BlockType.First,
@@ -23,7 +20,7 @@ export function Stage() {
     <StageContext.Provider
       value={useMemo(
         () => ({ state, setState, blocks, setBlocks }),
-        [blocks, state]
+        [blocks, setState, state]
       )}
     >
       <group>
@@ -35,4 +32,9 @@ export function Stage() {
       </group>
     </StageContext.Provider>
   );
+}
+
+interface Props {
+  state: StageState;
+  setState: (state: StageState) => void;
 }

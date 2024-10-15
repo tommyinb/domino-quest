@@ -7,7 +7,6 @@ import {
 
 export const SceneContext = createContext<{
   debug: boolean;
-  setDebug: (debug: boolean) => void;
 
   clickHandles: MouseEventHandler<HTMLDivElement>[];
   setClickHandles: Dispatch<
@@ -18,7 +17,6 @@ export const SceneContext = createContext<{
   setOrbitControlDisables: Dispatch<SetStateAction<unknown[]>>;
 }>({
   debug: false,
-  setDebug: () => {},
 
   clickHandles: [],
   setClickHandles: () => {},
