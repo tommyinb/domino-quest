@@ -1,0 +1,48 @@
+.headers-Success {
+  position: fixed;
+  left: 50%;
+  top: 40%;
+  translate: -50% -50%;
+  transition: 0.1s cubic-bezier(0.63, 0.07, 0.58, 2.02);
+
+  .success {
+    border-radius: 10px;
+    padding: 10px 10px;
+    background-color: #ffffffcc;
+    color: #ff6b6b;
+
+    .level {
+      font-size: 30px;
+      border-bottom: 1px solid #ff6b6b;
+      text-align: center;
+    }
+
+    .state {
+      padding-left: 20px;
+      padding-right: 20px;
+      font-size: 50px;
+    }
+  }
+
+  .button {
+    margin-top: 20px;
+    border-radius: 30px;
+    background-color: #ff6b6b;
+    color: white;
+    font-size: 30px;
+    text-align: center;
+    transition: 0.1s cubic-bezier(0.63, 0.07, 0.58, 2.02);
+    transition-delay: 0.1s;
+  }
+
+  &:not(.active) {
+    scale: 0.8;
+    opacity: 0;
+    pointer-events: none;
+
+    .button {
+      scale: 0.8;
+      opacity: 0;
+    }
+  }
+}

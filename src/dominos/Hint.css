@@ -17,5 +17,16 @@
     position: absolute;
     bottom: 0;
     right: 0;
+    animation: dominos-Hint-arrow 0.3s infinite alternate;
+  }
+}
+
+@keyframes dominos-Hint-arrow {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(10%);
   }
 }

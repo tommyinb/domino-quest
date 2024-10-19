@@ -1,6 +1,9 @@
 import { Suspense } from "react";
 import "./App.css";
 import { Controller } from "./controllers/Controller";
+import { ControllerProvider } from "./controllers/ControllerProvider";
+import { Success } from "./headers/Success";
+import { Title } from "./headers/Title";
 import { Scene } from "./scenes/Scene";
 import { SceneProvider } from "./scenes/SceneProvider";
 
@@ -9,13 +12,18 @@ function App() {
     <div className="App">
       <h1>Domino Quest</h1>
 
-      <Suspense>
-        <SceneProvider>
-          <Scene>
-            <Controller />
-          </Scene>
-        </SceneProvider>
-      </Suspense>
+      <SceneProvider>
+        <ControllerProvider>
+          <Suspense>
+            <Scene>
+              <Controller />
+            </Scene>
+          </Suspense>
+
+          <Title />
+          <Success />
+        </ControllerProvider>
+      </SceneProvider>
     </div>
   );
 }

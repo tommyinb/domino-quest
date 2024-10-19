@@ -5,12 +5,12 @@ export const ControllerContext = createContext<{
   items: Item[];
   setItems: (items: Item[]) => void;
 
-  currentIndex: number;
-  setCurrentIndex: (index: number) => void;
+  currentLevel: number;
+  setCurrentLevel: (level: number) => void;
 }>({
   items: [],
   setItems: () => {},
 
-  currentIndex: 0,
-  setCurrentIndex: () => {},
+  currentLevel: 0,
+  setCurrentLevel: () => {},
 });

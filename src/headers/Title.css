@@ -1,0 +1,9 @@
+.headers-Title {
+  position: fixed;
+  left: 25px;
+  top: 15px;
+
+  &:not(.active) {
+    display: none;
+  }
+}

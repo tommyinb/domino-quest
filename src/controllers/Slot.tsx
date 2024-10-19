@@ -1,40 +1,35 @@
 import { animated } from "@react-spring/three";
-import { useCallback, useContext, useEffect, useMemo } from "react";
+import { useCallback, useContext, useEffect } from "react";
 import { Stage } from "../stages/Stage";
 import { StageState } from "../stages/stageState";
 import { ControllerContext } from "./ControllerContext";
+import { Item } from "./item";
 
-export function Slot({ index: slotIndex }: Props) {
-  const { items, setItems, currentIndex, setCurrentIndex } =
-    useContext(ControllerContext);
+export function Slot({ item }: Props) {
+  const { items, setItems, currentLevel } = useContext(ControllerContext);
 
-  const item = useMemo(() => items[slotIndex], [items, slotIndex]);
   const setState = useCallback(
     (state: StageState) => {
-      const newItems = [...items];
-      newItems[slotIndex] = { ...item, state };
-
-      setItems(newItems);
-
-      if (state === StageState.Success) {
-        setCurrentIndex(currentIndex + 1);
-      }
+      setItems(
+        items.map((oldItem) =>
+          oldItem.level === item.level ? { ...oldItem, state } : oldItem
+        )
+      );
     },
-    [currentIndex, item, items, setCurrentIndex, setItems, slotIndex]
+    [item, items, setItems]
   );
 
-  const indexDifference = slotIndex - currentIndex;
   useEffect(() => {
-    if (indexDifference === 0) {
+    if (currentLevel === item.level) {
       if (item && item.state === StageState.Idle) {
         setState(StageState.Building);
       }
     }
-  }, [indexDifference, item, setState]);
+  }, [currentLevel, item, setState]);
 
   return (
-    <animated.group position-y={slotIndex * slotHeight}>
-      {item && Math.abs(indexDifference) <= 1 && (
+    <animated.group position-y={(item.level - 1) * slotHeight}>
+      {Math.abs(item.level - currentLevel) <= 1 && (
         <Stage state={item.state} setState={setState} />
       )}
     </animated.group>
@@ -42,7 +37,7 @@ export function Slot({ index: slotIndex }: Props) {
 }
 
 interface Props {
-  index: number;
+  item: Item;
 }
 
 export const slotHeight = 500;

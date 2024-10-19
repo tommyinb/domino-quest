@@ -1,9 +1,21 @@
-import { useControls } from "leva";
-import { MouseEventHandler, PropsWithChildren, useMemo, useState } from "react";
+import {
+  MouseEventHandler,
+  PropsWithChildren,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { SceneContext } from "./SceneContext";
 
 export function SceneProvider({ children }: PropsWithChildren) {
-  const { debug } = useControls({ debug: false });
+  const [debug, setDebug] = useState(false);
+  useEffect(() => {
+    Object.assign(window, { setDebug });
+
+    return () => {
+      Object.assign(window, { setDebug: undefined });
+    };
+  }, []);
 
   const [clickHandles, setClickHandles] = useState<
     MouseEventHandler<HTMLDivElement>[]

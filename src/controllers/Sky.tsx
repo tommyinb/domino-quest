@@ -6,10 +6,10 @@ import { slotHeight } from "./Slot";
 import { Vortex } from "./Vortex";
 
 export function Sky() {
-  const { currentIndex } = useContext(ControllerContext);
+  const { currentLevel } = useContext(ControllerContext);
 
   const { y } = useSpring({
-    y: currentIndex * slotHeight,
+    y: (currentLevel - 1) * slotHeight,
     config: { duration: transitionDuration },
   });
 

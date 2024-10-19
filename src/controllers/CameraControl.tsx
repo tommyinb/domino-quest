@@ -11,36 +11,31 @@ export function CameraControl() {
 
   const { camera } = useThree();
 
-  const { currentIndex } = useContext(ControllerContext);
+  const { currentLevel } = useContext(ControllerContext);
 
-  const [{ targetY, position }] = useSpring(() => {
-    console.log("from cameraPosition", camera.position.toArray());
-    console.log("currentIndex", currentIndex);
-
-    return {
+  const [{ targetY, position }] = useSpring(
+    () => ({
       from: {
-        targetY: Math.max(currentIndex - 1, 0) * slotHeight,
+        targetY: Math.max(currentLevel - 2, 0) * slotHeight,
         position: camera.position.toArray(),
       },
       to: {
-        targetY: currentIndex * slotHeight,
+        targetY: (currentLevel - 1) * slotHeight,
         position: [
           cameraX,
-          currentIndex * slotHeight + cameraY,
+          (currentLevel - 1) * slotHeight + cameraY,
           cameraZ,
         ] as Vector3Tuple,
       },
       onStart: () => setAnimating(true),
       onRest: () => setAnimating(false),
-      config: { duration: currentIndex > 0 ? transitionDuration : 0 },
-    };
-  }, [currentIndex]);
+      config: { duration: currentLevel > 0 ? transitionDuration : 0 },
+    }),
+    [currentLevel]
+  );
 
   useFrame(() => {
     if (animating) {
-      console.log("set cameraPosition", position.get());
-      console.log("set targetY", targetY.get());
-
       const [positionX, positionY, positionZ] = position.get();
       camera.position.set(positionX, positionY, positionZ);
 
@@ -61,4 +56,4 @@ export const cameraX = -75;
 export const cameraY = 125;
 export const cameraZ = 200;
 
-export const transitionDuration = 1000;
+export const transitionDuration = 500;

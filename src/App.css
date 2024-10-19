@@ -1,11 +1,6 @@
-@import url("https://fonts.googleapis.com/css2?family=Shadows+Into+Light&display=swap");
-
 .App {
   width: 100vw;
   height: 100vh;
-  font-family: "Shadows Into Light", cursive;
-  font-weight: 400;
-  font-style: normal;
   overflow: hidden;
 
   > h1 {
