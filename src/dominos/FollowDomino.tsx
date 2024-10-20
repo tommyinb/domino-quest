@@ -10,11 +10,13 @@ export function FollowDomino({ position, rotation, index }: Props) {
   useTipping(ref, index);
 
   return (
-    <RigidBody ref={ref} position={position} rotation={rotation}>
-      <Box args={[width, height, depth]} position={[0, height / 2, 0]}>
-        <meshPhongMaterial color={0x5eddd4} flatShading={true} />
-      </Box>
-    </RigidBody>
+    <group position={position} rotation={rotation}>
+      <RigidBody ref={ref} position={[0, 0.5, 0]}>
+        <Box args={[width, height, depth]} position={[0, height / 2, 0]}>
+          <meshPhongMaterial color={0x5eddd4} flatShading={true} />
+        </Box>
+      </RigidBody>
+    </group>
   );
 }
 

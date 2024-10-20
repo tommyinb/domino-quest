@@ -8,33 +8,40 @@ import { Play } from "../stage1/Play";
 import { StageContext } from "../StageContext";
 import { Ground } from "./Ground";
 import { Next } from "./Next";
-import { middlePosition, startPosition } from "./start";
+import { stationPositions } from "./start";
 
 export function Stage() {
   const { item } = useContext(SlotContext);
 
-  const [blocks, setBlocks] = useState<Block[]>(() => [
-    {
-      type: BlockType.First,
-      position: new Vector3(...startPosition),
-      rotation: new Euler(
-        0,
-        Math.atan2(
-          middlePosition[0] - startPosition[0],
-          middlePosition[2] - startPosition[2]
+  const [blocks, setBlocks] = useState<Block[]>(() => {
+    const startPosition = stationPositions[0];
+    const secondPosition = stationPositions[1];
+
+    return [
+      {
+        type: BlockType.First,
+        position: new Vector3(...startPosition),
+        rotation: new Euler(
+          0,
+          Math.atan2(
+            secondPosition[0] - startPosition[0],
+            secondPosition[2] - startPosition[2]
+          ),
+          0
         ),
-        0
-      ),
-    },
-  ]);
+      },
+    ];
+  });
 
   return (
     <StageContext.Provider
       value={useMemo(() => ({ blocks, setBlocks }), [blocks])}
     >
-      <Ground />
+      <Ground stationPositions={stationPositions} />
 
-      {item.state === ItemState.Building && <Next />}
+      {item.state === ItemState.Building && (
+        <Next stationPositions={stationPositions} />
+      )}
 
       <Play />
     </StageContext.Provider>

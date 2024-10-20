@@ -8,6 +8,7 @@ import { StageContext } from "../StageContext";
 import { Ground } from "./Ground";
 import { Next } from "./Next";
 import { Play } from "./Play";
+import { startPosition } from "./start";
 
 export function Stage() {
   const { item } = useContext(SlotContext);
@@ -15,7 +16,7 @@ export function Stage() {
   const [blocks, setBlocks] = useState<Block[]>(() => [
     {
       type: BlockType.First,
-      position: new Vector3(0, 0, 75),
+      position: new Vector3(...startPosition),
       rotation: new Euler(),
     },
   ]);

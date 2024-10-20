@@ -1,5 +1,7 @@
 import { animated } from "@react-spring/three";
+import { Html } from "@react-three/drei";
 import { useContext, useEffect, useMemo } from "react";
+import { SceneContext } from "../scenes/SceneContext";
 import { ControllerContext } from "./ControllerContext";
 import { Item } from "./item";
 import { ItemState } from "./itemState";
@@ -22,8 +24,12 @@ export function Slot({ item }: Props) {
     }
   }, [currentLevel, item, setItems]);
 
+  const { debug } = useContext(SceneContext);
+
   return (
     <animated.group position-y={(item.level - 1) * slotHeight}>
+      {debug && <Html>{item.state}</Html>}
+
       <SlotContext.Provider value={useMemo(() => ({ item }), [item])}>
         {Math.abs(item.level - currentLevel) <= 1 && (
           <item.start.stageElement />

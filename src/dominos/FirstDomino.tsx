@@ -19,7 +19,7 @@ export function FirstDomino({ position, rotation, index }: Props) {
 
   return (
     <group position={position} rotation={rotation}>
-      <RigidBody ref={ref}>
+      <RigidBody position={[0, 1, 0]} ref={ref}>
         <Box
           args={[width, height, depth]}
           position={[0, height / 2, 0]}
