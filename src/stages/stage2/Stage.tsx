@@ -4,10 +4,11 @@ import { ItemState } from "../../controllers/itemState";
 import { SlotContext } from "../../controllers/SlotContext";
 import { Block } from "../block";
 import { BlockType } from "../blockType";
+import { Play } from "../stage1/Play";
 import { StageContext } from "../StageContext";
 import { Ground } from "./Ground";
 import { Next } from "./Next";
-import { Play } from "./Play";
+import { middlePosition, startPosition } from "./start";
 
 export function Stage() {
   const { item } = useContext(SlotContext);
@@ -16,7 +17,14 @@ export function Stage() {
     {
       type: BlockType.First,
       position: new Vector3(0, 0, 75),
-      rotation: new Euler(),
+      rotation: new Euler(
+        0,
+        Math.atan2(
+          middlePosition[0] - startPosition[0],
+          middlePosition[2] - startPosition[2]
+        ),
+        0
+      ),
     },
   ]);
 

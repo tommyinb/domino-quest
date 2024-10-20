@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import { Block } from "../../dominos/block";
+import { Block } from "./block";
 
 export const StageContext = createContext<{
   blocks: Block[];

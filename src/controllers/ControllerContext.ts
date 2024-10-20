@@ -7,10 +7,16 @@ export const ControllerContext = createContext<{
 
   currentLevel: number;
   setCurrentLevel: (level: number) => void;
+
+  gestures: string[];
+  setGestures: Dispatch<SetStateAction<string[]>>;
 }>({
   items: [],
   setItems: () => {},
 
   currentLevel: 0,
   setCurrentLevel: () => {},
+
+  gestures: [],
+  setGestures: () => {},
 });

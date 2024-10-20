@@ -2,14 +2,15 @@ import { Box } from "@react-three/drei";
 import { Vector3 } from "@react-three/fiber";
 import { RapierRigidBody, RigidBody } from "@react-three/rapier";
 import { useRef } from "react";
+import { Euler } from "three";
 import { useTipping } from "./useTipping";
 
-export function MiddleDomino({ position, index }: Props) {
+export function FollowDomino({ position, rotation, index }: Props) {
   const ref = useRef<RapierRigidBody>(null);
   useTipping(ref, index);
 
   return (
-    <RigidBody ref={ref} position={position}>
+    <RigidBody ref={ref} position={position} rotation={rotation}>
       <Box args={[width, height, depth]} position={[0, height / 2, 0]}>
         <meshPhongMaterial color={0x5eddd4} flatShading={true} />
       </Box>
@@ -19,6 +20,8 @@ export function MiddleDomino({ position, index }: Props) {
 
 interface Props {
   position: Vector3;
+  rotation: Euler;
+
   index: number;
 }
 

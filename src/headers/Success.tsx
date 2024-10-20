@@ -15,9 +15,11 @@ export function Success() {
         item?.state === ItemState.Success ? "active" : ""
       }`}
     >
-      <div className="success">
-        <div className="level">Level {item?.level}</div>
+      <div className="level">Level {item?.level}</div>
+
+      <div className="content">
         <div className="state">Completed</div>
+        <div className="description">{item?.start.description}</div>
       </div>
 
       <div

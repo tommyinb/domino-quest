@@ -1,7 +1,6 @@
 import { Stats } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { PropsWithChildren, useContext } from "react";
-import { cameraX, cameraY, cameraZ } from "../controllers/CameraControl";
 import { Lighting } from "./Lighting";
 import "./Scene.css";
 import { SceneContext } from "./SceneContext";
@@ -13,12 +12,14 @@ export function Scene({ children }: PropsWithChildren) {
     <Canvas
       className="scenes-Scene"
       camera={{
-        position: [cameraX, cameraY, cameraZ],
+        position: [-75, 125, 200],
         fov: 60,
         near: 1,
         far: 10000,
       }}
       onClick={(event) => {
+        console.log("click");
+
         for (const handle of clickHandles) {
           handle(event);
         }

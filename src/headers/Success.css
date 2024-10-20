@@ -4,21 +4,27 @@
   top: 40%;
   translate: -50% -50%;
 
-  .success {
+  .level {
+    font-size: 20px;
+    text-align: center;
+    color: #ff6b6b;
+  }
+
+  .content {
     border-radius: 10px;
     padding: 10px 10px;
     background-color: #ffffffcc;
     color: #ff6b6b;
 
-    .level {
-      font-size: 30px;
-      border-bottom: 1px solid #ff6b6b;
-      text-align: center;
-    }
-
     .state {
       padding: 5px 30px;
       font-size: 50px;
+    }
+
+    .description {
+      font-size: 30px;
+      border-top: 1px solid #ff6b6b;
+      text-align: center;
     }
   }
 

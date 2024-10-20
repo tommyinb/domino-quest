@@ -2,14 +2,15 @@ import { Box } from "@react-three/drei";
 import { Vector3 } from "@react-three/fiber";
 import { RapierRigidBody, RigidBody } from "@react-three/rapier";
 import { useContext, useRef } from "react";
+import { Euler } from "three";
 import { ItemState } from "../controllers/itemState";
 import { SlotContext } from "../controllers/SlotContext";
 import { useSetSlotState } from "../controllers/useSetSlotState";
+import { depth, height, width } from "./FollowDomino";
 import { Hint } from "./Hint";
-import { depth, height, width } from "./MiddleDomino";
 import { useTipping } from "./useTipping";
 
-export function FirstDomino({ position, index }: Props) {
+export function FirstDomino({ position, rotation, index }: Props) {
   const ref = useRef<RapierRigidBody>(null);
   const tipping = useTipping(ref, index);
 
@@ -17,7 +18,7 @@ export function FirstDomino({ position, index }: Props) {
   const setSlotState = useSetSlotState();
 
   return (
-    <group position={position}>
+    <group position={position} rotation={rotation}>
       <RigidBody ref={ref}>
         <Box
           args={[width, height, depth]}
@@ -39,7 +40,7 @@ export function FirstDomino({ position, index }: Props) {
         </Box>
       </RigidBody>
 
-      {item.state === ItemState.Built && (
+      {item.level <= 2 && item.state === ItemState.Built && (
         <Hint position={[0, height, 0]}>Now, give it a push!</Hint>
       )}
     </group>
@@ -48,5 +49,7 @@ export function FirstDomino({ position, index }: Props) {
 
 interface Props {
   position: Vector3;
+  rotation: Euler;
+
   index: number;
 }
