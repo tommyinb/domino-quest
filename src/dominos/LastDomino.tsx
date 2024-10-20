@@ -2,8 +2,9 @@ import { Box } from "@react-three/drei";
 import { Vector3 } from "@react-three/fiber";
 import { RapierRigidBody, RigidBody } from "@react-three/rapier";
 import { useContext, useEffect, useRef } from "react";
-import { StageContext } from "../stages/StageContext";
-import { StageState } from "../stages/stageState";
+import { ItemState } from "../controllers/itemState";
+import { SlotContext } from "../controllers/SlotContext";
+import { useSetSlotState } from "../controllers/useSetSlotState";
 import { depth, height, width } from "./MiddleDomino";
 import { useTipping } from "./useTipping";
 
@@ -11,14 +12,15 @@ export function LastDomino({ position, index }: Props) {
   const ref = useRef<RapierRigidBody>(null);
   const tipping = useTipping(ref, index);
 
-  const { state, setState } = useContext(StageContext);
+  const { item } = useContext(SlotContext);
+  const setSlotState = useSetSlotState();
   useEffect(() => {
-    if (state === StageState.Playing) {
+    if (item.state === ItemState.Playing) {
       if (tipping) {
-        setState(StageState.Success);
+        setSlotState(ItemState.Success);
       }
     }
-  }, [setState, state, tipping]);
+  }, [item.state, setSlotState, tipping]);
 
   return (
     <RigidBody ref={ref} position={position}>

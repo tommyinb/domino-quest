@@ -1,14 +1,16 @@
 import { useContext, useEffect, useMemo, useState } from "react";
-import { FirstDomino } from "../dominos/FirstDomino";
-import { LastDomino } from "../dominos/LastDomino";
-import { MiddleDomino } from "../dominos/MiddleDomino";
+import { ItemState } from "../controllers/itemState";
+import { SlotContext } from "../controllers/SlotContext";
+import { useSetSlotState } from "../controllers/useSetSlotState";
+import { StageContext } from "../stages/stage1/StageContext";
 import { BlockType } from "./blockType";
+import { FirstDomino } from "./FirstDomino";
+import { LastDomino } from "./LastDomino";
+import { MiddleDomino } from "./MiddleDomino";
 import { PlayContext } from "./PlayContext";
-import { StageContext } from "./StageContext";
-import { StageState } from "./stageState";
 
 export function Play() {
-  const { state, setState, blocks } = useContext(StageContext);
+  const { blocks } = useContext(StageContext);
 
   const [tippeds, setTippeds] = useState<boolean[]>([]);
   useEffect(() => {
@@ -25,14 +27,16 @@ export function Play() {
     });
   }, [blocks.length]);
 
+  const { item } = useContext(SlotContext);
+  const setSlotState = useSetSlotState();
   useEffect(() => {
-    if (state === StageState.Playing) {
+    if (item.state === ItemState.Playing) {
       if (tippeds) {
-        const timer = setTimeout(() => setState(StageState.Failure), 2000);
+        const timer = setTimeout(() => setSlotState(ItemState.Failure), 2000);
         return () => clearTimeout(timer);
       }
     }
-  }, [setState, state, tippeds]);
+  }, [item.state, setSlotState, tippeds]);
 
   return (
     <PlayContext.Provider

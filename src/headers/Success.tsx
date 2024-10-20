@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { ControllerContext } from "../controllers/ControllerContext";
+import { ItemState } from "../controllers/itemState";
 import { useCurrentItem } from "../controllers/useCurrentItem";
-import { StageState } from "../stages/stageState";
 import "./Success.css";
 
 export function Success() {
@@ -12,7 +12,7 @@ export function Success() {
   return (
     <div
       className={`headers-Success ${
-        item?.state === StageState.Success ? "active" : ""
+        item?.state === ItemState.Success ? "active" : ""
       }`}
     >
       <div className="success">

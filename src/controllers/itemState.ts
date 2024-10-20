@@ -1,4 +1,4 @@
-export enum StageState {
+export enum ItemState {
   Idle = "idle",
   Building = "building",
   Built = "built",

@@ -2,6 +2,8 @@
   position: fixed;
   left: 25px;
   top: 15px;
+  pointer-events: none;
+  user-select: none;
 
   &:not(.active) {
     display: none;

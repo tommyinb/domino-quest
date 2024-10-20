@@ -3,16 +3,17 @@ import { useFrame } from "@react-three/fiber";
 import { RigidBody } from "@react-three/rapier";
 import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { Vector3 } from "three";
-import { Hint } from "../dominos/Hint";
-import { depth, height, width } from "../dominos/MiddleDomino";
-import { SceneContext } from "../scenes/SceneContext";
-import { BlockType } from "./blockType";
+import { ItemState } from "../../controllers/itemState";
+import { useSetSlotState } from "../../controllers/useSetSlotState";
+import { BlockType } from "../../dominos/blockType";
+import { Hint } from "../../dominos/Hint";
+import { depth, height, width } from "../../dominos/MiddleDomino";
+import { SceneContext } from "../../scenes/SceneContext";
 import { endName } from "./Ground";
 import { StageContext } from "./StageContext";
-import { StageState } from "./stageState";
 
 export function Next() {
-  const { setState, blocks, setBlocks } = useContext(StageContext);
+  const { blocks, setBlocks } = useContext(StageContext);
 
   const [direction] = useState(new Vector3(0, 0, -25));
   const position = useMemo(() => {
@@ -25,15 +26,16 @@ export function Next() {
   useFrame(({ clock }) => setDashOffset(clock.getElapsedTime()));
 
   const [ending, setEnding] = useState(false);
+  const setSlotState = useSetSlotState();
   const addDomino = useCallback(() => {
     if (ending) {
       setBlocks([...blocks, { type: BlockType.Last, position }]);
 
-      setState(StageState.Built);
+      setSlotState(ItemState.Built);
     } else {
       setBlocks([...blocks, { type: BlockType.Middle, position }]);
     }
-  }, [blocks, ending, position, setBlocks, setState]);
+  }, [blocks, ending, position, setBlocks, setSlotState]);
 
   const { setClickHandles } = useContext(SceneContext);
   useEffect(() => {

@@ -1,9 +1,9 @@
-import { createContext } from "react";
+import { createContext, Dispatch, SetStateAction } from "react";
 import { Item } from "./item";
 
 export const ControllerContext = createContext<{
   items: Item[];
-  setItems: (items: Item[]) => void;
+  setItems: Dispatch<SetStateAction<Item[]>>;
 
   currentLevel: number;
   setCurrentLevel: (level: number) => void;

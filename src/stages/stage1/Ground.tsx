@@ -3,8 +3,8 @@ import { useFrame } from "@react-three/fiber";
 import { CylinderCollider, RigidBody } from "@react-three/rapier";
 import { useContext, useMemo } from "react";
 import { Color, MeshPhongMaterial } from "three";
-import { StageContext } from "./StageContext";
-import { StageState } from "./stageState";
+import { SlotContext } from "../../controllers/SlotContext";
+import { ItemState } from "../../controllers/itemState";
 
 export function Ground() {
   const groundMaterial = useMemo(() => {
@@ -21,10 +21,10 @@ export function Ground() {
     return material;
   }, []);
 
-  const { state } = useContext(StageContext);
+  const { item } = useContext(SlotContext);
   const buttonColor = useMemo(
-    () => new Color(state === StageState.Building ? 0xffe66d : 0xef7a85),
-    [state]
+    () => new Color(item.state === ItemState.Building ? 0xffe66d : 0xef7a85),
+    [item.state]
   );
   useFrame(() => buttonMaterial.color.lerp(buttonColor, 0.1));
 

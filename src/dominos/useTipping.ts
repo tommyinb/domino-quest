@@ -2,7 +2,7 @@ import { useFrame } from "@react-three/fiber";
 import { RapierRigidBody } from "@react-three/rapier";
 import { RefObject, useContext, useEffect, useState } from "react";
 import { Quaternion, Vector3 as ThreeVector3 } from "three";
-import { PlayContext } from "../stages/PlayContext";
+import { PlayContext } from "./PlayContext";
 
 export function useTipping(ref: RefObject<RapierRigidBody>, index: number) {
   const [tipping, setTipping] = useState(false);

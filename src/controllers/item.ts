@@ -1,7 +1,7 @@
-import { StageState } from "../stages/stageState";
+import { ItemState } from "./itemState";
 
 export interface Item {
   level: number;
 
-  state: StageState;
+  state: ItemState;
 }

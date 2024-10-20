@@ -1,37 +1,33 @@
 import { animated } from "@react-spring/three";
-import { useCallback, useContext, useEffect } from "react";
-import { Stage } from "../stages/Stage";
-import { StageState } from "../stages/stageState";
+import { useContext, useEffect, useMemo } from "react";
+import { Stage } from "../stages/stage1/Stage";
 import { ControllerContext } from "./ControllerContext";
 import { Item } from "./item";
+import { ItemState } from "./itemState";
+import { SlotContext } from "./SlotContext";
 
 export function Slot({ item }: Props) {
-  const { items, setItems, currentLevel } = useContext(ControllerContext);
-
-  const setState = useCallback(
-    (state: StageState) => {
-      setItems(
-        items.map((oldItem) =>
-          oldItem.level === item.level ? { ...oldItem, state } : oldItem
-        )
-      );
-    },
-    [item, items, setItems]
-  );
+  const { setItems, currentLevel } = useContext(ControllerContext);
 
   useEffect(() => {
     if (currentLevel === item.level) {
-      if (item && item.state === StageState.Idle) {
-        setState(StageState.Building);
+      if (item.state === ItemState.Idle) {
+        setItems((oldItems) =>
+          oldItems.map((oldItem) =>
+            oldItem.level === item.level
+              ? { ...oldItem, state: ItemState.Building }
+              : oldItem
+          )
+        );
       }
     }
-  }, [currentLevel, item, setState]);
+  }, [currentLevel, item, setItems]);
 
   return (
     <animated.group position-y={(item.level - 1) * slotHeight}>
-      {Math.abs(item.level - currentLevel) <= 1 && (
-        <Stage state={item.state} setState={setState} />
-      )}
+      <SlotContext.Provider value={useMemo(() => ({ item }), [item])}>
+        {Math.abs(item.level - currentLevel) <= 1 && <Stage />}
+      </SlotContext.Provider>
     </animated.group>
   );
 }
