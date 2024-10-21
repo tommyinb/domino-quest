@@ -13,7 +13,7 @@ export function FollowDomino({ position, rotation, index }: Props) {
     <group position={position} rotation={rotation}>
       <RigidBody ref={ref} position={[0, 0.5, 0]}>
         <Box args={[width, height, depth]} position={[0, height / 2, 0]}>
-          <meshPhongMaterial color={0x5eddd4} flatShading={true} />
+          <meshPhongMaterial color={0x3ebdb4} flatShading={true} />
         </Box>
       </RigidBody>
     </group>

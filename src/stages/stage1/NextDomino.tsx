@@ -18,6 +18,7 @@ export function NextDomino({ position, rotation, children }: Props) {
           [-width / 2 - lineOffset, 0.1, depth / 2 + lineOffset],
           [-width / 2 - lineOffset, 0.1, -depth / 2 - lineOffset],
         ]}
+        position={[0, 0.5, 0]}
         color={0x4ecdc4}
         dashed={true}
         dashScale={8}

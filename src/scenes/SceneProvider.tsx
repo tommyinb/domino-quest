@@ -1,5 +1,5 @@
 import {
-  MouseEventHandler,
+  PointerEventHandler,
   PropsWithChildren,
   useEffect,
   useMemo,
@@ -17,8 +17,17 @@ export function SceneProvider({ children }: PropsWithChildren) {
     };
   }, []);
 
-  const [clickHandles, setClickHandles] = useState<
-    MouseEventHandler<HTMLDivElement>[]
+  const [pointerDownHandlers, setPointerDownHandlers] = useState<
+    PointerEventHandler<HTMLDivElement>[]
+  >([]);
+  const [pointerMoveHandlers, setPointerMoveHandlers] = useState<
+    PointerEventHandler<HTMLDivElement>[]
+  >([]);
+  const [pointerUpHandlers, setPointerUpHandlers] = useState<
+    PointerEventHandler<HTMLDivElement>[]
+  >([]);
+  const [pointerCancelHandlers, setPointerCancelHandlers] = useState<
+    PointerEventHandler<HTMLDivElement>[]
   >([]);
 
   return (
@@ -26,10 +35,22 @@ export function SceneProvider({ children }: PropsWithChildren) {
       value={useMemo(
         () => ({
           debug,
-          clickHandles,
-          setClickHandles,
+          pointerDownHandlers,
+          setPointerDownHandlers,
+          pointerMoveHandlers,
+          setPointerMoveHandlers,
+          pointerUpHandlers,
+          setPointerUpHandlers,
+          pointerCancelHandlers,
+          setPointerCancelHandlers,
         }),
-        [clickHandles, debug]
+        [
+          debug,
+          pointerCancelHandlers,
+          pointerDownHandlers,
+          pointerMoveHandlers,
+          pointerUpHandlers,
+        ]
       )}
     >
       {children}

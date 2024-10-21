@@ -21,6 +21,8 @@ export function Cloud({
     }));
   }, []);
 
+  //TODO lower opacity if close to camera
+
   return (
     <group
       position={[positionX, positionY, positionZ]}

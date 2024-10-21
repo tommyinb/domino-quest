@@ -1,4 +1,5 @@
 import { createContext, Dispatch, SetStateAction } from "react";
+import { GestureMode } from "./gestureMode";
 import { Item } from "./item";
 
 export const ControllerContext = createContext<{
@@ -8,8 +9,8 @@ export const ControllerContext = createContext<{
   currentLevel: number;
   setCurrentLevel: (level: number) => void;
 
-  gestures: string[];
-  setGestures: Dispatch<SetStateAction<string[]>>;
+  gestureMode: GestureMode;
+  setGestureMode: (mode: GestureMode) => void;
 }>({
   items: [],
   setItems: () => {},
@@ -17,6 +18,6 @@ export const ControllerContext = createContext<{
   currentLevel: 0,
   setCurrentLevel: () => {},
 
-  gestures: [],
-  setGestures: () => {},
+  gestureMode: GestureMode.Steer,
+  setGestureMode: () => {},
 });

@@ -7,13 +7,13 @@ export function Lighting({ debug }: Props) {
 
   return (
     <>
-      <ambientLight color={0xdc8874} intensity={1} />
+      <ambientLight color={0xdc8874} intensity={2} />
 
       <hemisphereLight
         ref={hemisphereLight}
         color={0xaaaaaa}
         groundColor={0x000000}
-        intensity={2}
+        intensity={4}
       />
       {debug && <hemisphereLightHelper args={[hemisphereLight.current, 1]} />}
 
@@ -22,7 +22,7 @@ export function Lighting({ debug }: Props) {
         color={0xffffff}
         position={[-150, 350, 350]}
         castShadow
-        intensity={3}
+        intensity={5}
       />
       {debug && <directionalLightHelper args={[directionalLight.current, 1]} />}
     </>

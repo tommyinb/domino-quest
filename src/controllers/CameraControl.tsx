@@ -4,6 +4,7 @@ import { useFrame, useThree } from "@react-three/fiber";
 import { useContext, useState } from "react";
 import { Vector3 } from "three";
 import { ControllerContext } from "./ControllerContext";
+import { GestureMode } from "./gestureMode";
 import { slotHeight } from "./Slot";
 import { useCurrentItem } from "./useCurrentItem";
 
@@ -47,13 +48,13 @@ export function CameraControl() {
     }
   });
 
-  const { gestures } = useContext(ControllerContext);
+  const { gestureMode } = useContext(ControllerContext);
 
   return (
     <OrbitControls
       target={[0, targetY.get(), 0]}
       position={new Vector3(...position.get())}
-      enabled={!animating && gestures.length <= 0}
+      enabled={gestureMode === GestureMode.Camera && !animating}
     />
   );
 }

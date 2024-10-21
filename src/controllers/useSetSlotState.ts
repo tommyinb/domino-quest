@@ -1,21 +1,16 @@
-import { useCallback, useContext } from "react";
-import { ControllerContext } from "./ControllerContext";
+import { useCallback } from "react";
 import { ItemState } from "./itemState";
-import { SlotContext } from "./SlotContext";
+import { useSetSlotItem } from "./useSetSlotItem";
 
 export function useSetSlotState() {
-  const { item } = useContext(SlotContext);
-
-  const { setItems } = useContext(ControllerContext);
+  const setSlotItem = useSetSlotItem();
 
   return useCallback(
     (state: ItemState) => {
-      setItems((oldItems) =>
-        oldItems.map((oldItem) =>
-          oldItem.level === item.level ? { ...oldItem, state } : oldItem
-        )
-      );
+      setSlotItem((item) => {
+        return item.state === state ? item : { ...item, state };
+      });
     },
-    [item.level, setItems]
+    [setSlotItem]
   );
 }

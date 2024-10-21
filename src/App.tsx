@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import "./App.css";
 import { Controller } from "./controllers/Controller";
 import { ControllerProvider } from "./controllers/ControllerProvider";
+import { Footer } from "./footers/Footer";
 import { Success } from "./headers/Success";
 import { Title } from "./headers/Title";
 import { Scene } from "./scenes/Scene";
@@ -22,6 +23,8 @@ function App() {
 
           <Title />
           <Success />
+
+          <Footer />
         </ControllerProvider>
       </SceneProvider>
     </div>

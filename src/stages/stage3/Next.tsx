@@ -1,15 +1,17 @@
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useCallback, useContext, useMemo, useState } from "react";
 import { Euler, Vector3, Vector3Tuple } from "three";
 import { ControllerContext } from "../../controllers/ControllerContext";
+import { GestureMode } from "../../controllers/gestureMode";
 import { ItemState } from "../../controllers/itemState";
-import { useSetSlotState } from "../../controllers/useSetSlotState";
-import { SceneContext } from "../../scenes/SceneContext";
-import { BlockType } from "../blockType";
+import { SlotContext } from "../../controllers/SlotContext";
+import { useSetSlotItem } from "../../controllers/useSetSlotItem";
+import { BlockType } from "../../dominos/blockType";
+import { tolerance } from "../../scenes/useClick";
+import { useGesture } from "../../scenes/useGesture";
 import { NextDomino } from "../stage1/NextDomino";
-import { StageContext } from "../StageContext";
 
 export function Next({ stationPositions }: Props) {
-  const { blocks, setBlocks } = useContext(StageContext);
+  const { item } = useContext(SlotContext);
 
   const [angle, setAngle] = useState(() => {
     const startPosition = stationPositions[0];
@@ -23,10 +25,10 @@ export function Next({ stationPositions }: Props) {
 
   const nextPosition = useMemo(
     () =>
-      blocks[blocks.length - 1].position
+      (item.blocks[item.blocks.length - 1]?.position ?? new Vector3())
         .clone()
         .add(new Vector3(Math.sin(angle) * 20, 0, Math.cos(angle) * 20)),
-    [angle, blocks]
+    [angle, item.blocks]
   );
 
   const ending = useMemo(() => {
@@ -41,102 +43,56 @@ export function Next({ stationPositions }: Props) {
     );
   }, [nextPosition, stationPositions]);
 
-  const setSlotState = useSetSlotState();
-
-  const { setClickHandles } = useContext(SceneContext);
-  useEffect(() => {
-    const handle = () => {
-      if (ending) {
-        setBlocks([
-          ...blocks,
+  const setSlotItem = useSetSlotItem();
+  const blockNext = useCallback(
+    () =>
+      setSlotItem((item) => ({
+        ...item,
+        state: ending ? ItemState.Built : item.state,
+        blocks: [
+          ...item.blocks,
           {
-            type: BlockType.Last,
+            type: ending ? BlockType.Last : BlockType.Middle,
             position: nextPosition,
             rotation: new Euler(0, angle, 0),
           },
-        ]);
-
-        setSlotState(ItemState.Built);
-      } else {
-        setBlocks([
-          ...blocks,
-          {
-            type: BlockType.Middle,
-            position: nextPosition,
-            rotation: new Euler(0, angle, 0),
-          },
-        ]);
-      }
-    };
-
-    setClickHandles((handles) => [...handles, handle]);
-
-    return () =>
-      setClickHandles((handles) =>
-        handles.filter((handle) => handle !== handle)
-      );
-  }, [
-    angle,
-    blocks,
-    ending,
-    nextPosition,
-    setBlocks,
-    setClickHandles,
-    setSlotState,
-  ]);
-
-  const [pointerDown, setPointerDown] = useState<{
-    pointerId: number;
-    clientX: number;
-  }>();
-
-  const { setGestures } = useContext(ControllerContext);
-
-  return (
-    <group
-      onPointerDown={(event) => {
-        (event.target as HTMLDivElement).setPointerCapture(event.pointerId);
-
-        setPointerDown({
-          pointerId: event.pointerId,
-          clientX: event.clientX,
-        });
-      }}
-      onPointerMove={(event) => {
-        if (event.pointerId === pointerDown?.pointerId) {
-          setGestures((disables) => [...disables, `steer-${event.pointerId}`]);
-        }
-      }}
-      onPointerUp={(event) => {
-        setGestures((disables) =>
-          disables.filter((disable) => disable !== `steer-${event.pointerId}`)
-        );
-
-        if (event.pointerId === pointerDown?.pointerId) {
-          const moveX = event.clientX - pointerDown.clientX;
-
-          if (moveX > 50) {
-            setAngle((angle) => angle - Math.PI / 9);
-          } else if (moveX < -50) {
-            setAngle((angle) => angle + Math.PI / 9);
-          }
-
-          setPointerDown(undefined);
-        }
-      }}
-      onPointerCancel={(event) => {
-        setGestures((disables) =>
-          disables.filter((disable) => disable !== `steer-${event.pointerId}`)
-        );
-
-        if (event.pointerId === pointerDown?.pointerId) {
-          setPointerDown(undefined);
-        }
-      }}
-    >
-      <NextDomino position={nextPosition} rotation={[0, angle, 0]}></NextDomino>
-    </group>
+        ],
+      })),
+    [angle, ending, nextPosition, setSlotItem]
   );
+
+  const { gestureMode } = useContext(ControllerContext);
+  useGesture(
+    useCallback(
+      (event) => {
+        if (gestureMode === GestureMode.Steer) {
+          const firstPointer = event.pointers[0];
+
+          if (
+            event.pointers.every(
+              (pointer) =>
+                Math.abs(pointer.clientX - firstPointer.clientX) <= tolerance &&
+                Math.abs(pointer.clientY - firstPointer.clientY) <= tolerance
+            )
+          ) {
+            blockNext();
+          } else {
+            const lastPointer = event.pointers[event.pointers.length - 1];
+            const moveX = lastPointer.clientX - firstPointer.clientX;
+
+            if (moveX > 50) {
+              setAngle((angle) => angle - Math.PI / 9);
+            } else if (moveX < -50) {
+              setAngle((angle) => angle + Math.PI / 9);
+            }
+          }
+        }
+      },
+      [blockNext, gestureMode]
+    )
+  );
+
+  return <NextDomino position={nextPosition} rotation={[0, angle, 0]} />;
 }
 
 interface Props {

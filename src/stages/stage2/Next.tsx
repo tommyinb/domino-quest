@@ -1,39 +1,47 @@
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useCallback, useContext, useMemo, useState } from "react";
 import { Euler, Vector3 } from "three";
 import { ControllerContext } from "../../controllers/ControllerContext";
+import { GestureMode } from "../../controllers/gestureMode";
 import { ItemState } from "../../controllers/itemState";
-import { useSetSlotState } from "../../controllers/useSetSlotState";
+import { SlotContext } from "../../controllers/SlotContext";
+import { useSetSlotItem } from "../../controllers/useSetSlotItem";
+import { BlockType } from "../../dominos/blockType";
 import { height } from "../../dominos/FollowDomino";
 import { Hint } from "../../dominos/Hint";
-import { SceneContext } from "../../scenes/SceneContext";
-import { BlockType } from "../blockType";
+import { tolerance } from "../../scenes/useClick";
+import { useGesture } from "../../scenes/useGesture";
 import { NextDomino } from "../stage1/NextDomino";
-import { StageContext } from "../StageContext";
 import { endPosition, middlePosition, startPosition } from "./start";
 
 export function Next() {
-  const { blocks, setBlocks } = useContext(StageContext);
+  const { item } = useContext(SlotContext);
 
   const [inputSteer, setInputSteer] = useState(0);
-  const targetSteer = blocks.length >= 5 && blocks.length <= 8 ? -1 : 0;
+  const targetSteer =
+    item.blocks.length <= 4
+      ? 0
+      : item.blocks.length < 8
+      ? -(item.blocks.length - 4)
+      : -4;
 
-  const [fromAngle, setFromAngle] = useState(() =>
-    Math.atan2(
-      middlePosition[0] - startPosition[0],
-      middlePosition[2] - startPosition[2]
-    )
-  );
-  const toAngle = useMemo(
-    () => fromAngle + inputSteer * (Math.PI / 9),
-    [fromAngle, inputSteer]
+  const angle = useMemo(
+    () =>
+      Math.atan2(
+        middlePosition[0] - startPosition[0],
+        middlePosition[2] - startPosition[2]
+      ) +
+      inputSteer * (Math.PI / 9),
+    [inputSteer]
   );
 
   const nextPosition = useMemo(
     () =>
-      blocks[blocks.length - 1].position
+      (item.blocks[item.blocks.length - 1]?.position ?? new Vector3())
         .clone()
-        .add(new Vector3(Math.sin(toAngle) * 20, 0, Math.cos(toAngle) * 20)),
-    [blocks, toAngle]
+        .add(
+          new Vector3(Math.sin(angle), 0, Math.cos(angle)).multiplyScalar(20)
+        ),
+    [angle, item.blocks]
   );
 
   const ending = useMemo(
@@ -46,124 +54,79 @@ export function Next() {
     [nextPosition]
   );
 
-  const setSlotState = useSetSlotState();
-
-  const { setClickHandles } = useContext(SceneContext);
-  useEffect(() => {
-    const handle = () => {
-      if (ending) {
-        setBlocks([
-          ...blocks,
+  const setSlotItem = useSetSlotItem();
+  const blockNext = useCallback(
+    () =>
+      setSlotItem((item) => ({
+        ...item,
+        state: ending ? ItemState.Built : item.state,
+        blocks: [
+          ...item.blocks,
           {
-            type: BlockType.Last,
+            type: ending ? BlockType.Last : BlockType.Middle,
             position: nextPosition,
-            rotation: new Euler(0, toAngle, 0),
+            rotation: new Euler(0, angle, 0),
           },
-        ]);
+        ],
+      })),
+    [angle, ending, nextPosition, setSlotItem]
+  );
 
-        setSlotState(ItemState.Built);
-      } else {
-        if (inputSteer === targetSteer) {
-          setBlocks([
-            ...blocks,
-            {
-              type: BlockType.Middle,
-              position: nextPosition,
-              rotation: new Euler(0, toAngle, 0),
-            },
-          ]);
+  const { gestureMode } = useContext(ControllerContext);
+  useGesture(
+    useCallback(
+      (event) => {
+        if (gestureMode === GestureMode.Steer) {
+          const firstPointer = event.pointers[0];
 
-          setFromAngle(toAngle);
+          if (
+            event.pointers.every(
+              (pointer) =>
+                Math.abs(pointer.clientX - firstPointer.clientX) <= tolerance &&
+                Math.abs(pointer.clientY - firstPointer.clientY) <= tolerance
+            )
+          ) {
+            blockNext();
+          } else {
+            if (item.blocks.length >= 5) {
+              const lastPointer = event.pointers[event.pointers.length - 1];
+              const moveX = lastPointer.clientX - firstPointer.clientX;
+
+              if (moveX > 50) {
+                setInputSteer((steer) => Math.max(steer - 1, -6));
+              } else if (moveX < -50) {
+                setInputSteer((steer) => Math.min(steer + 1, 6));
+              }
+            }
+          }
         }
-      }
-    };
-
-    setClickHandles((handles) => [...handles, handle]);
-
-    return () =>
-      setClickHandles((handles) =>
-        handles.filter((handle) => handle !== handle)
-      );
-  }, [
-    blocks,
-    ending,
-    inputSteer,
-    nextPosition,
-    setBlocks,
-    setClickHandles,
-    setSlotState,
-    targetSteer,
-    toAngle,
-  ]);
-
-  const [pointerDown, setPointerDown] = useState<{
-    pointerId: number;
-    clientX: number;
-  }>();
-
-  const { setGestures } = useContext(ControllerContext);
+      },
+      [blockNext, gestureMode, item.blocks.length]
+    )
+  );
 
   return (
-    <group
-      onPointerDown={(event) => {
-        (event.target as HTMLDivElement).setPointerCapture(event.pointerId);
+    <NextDomino position={nextPosition} rotation={[0, angle, 0]}>
+      {item.blocks.length <= 1 && inputSteer === targetSteer && (
+        <Hint position={[0, height, 0]}>Press to build</Hint>
+      )}
 
-        setPointerDown({
-          pointerId: event.pointerId,
-          clientX: event.clientX,
-        });
-      }}
-      onPointerMove={(event) => {
-        if (event.pointerId === pointerDown?.pointerId) {
-          setGestures((disables) => [...disables, `steer-${event.pointerId}`]);
-        }
-      }}
-      onPointerUp={(event) => {
-        setGestures((disables) =>
-          disables.filter((disable) => disable !== `steer-${event.pointerId}`)
-        );
+      {inputSteer !== targetSteer &&
+        (item.blocks.length === 5 && inputSteer === 0 ? (
+          <Hint position={[0, height, 0]}>{`Swipe right\nto steer`}</Hint>
+        ) : item.blocks.length <= 8 && targetSteer === inputSteer - 1 ? (
+          <Hint position={[0, height, 0]}>{`Steer right`}</Hint>
+        ) : (
+          <Hint position={[0, height, 0]}>{`Swipe ${
+            inputSteer - targetSteer > 0 ? "right" : "left"
+          }\nto steer back`}</Hint>
+        ))}
 
-        if (event.pointerId === pointerDown?.pointerId) {
-          const moveX = event.clientX - pointerDown.clientX;
+      {item.blocks.length >= 5 && !ending && inputSteer === targetSteer && (
+        <Hint position={[0, height, 0]}>Press</Hint>
+      )}
 
-          if (moveX > 50) {
-            setInputSteer((steer) => Math.max(steer - 1, -3));
-          } else if (moveX < -50) {
-            setInputSteer((steer) => Math.min(steer + 1, 3));
-          }
-
-          setPointerDown(undefined);
-        }
-      }}
-      onPointerCancel={(event) => {
-        setGestures((disables) =>
-          disables.filter((disable) => disable !== `steer-${event.pointerId}`)
-        );
-
-        if (event.pointerId === pointerDown?.pointerId) {
-          setPointerDown(undefined);
-        }
-      }}
-    >
-      <NextDomino position={nextPosition} rotation={[0, toAngle, 0]}>
-        {inputSteer !== targetSteer && !ending && (
-          <Hint position={[0, height, 0]}>{`${
-            blocks.length === 5 ? "Press here,\nswipe" : "Swipe"
-          } ${inputSteer - targetSteer > 0 ? "right" : "left"}\nto steer${
-            blocks.length === 5 && inputSteer === 0 ? "" : " back"
-          }`}</Hint>
-        )}
-
-        {blocks.length <= 1 && inputSteer === targetSteer && (
-          <Hint position={[0, height, 0]}>Press to build</Hint>
-        )}
-
-        {blocks.length >= 5 && !ending && inputSteer === targetSteer && (
-          <Hint position={[0, height, 0]}>Press</Hint>
-        )}
-
-        {ending && <Hint position={[0, height, 0]}>Last piece</Hint>}
-      </NextDomino>
-    </group>
+      {ending && <Hint position={[0, height, 0]}>Last piece</Hint>}
+    </NextDomino>
   );
 }

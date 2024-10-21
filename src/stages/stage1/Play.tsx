@@ -2,35 +2,33 @@ import { useContext, useEffect, useMemo, useState } from "react";
 import { ItemState } from "../../controllers/itemState";
 import { SlotContext } from "../../controllers/SlotContext";
 import { useSetSlotState } from "../../controllers/useSetSlotState";
+import { BlockType } from "../../dominos/blockType";
 import { FirstDomino } from "../../dominos/FirstDomino";
 import { FollowDomino } from "../../dominos/FollowDomino";
-import { BlockType } from "../blockType";
 import { PlayContext } from "../PlayContext";
-import { StageContext } from "../StageContext";
 
 export function Play() {
-  const { blocks } = useContext(StageContext);
+  const { item } = useContext(SlotContext);
   const lastIndex = useMemo(
-    () => blocks.findIndex((block) => block.type === BlockType.Last),
-    [blocks]
+    () => item.blocks.findIndex((block) => block.type === BlockType.Last),
+    [item.blocks]
   );
 
   const [tippeds, setTippeds] = useState<boolean[]>([]);
   useEffect(() => {
     setTippeds((tippings) => {
-      if (tippings.length < blocks.length) {
+      if (tippings.length < item.blocks.length) {
         return tippings.concat(
-          new Array(blocks.length - tippings.length).fill(false)
+          new Array(item.blocks.length - tippings.length).fill(false)
         );
-      } else if (tippings.length > blocks.length) {
-        return tippings.slice(0, blocks.length);
+      } else if (tippings.length > item.blocks.length) {
+        return tippings.slice(0, item.blocks.length);
       } else {
         return tippings;
       }
     });
-  }, [blocks.length]);
+  }, [item.blocks.length]);
 
-  const { item } = useContext(SlotContext);
   const setSlotState = useSetSlotState();
   useEffect(() => {
     if (item.state === ItemState.Playing) {
@@ -49,7 +47,7 @@ export function Play() {
     <PlayContext.Provider
       value={useMemo(() => ({ tippeds, setTippeds }), [tippeds])}
     >
-      {blocks.map((block, index) =>
+      {item.blocks.map((block, index) =>
         block.type === BlockType.First ? (
           <FirstDomino
             key={index}

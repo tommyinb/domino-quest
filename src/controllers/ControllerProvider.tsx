@@ -4,20 +4,21 @@ import * as start2 from "../stages/stage2/start";
 import * as start3 from "../stages/stage3/start";
 import * as start4 from "../stages/stage4/start";
 import { ControllerContext } from "./ControllerContext";
+import { GestureMode } from "./gestureMode";
 import { Item } from "./item";
 import { ItemState } from "./itemState";
 
 export function ControllerProvider({ children }: PropsWithChildren) {
   const [items, setItems] = useState<Item[]>(() => [
-    { level: 1, start: start4, state: ItemState.Building },
-    { level: 2, start: start2, state: ItemState.Idle },
-    { level: 3, start: start3, state: ItemState.Idle },
-    { level: 4, start: start1, state: ItemState.Idle },
+    { level: 1, start: start1, state: ItemState.Building, blocks: [] },
+    { level: 2, start: start2, state: ItemState.Idle, blocks: [] },
+    { level: 3, start: start3, state: ItemState.Idle, blocks: [] },
+    { level: 4, start: start4, state: ItemState.Idle, blocks: [] },
   ]);
 
   const [currentLevel, setCurrentLevel] = useState(1);
 
-  const [gestures, setGestures] = useState<string[]>([]);
+  const [gestureMode, setGestureMode] = useState(GestureMode.Steer);
 
   return (
     <ControllerContext.Provider
@@ -27,10 +28,10 @@ export function ControllerProvider({ children }: PropsWithChildren) {
           setItems,
           currentLevel,
           setCurrentLevel,
-          gestures,
-          setGestures,
+          gestureMode,
+          setGestureMode,
         }),
-        [currentLevel, gestures, items]
+        [currentLevel, gestureMode, items]
       )}
     >
       {children}
