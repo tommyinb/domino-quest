@@ -5,6 +5,7 @@ import { useContext, useState } from "react";
 import { Vector3 } from "three";
 import { ControllerContext } from "./ControllerContext";
 import { GestureMode } from "./gestureMode";
+import { ItemState } from "./itemState";
 import { slotHeight } from "./Slot";
 import { useCurrentItem } from "./useCurrentItem";
 
@@ -54,7 +55,14 @@ export function CameraControl() {
     <OrbitControls
       target={[0, targetY.get(), 0]}
       position={new Vector3(...position.get())}
-      enabled={gestureMode === GestureMode.View && !animating}
+      enabled={
+        !animating &&
+        (((currentItem?.level ?? 0) >= 3 &&
+          (currentItem?.state === ItemState.Playing ||
+            currentItem?.state === ItemState.Success ||
+            currentItem?.state === ItemState.Failure)) ||
+          gestureMode === GestureMode.View)
+      }
     />
   );
 }
