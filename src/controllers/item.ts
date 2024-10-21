@@ -10,4 +10,6 @@ export interface Item {
   state: ItemState;
 
   blocks: Block[];
+
+  round: number;
 }

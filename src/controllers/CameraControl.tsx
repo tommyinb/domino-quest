@@ -54,7 +54,7 @@ export function CameraControl() {
     <OrbitControls
       target={[0, targetY.get(), 0]}
       position={new Vector3(...position.get())}
-      enabled={gestureMode === GestureMode.Camera && !animating}
+      enabled={gestureMode === GestureMode.View && !animating}
     />
   );
 }

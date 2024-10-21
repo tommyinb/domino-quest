@@ -8,6 +8,7 @@ import { SlotContext } from "../controllers/SlotContext";
 import { useSetSlotState } from "../controllers/useSetSlotState";
 import { depth, height, width } from "./FollowDomino";
 import { Hint } from "./Hint";
+import { useBuilt } from "./useBuilt";
 import { useTipping } from "./useTipping";
 
 export function FirstDomino({ position, rotation, index }: Props) {
@@ -17,6 +18,8 @@ export function FirstDomino({ position, rotation, index }: Props) {
   const { item } = useContext(SlotContext);
   const setSlotState = useSetSlotState();
 
+  const built = useBuilt();
+
   return (
     <group position={position} rotation={rotation}>
       <RigidBody position={[0, 1, 0]} ref={ref}>
@@ -24,7 +27,7 @@ export function FirstDomino({ position, rotation, index }: Props) {
           args={[width, height, depth]}
           position={[0, height / 2, 0]}
           onClick={() => {
-            if (item.state === ItemState.Built) {
+            if (built) {
               ref.current?.applyImpulse({ x: 0, y: 0, z: -100000 }, true);
 
               setSlotState(ItemState.Playing);
@@ -35,9 +38,15 @@ export function FirstDomino({ position, rotation, index }: Props) {
         </Box>
       </RigidBody>
 
-      {item.level <= 2 && item.state === ItemState.Built && (
-        <Hint position={[0, height, 0]}>Now, give it a push!</Hint>
-      )}
+      {item.state === ItemState.Building &&
+        built &&
+        item.round <= 0 &&
+        item.level < 5 &&
+        (item.level <= 1 ? (
+          <Hint position={[0, height, 0]}>Now, give it a push!</Hint>
+        ) : (
+          <Hint position={[0, height, 0]}>Push!</Hint>
+        ))}
     </group>
   );
 }

@@ -4,31 +4,30 @@ import { PropsWithChildren, useState } from "react";
 import { depth, height, width } from "../../dominos/FollowDomino";
 
 export function NextDomino({ position, rotation, children }: Props) {
-  const lineOffset = 0.2;
   const [dashOffset, setDashOffset] = useState(0);
   useFrame(({ clock }) => setDashOffset(clock.getElapsedTime()));
 
   return (
     <group position={position} rotation={rotation}>
+      <Box args={[width, height, depth]} position={[0, height / 2, 0]}>
+        <meshToonMaterial color={0x4ecdc4} opacity={0.2} transparent={true} />
+      </Box>
+
       <Line
         points={[
-          [-width / 2 - lineOffset, 0.1, -depth / 2 - lineOffset],
-          [width / 2 + lineOffset, 0.1, -depth / 2 - lineOffset],
-          [width / 2 + lineOffset, 0.1, depth / 2 + lineOffset],
-          [-width / 2 - lineOffset, 0.1, depth / 2 + lineOffset],
-          [-width / 2 - lineOffset, 0.1, -depth / 2 - lineOffset],
+          [-width / 2, 0.1, -depth / 2],
+          [width / 2, 0.1, -depth / 2],
+          [width / 2, 0.1, depth / 2],
+          [-width / 2, 0.1, depth / 2],
+          [-width / 2, 0.1, -depth / 2],
         ]}
         position={[0, 0.5, 0]}
         color={0x4ecdc4}
         dashed={true}
-        dashScale={8}
+        dashScale={1}
         dashOffset={dashOffset}
         lineWidth={2}
       />
-
-      <Box args={[width, height, depth]} position={[0, height / 2, 0]}>
-        <meshToonMaterial color={0x4ecdc4} opacity={0.2} transparent={true} />
-      </Box>
 
       {children}
     </group>

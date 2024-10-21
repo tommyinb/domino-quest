@@ -1,8 +1,5 @@
 import { useCallback, useContext, useMemo, useState } from "react";
 import { Euler, Vector3, Vector3Tuple } from "three";
-import { ControllerContext } from "../../controllers/ControllerContext";
-import { GestureMode } from "../../controllers/gestureMode";
-import { ItemState } from "../../controllers/itemState";
 import { SlotContext } from "../../controllers/SlotContext";
 import { useSetSlotItem } from "../../controllers/useSetSlotItem";
 import { BlockType } from "../../dominos/blockType";
@@ -48,7 +45,6 @@ export function Next({ stationPositions }: Props) {
     () =>
       setSlotItem((item) => ({
         ...item,
-        state: ending ? ItemState.Built : item.state,
         blocks: [
           ...item.blocks,
           {
@@ -61,34 +57,31 @@ export function Next({ stationPositions }: Props) {
     [angle, ending, nextPosition, setSlotItem]
   );
 
-  const { gestureMode } = useContext(ControllerContext);
   useGesture(
     useCallback(
       (event) => {
-        if (gestureMode === GestureMode.Steer) {
-          const firstPointer = event.pointers[0];
+        const firstPointer = event.pointers[0];
 
-          if (
-            event.pointers.every(
-              (pointer) =>
-                Math.abs(pointer.clientX - firstPointer.clientX) <= tolerance &&
-                Math.abs(pointer.clientY - firstPointer.clientY) <= tolerance
-            )
-          ) {
-            blockNext();
-          } else {
-            const lastPointer = event.pointers[event.pointers.length - 1];
-            const moveX = lastPointer.clientX - firstPointer.clientX;
+        if (
+          event.pointers.every(
+            (pointer) =>
+              Math.abs(pointer.clientX - firstPointer.clientX) <= tolerance &&
+              Math.abs(pointer.clientY - firstPointer.clientY) <= tolerance
+          )
+        ) {
+          blockNext();
+        } else {
+          const lastPointer = event.pointers[event.pointers.length - 1];
+          const moveX = lastPointer.clientX - firstPointer.clientX;
 
-            if (moveX > 50) {
-              setAngle((angle) => angle - Math.PI / 9);
-            } else if (moveX < -50) {
-              setAngle((angle) => angle + Math.PI / 9);
-            }
+          if (moveX > 50) {
+            setAngle((angle) => angle - Math.PI / 9);
+          } else if (moveX < -50) {
+            setAngle((angle) => angle + Math.PI / 9);
           }
         }
       },
-      [blockNext, gestureMode]
+      [blockNext]
     )
   );
 

@@ -1,4 +1,4 @@
 export enum GestureMode {
-  Steer = "steer",
-  Camera = "camera",
+  Build = "build",
+  View = "view",
 }

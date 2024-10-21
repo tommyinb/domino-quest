@@ -18,6 +18,6 @@ export const ControllerContext = createContext<{
   currentLevel: 0,
   setCurrentLevel: () => {},
 
-  gestureMode: GestureMode.Steer,
+  gestureMode: GestureMode.Build,
   setGestureMode: () => {},
 });

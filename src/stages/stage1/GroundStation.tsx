@@ -1,9 +1,8 @@
 import { Cylinder } from "@react-three/drei";
 import { useFrame, Vector3 } from "@react-three/fiber";
-import { useContext, useMemo } from "react";
+import { useMemo } from "react";
 import { Color, MeshPhongMaterial } from "three";
-import { SlotContext } from "../../controllers/SlotContext";
-import { ItemState } from "../../controllers/itemState";
+import { useBuilt } from "../../dominos/useBuilt";
 import { GroundDisk } from "./GroundDisk";
 
 export function GroundStation({ position }: Props) {
@@ -14,10 +13,10 @@ export function GroundStation({ position }: Props) {
     return material;
   }, []);
 
-  const { item } = useContext(SlotContext);
+  const built = useBuilt();
   const buttonColor = useMemo(
-    () => new Color(item.state === ItemState.Building ? 0xffe66d : 0xef7a85),
-    [item.state]
+    () => new Color(built ? 0xef7a85 : 0xffe66d),
+    [built]
   );
   useFrame(() => buttonMaterial.color.lerp(buttonColor, 0.1));
 

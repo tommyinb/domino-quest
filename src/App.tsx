@@ -3,6 +3,7 @@ import "./App.css";
 import { Controller } from "./controllers/Controller";
 import { ControllerProvider } from "./controllers/ControllerProvider";
 import { Footer } from "./footers/Footer";
+import { Failure } from "./headers/Failure";
 import { Success } from "./headers/Success";
 import { Title } from "./headers/Title";
 import { Scene } from "./scenes/Scene";
@@ -23,6 +24,7 @@ function App() {
 
           <Title />
           <Success />
+          <Failure />
 
           <Footer />
         </ControllerProvider>

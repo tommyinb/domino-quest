@@ -1,11 +1,11 @@
 import { useContext, useEffect, useMemo, useState } from "react";
-import { ItemState } from "../../controllers/itemState";
-import { SlotContext } from "../../controllers/SlotContext";
-import { useSetSlotState } from "../../controllers/useSetSlotState";
-import { BlockType } from "../../dominos/blockType";
-import { FirstDomino } from "../../dominos/FirstDomino";
-import { FollowDomino } from "../../dominos/FollowDomino";
-import { PlayContext } from "../PlayContext";
+import { ItemState } from "../controllers/itemState";
+import { SlotContext } from "../controllers/SlotContext";
+import { useSetSlotState } from "../controllers/useSetSlotState";
+import { BlockType } from "../dominos/blockType";
+import { FirstDomino } from "../dominos/FirstDomino";
+import { FollowDomino } from "../dominos/FollowDomino";
+import { PlayContext } from "./PlayContext";
 
 export function Play() {
   const { item } = useContext(SlotContext);
@@ -45,6 +45,7 @@ export function Play() {
 
   return (
     <PlayContext.Provider
+      key={item.round}
       value={useMemo(() => ({ tippeds, setTippeds }), [tippeds])}
     >
       {item.blocks.map((block, index) =>
