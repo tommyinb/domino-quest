@@ -21,8 +21,6 @@ export function Cloud({
     }));
   }, []);
 
-  //TODO lower opacity if close to camera
-
   return (
     <group
       position={[positionX, positionY, positionZ]}
@@ -36,7 +34,11 @@ export function Cloud({
           position={[box.positionX, box.positionY, box.positionZ]}
           rotation={[0, box.rotationY, box.rotationZ]}
         >
-          <meshPhongMaterial color={0xd8d0d1} />
+          <meshPhongMaterial
+            color={0xd8d0d1}
+            opacity={0.8}
+            transparent={true}
+          />
         </Box>
       ))}
     </group>

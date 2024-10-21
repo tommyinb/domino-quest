@@ -75,6 +75,7 @@ export function Next({ stationPositions }: Props) {
           const moveX = lastPointer.clientX - firstPointer.clientX;
 
           if (moveX > 50) {
+            //TODO swipe depends on the current angle
             setAngle((angle) => angle - Math.PI / 9);
           } else if (moveX < -50) {
             setAngle((angle) => angle + Math.PI / 9);

@@ -45,7 +45,6 @@ export function Play() {
 
   return (
     <PlayContext.Provider
-      key={item.round}
       value={useMemo(() => ({ tippeds, setTippeds }), [tippeds])}
     >
       {item.blocks.map((block, index) =>

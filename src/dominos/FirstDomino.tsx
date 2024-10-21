@@ -38,15 +38,15 @@ export function FirstDomino({ position, rotation, index }: Props) {
         </Box>
       </RigidBody>
 
-      {item.state === ItemState.Building &&
-        built &&
-        item.round <= 0 &&
+      {item.level <= 1 && item.state === ItemState.Building && built && (
+        <Hint position={[0, height, 0]}>Now, give it a push!</Hint>
+      )}
+
+      {item.level > 1 &&
         item.level < 5 &&
-        (item.level <= 1 ? (
-          <Hint position={[0, height, 0]}>Now, give it a push!</Hint>
-        ) : (
-          <Hint position={[0, height, 0]}>Push!</Hint>
-        ))}
+        item.round <= 0 &&
+        item.state === ItemState.Building &&
+        built && <Hint position={[0, height, 0]}>Push!</Hint>}
     </group>
   );
 }

@@ -51,7 +51,7 @@ export function Stage() {
         item.state === ItemState.Building &&
         !built && <Next stationPositions={stationPositions} />}
 
-      <Play />
+      <Play key={item.round} />
     </>
   );
 }

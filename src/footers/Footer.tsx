@@ -32,7 +32,7 @@ export function Footer() {
   return (
     <div
       className={`footers-Footer ${
-        item?.state === ItemState.Building ? "active" : ""
+        item?.state === ItemState.Building && item.level >= 3 ? "active" : ""
       }`}
     >
       <div className="content">

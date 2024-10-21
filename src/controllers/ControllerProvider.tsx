@@ -11,14 +11,19 @@ import { ItemState } from "./itemState";
 export function ControllerProvider({ children }: PropsWithChildren) {
   const [items, setItems] = useState<Item[]>(() =>
     [
-      { level: 1, start: start3, state: ItemState.Building },
-      { level: 2, start: start2, state: ItemState.Idle },
-      { level: 3, start: start1, state: ItemState.Idle },
-      { level: 4, start: start4, state: ItemState.Idle },
-    ].map((content) => ({ ...content, blocks: [], round: 0 }))
+      { level: 1, start: start1 },
+      { level: 2, start: start2 },
+      { level: 3, start: start3 },
+      { level: 4, start: start4 },
+    ].map((content) => ({
+      ...content,
+      state: ItemState.Idle,
+      blocks: [],
+      round: 0,
+    }))
   );
 
-  const [currentLevel, setCurrentLevel] = useState(1);
+  const [currentLevel, setCurrentLevel] = useState(3);
 
   const [gestureMode, setGestureMode] = useState(GestureMode.Build);
 

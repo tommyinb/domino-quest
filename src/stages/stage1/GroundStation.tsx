@@ -6,7 +6,7 @@ import { useBuilt } from "../../dominos/useBuilt";
 import { GroundDisk } from "./GroundDisk";
 
 export function GroundStation({ position }: Props) {
-  const buttonMaterial = useMemo(() => {
+  const material = useMemo(() => {
     const material = new MeshPhongMaterial();
     material.color.set(0xffe66d);
     material.flatShading = true;
@@ -14,11 +14,8 @@ export function GroundStation({ position }: Props) {
   }, []);
 
   const built = useBuilt();
-  const buttonColor = useMemo(
-    () => new Color(built ? 0xef7a85 : 0xffe66d),
-    [built]
-  );
-  useFrame(() => buttonMaterial.color.lerp(buttonColor, 0.1));
+  const color = useMemo(() => new Color(built ? 0xef7a85 : 0xffe66d), [built]);
+  useFrame(() => material.color.lerp(color, 0.1));
 
   return (
     <group position={position}>
@@ -27,7 +24,7 @@ export function GroundStation({ position }: Props) {
       <Cylinder
         args={[20, 20, 0.4, 32]}
         position={[0, 0.2, 0]}
-        material={buttonMaterial}
+        material={material}
       />
     </group>
   );
