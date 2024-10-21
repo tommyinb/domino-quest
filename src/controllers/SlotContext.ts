@@ -16,5 +16,6 @@ export const SlotContext = createContext<{
     },
     state: ItemState.Idle,
     blocks: [],
+    round: 0,
   },
 });
