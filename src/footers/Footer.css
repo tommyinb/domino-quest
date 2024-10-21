@@ -1,0 +1,130 @@
+.footers-Footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  transition: 0.3s;
+
+  &:not(.active) {
+    transform: translateY(100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .content {
+    border-top-left-radius: 40px;
+    border-top-right-radius: 40px;
+    padding: 10px 20px;
+    background-color: #ffffffbb;
+    display: flex;
+
+    .undo,
+    .retry,
+    .pen,
+    .eye {
+      padding: 10px;
+      transition: 0.3s;
+
+      &::before {
+        display: block;
+        width: 24px;
+        height: 24px;
+        background-position: center;
+        background-size: contain;
+        background-repeat: no-repeat;
+        content: "";
+      }
+    }
+
+    .undo,
+    .retry {
+      &:not(.active) {
+        opacity: 0.2;
+        pointer-events: none;
+      }
+    }
+
+    .undo {
+      &::before {
+        background-image: url(./undo.svg);
+      }
+    }
+
+    .retry,
+    .pen,
+    .eye {
+      position: relative;
+
+      &::after {
+        position: absolute;
+        bottom: 0;
+        height: 2px;
+        background-color: #ff6b6b;
+        content: "";
+      }
+    }
+
+    .retry {
+      &::before {
+        background-image: url(./rewind.svg);
+      }
+
+      &::after {
+        left: 0;
+        right: 100%;
+      }
+
+      &.active {
+        &::before {
+          transition: 1s;
+        }
+
+        &::after {
+          transition: 1s;
+        }
+
+        &.loading {
+          &::before {
+            rotate: -360deg;
+            transition: 1.5s;
+          }
+
+          &::after {
+            right: 0;
+            transition: 1.5s;
+          }
+        }
+      }
+    }
+
+    .pen,
+    .eye {
+      &::after {
+        left: 50%;
+        right: 50%;
+      }
+
+      &.active {
+        &::after {
+          left: 5px;
+          right: 5px;
+          transition: 0.3s;
+        }
+      }
+    }
+
+    .pen {
+      &::before {
+        background-image: url(./pen.svg);
+      }
+    }
+
+    .eye {
+      &::before {
+        background-image: url(./eye.svg);
+      }
+    }
+  }
+}
