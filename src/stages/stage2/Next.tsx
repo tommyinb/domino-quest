@@ -1,13 +1,12 @@
 import { useCallback, useContext, useMemo, useState } from "react";
-import { Euler, Vector3 } from "three";
+import { Vector3 } from "three";
 import { SlotContext } from "../../controllers/SlotContext";
-import { useSetSlotItem } from "../../controllers/useSetSlotItem";
-import { BlockType } from "../../dominos/blockType";
 import { height } from "../../dominos/FollowDomino";
 import { Hint } from "../../dominos/Hint";
-import { tolerance } from "../../scenes/useClick";
+import { clicking } from "../../scenes/clicking";
 import { useGesture } from "../../scenes/useGesture";
 import { NextDomino } from "../stage1/NextDomino";
+import { useNextClick } from "../stage1/useNextClick";
 import { endPosition, middlePosition, startPosition } from "./start";
 
 export function Next() {
@@ -38,50 +37,14 @@ export function Next() {
     [angle, blocks]
   );
 
-  const ending = useMemo(
-    () =>
-      Math.abs(nextPosition.y - endPosition[1]) <= 5 &&
-      Math.sqrt(
-        Math.pow(nextPosition.x - endPosition[0], 2) +
-          Math.pow(nextPosition.z - endPosition[2], 2)
-      ) <= 20,
-    [nextPosition]
-  );
-
-  const setSlotItem = useSetSlotItem();
-  const blockNext = useCallback(
-    () =>
-      setSlotItem((item) => ({
-        ...item,
-        blocks: [
-          ...item.blocks,
-          {
-            type: ending ? BlockType.Last : BlockType.Middle,
-            position: nextPosition,
-            rotation: new Euler(0, angle, 0),
-          },
-        ],
-      })),
-    [angle, ending, nextPosition, setSlotItem]
-  );
+  const ending = useNextClick(nextPosition, endPosition);
 
   useGesture(
     useCallback(
       (event) => {
-        const firstPointer = event.pointers[0];
-
-        if (
-          event.pointers.every(
-            (pointer) =>
-              Math.abs(pointer.clientX - firstPointer.clientX) <= tolerance &&
-              Math.abs(pointer.clientY - firstPointer.clientY) <= tolerance
-          )
-        ) {
-          if (inputSteer === targetSteer) {
-            blockNext();
-          }
-        } else {
+        if (!clicking(event.pointers)) {
           if (blocks.length >= 5) {
+            const firstPointer = event.pointers[0];
             const lastPointer = event.pointers[event.pointers.length - 1];
             const moveX = lastPointer.clientX - firstPointer.clientX;
 
@@ -93,7 +56,7 @@ export function Next() {
           }
         }
       },
-      [blockNext, blocks.length, inputSteer, targetSteer]
+      [blocks.length]
     )
   );
 
