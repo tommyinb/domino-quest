@@ -5,7 +5,7 @@ import { Cloud } from "./Cloud";
 
 export function Vortex({ positionZ, speed }: Props) {
   const clouds = useMemo(() => {
-    const count = 10;
+    const count = 6;
     const stepAngle = (Math.PI * 2) / count;
 
     return Array.from({ length: count }, (_, i) => {
