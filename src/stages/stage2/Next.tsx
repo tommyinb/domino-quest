@@ -5,7 +5,7 @@ import { useSetSlotItem } from "../../controllers/useSetSlotItem";
 import { BlockType } from "../../dominos/blockType";
 import { height } from "../../dominos/FollowDomino";
 import { Hint } from "../../dominos/Hint";
-import { tolerance } from "../../scenes/clicking";
+import { clicking } from "../../scenes/clicking";
 import { useGesture } from "../../scenes/useGesture";
 import { NextDomino } from "../stage1/NextDomino";
 import { endPosition, middlePosition, startPosition } from "./start";
@@ -73,15 +73,13 @@ export function Next() {
       (event) => {
         const firstPointer = event.pointers[0];
 
-        if (
-          event.pointers.every(
-            (pointer) =>
-              Math.abs(pointer.clientX - firstPointer.clientX) <= tolerance &&
-              Math.abs(pointer.clientY - firstPointer.clientY) <= tolerance
-          )
-        ) {
+        if (clicking(event.pointers)) {
           if (inputSteer === targetSteer) {
             blockNext();
+
+            return true;
+          } else {
+            return false;
           }
         } else {
           if (blocks.length >= 5) {
@@ -93,6 +91,10 @@ export function Next() {
             } else if (moveX < -50) {
               setInputSteer((steer) => Math.min(steer + 1, 6));
             }
+
+            return true;
+          } else {
+            return false;
           }
         }
       },

@@ -17,49 +17,53 @@ export function useGesture(gestureHandler: GestureHandler) {
   useEffect(() => {
     const { current } = eventMap;
 
-    const downHandler: PointerEventHandler<HTMLDivElement> = (inputEvent) => {
-      const oldPointers = current.get(inputEvent.pointerId);
+    const downHandler: PointerEventHandler<HTMLDivElement> = (event) => {
+      const oldPointers = current.get(event.pointerId);
       if (oldPointers) {
         oldPointers.push({
-          clientX: inputEvent.clientX,
-          clientY: inputEvent.clientY,
+          clientX: event.clientX,
+          clientY: event.clientY,
         });
       } else {
-        current.set(inputEvent.pointerId, [
-          { clientX: inputEvent.clientX, clientY: inputEvent.clientY },
+        current.set(event.pointerId, [
+          { clientX: event.clientX, clientY: event.clientY },
         ]);
       }
     };
     setPointerDownHandlers((handlers) => [...handlers, downHandler]);
 
-    const moveHandler: PointerEventHandler<HTMLDivElement> = (inputEvent) => {
-      const pointers = current.get(inputEvent.pointerId);
+    const moveHandler: PointerEventHandler<HTMLDivElement> = (event) => {
+      const pointers = current.get(event.pointerId);
       if (pointers) {
         pointers.push({
-          clientX: inputEvent.clientX,
-          clientY: inputEvent.clientY,
+          clientX: event.clientX,
+          clientY: event.clientY,
         });
       }
     };
     setPointerMoveHandlers((handlers) => [...handlers, moveHandler]);
 
-    const upHandler: PointerEventHandler<HTMLDivElement> = (inputEvent) => {
-      const pointers = current.get(inputEvent.pointerId);
+    const upHandler: PointerEventHandler<HTMLDivElement> = (event) => {
+      const pointers = current.get(event.pointerId);
 
-      gestureHandler({
-        pointerId: inputEvent.pointerId,
-        pointers: [
-          ...(pointers ?? []),
-          { clientX: inputEvent.clientX, clientY: inputEvent.clientY },
-        ],
-      });
+      if (
+        gestureHandler({
+          pointerId: event.pointerId,
+          pointers: [
+            ...(pointers ?? []),
+            { clientX: event.clientX, clientY: event.clientY },
+          ],
+        })
+      ) {
+        event.preventDefault();
+      }
 
-      current.delete(inputEvent.pointerId);
+      current.delete(event.pointerId);
     };
     setPointerUpHandlers((handlers) => [...handlers, upHandler]);
 
-    const cancelHandler: PointerEventHandler<HTMLDivElement> = (inputEvent) => {
-      current.delete(inputEvent.pointerId);
+    const cancelHandler: PointerEventHandler<HTMLDivElement> = (event) => {
+      current.delete(event.pointerId);
     };
     setPointerCancelHandlers((handlers) => [...handlers, cancelHandler]);
 

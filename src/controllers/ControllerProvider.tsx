@@ -27,7 +27,7 @@ export function ControllerProvider({ children }: PropsWithChildren) {
     }))
   );
 
-  const [currentLevel, setCurrentLevel] = useState(3);
+  const [currentLevel, setCurrentLevel] = useState(1);
 
   const [gestureMode, setGestureMode] = useState(GestureMode.Build);
 

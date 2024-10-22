@@ -8,7 +8,9 @@ export function useClick(handler: GestureHandler) {
     useCallback(
       (event) => {
         if (clicking(event.pointers)) {
-          handler(event);
+          return handler(event);
+        } else {
+          return false;
         }
       },
       [handler]

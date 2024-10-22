@@ -52,6 +52,10 @@ export function useGesture(
           } else if (cross < -0.3) {
             setAngle((angle) => angle - Math.PI / 9);
           }
+
+          return true;
+        } else {
+          return false;
         }
       },
       [

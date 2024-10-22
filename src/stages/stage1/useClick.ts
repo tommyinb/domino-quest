@@ -27,24 +27,26 @@ export function useClick(
 
   useSceneClick(
     useCallback(() => {
-      if (gestureMode !== GestureMode.Build) {
-        return;
-      }
+      if (gestureMode === GestureMode.Build) {
+        setSlotItem((item) => ({
+          ...item,
+          build: {
+            ...item.build,
+            blocks: [
+              ...item.build.blocks,
+              {
+                type: ending ? BlockType.Last : BlockType.Middle,
+                position: nextPosition,
+                rotation: new Euler(0, angle, 0),
+              },
+            ],
+          },
+        }));
 
-      setSlotItem((item) => ({
-        ...item,
-        build: {
-          ...item.build,
-          blocks: [
-            ...item.build.blocks,
-            {
-              type: ending ? BlockType.Last : BlockType.Middle,
-              position: nextPosition,
-              rotation: new Euler(0, angle, 0),
-            },
-          ],
-        },
-      }));
+        return true;
+      } else {
+        return false;
+      }
     }, [angle, ending, gestureMode, nextPosition, setSlotItem])
   );
 
