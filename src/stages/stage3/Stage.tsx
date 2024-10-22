@@ -1,18 +1,16 @@
 import { useContext, useEffect } from "react";
 import { Euler, Vector3 } from "three";
-import { ItemState } from "../../controllers/itemState";
 import { SlotContext } from "../../controllers/SlotContext";
 import { useSetSlotBlocks } from "../../controllers/useSetSlotBlocks";
 import { BlockType } from "../../dominos/blockType";
-import { useBuilt } from "../../dominos/useBuilt";
 import { Play } from "../Play";
+import { Judge } from "../stage1/Judge";
 import { Ground } from "./Ground";
 import { Next } from "./Next";
 import { stationPositions } from "./start";
 
 export function Stage() {
   const { item } = useContext(SlotContext);
-  const built = useBuilt();
 
   const setSlotBlocks = useSetSlotBlocks();
   useEffect(() => {
@@ -43,11 +41,11 @@ export function Stage() {
     <>
       <Ground stationPositions={stationPositions} />
 
-      {item.state === ItemState.Building && !built && (
-        <Next stationPositions={stationPositions} />
-      )}
+      <Next stationPositions={stationPositions} />
 
-      <Play key={item.round} />
+      <Play key={item.round}>
+        <Judge />
+      </Play>
     </>
   );
 }

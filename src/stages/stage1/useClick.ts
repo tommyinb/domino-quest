@@ -1,9 +1,12 @@
 import { useCallback, useContext, useMemo } from "react";
 import { Euler, Vector3, Vector3Tuple } from "three";
 import { ControllerContext } from "../../controllers/ControllerContext";
+import { SlotContext } from "../../controllers/SlotContext";
 import { GestureMode } from "../../controllers/gestureMode";
+import { ItemState } from "../../controllers/itemState";
 import { useSetSlotItem } from "../../controllers/useSetSlotItem";
 import { BlockType } from "../../dominos/blockType";
+import { useBuilt } from "../../dominos/useBuilt";
 import { useClick as useSceneClick } from "../../scenes/useClick";
 
 export function useClick(
@@ -11,9 +14,12 @@ export function useClick(
   angle: number,
   endPosition: Vector3Tuple
 ) {
+  const { item } = useContext(SlotContext);
+  const setSlotItem = useSetSlotItem();
+
   const { gestureMode } = useContext(ControllerContext);
 
-  const setSlotItem = useSetSlotItem();
+  const built = useBuilt();
 
   const ending = useMemo(
     () =>
@@ -27,27 +33,46 @@ export function useClick(
 
   useSceneClick(
     useCallback(() => {
-      if (gestureMode === GestureMode.Build) {
-        setSlotItem((item) => ({
-          ...item,
-          build: {
-            ...item.build,
-            blocks: [
-              ...item.build.blocks,
-              {
-                type: ending ? BlockType.Last : BlockType.Middle,
-                position: nextPosition,
-                rotation: new Euler(0, angle, 0),
-              },
-            ],
-          },
-        }));
-
-        return true;
-      } else {
+      if (item.state !== ItemState.Building) {
         return false;
       }
-    }, [angle, ending, gestureMode, nextPosition, setSlotItem])
+
+      if (gestureMode !== GestureMode.Build) {
+        return false;
+      }
+
+      if (built) {
+        return false;
+      }
+
+      console.log("fuck2", item.level);
+
+      setSlotItem((item) => ({
+        ...item,
+        build: {
+          ...item.build,
+          blocks: [
+            ...item.build.blocks,
+            {
+              type: ending ? BlockType.Last : BlockType.Middle,
+              position: nextPosition,
+              rotation: new Euler(0, angle, 0),
+            },
+          ],
+        },
+      }));
+
+      return true;
+    }, [
+      angle,
+      built,
+      ending,
+      gestureMode,
+      item.level,
+      item.state,
+      nextPosition,
+      setSlotItem,
+    ])
   );
 
   return ending;

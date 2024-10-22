@@ -1,6 +1,8 @@
 import { useContext, useMemo, useState } from "react";
 import { Vector3, Vector3Tuple } from "three";
+import { ItemState } from "../../controllers/itemState";
 import { SlotContext } from "../../controllers/SlotContext";
+import { useBuilt } from "../../dominos/useBuilt";
 import { NextDomino } from "../stage1/NextDomino";
 import { useClick } from "../stage1/useClick";
 import { useGesture } from "./useGesture";
@@ -46,7 +48,14 @@ export function Next({ stationPositions }: Props) {
   );
   useClick(nextPosition, nextAngle, endPosition);
 
-  return <NextDomino position={nextPosition} rotation={[0, nextAngle, 0]} />;
+  const built = useBuilt();
+  return (
+    <>
+      {item.state === ItemState.Building && !built && (
+        <NextDomino position={nextPosition} rotation={[0, nextAngle, 0]} />
+      )}
+    </>
+  );
 }
 
 interface Props {

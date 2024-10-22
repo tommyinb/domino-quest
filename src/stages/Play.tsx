@@ -1,20 +1,19 @@
-import { useContext, useEffect, useMemo, useState } from "react";
-import { ItemState } from "../controllers/itemState";
+import {
+  PropsWithChildren,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { SlotContext } from "../controllers/SlotContext";
-import { useSetSlotState } from "../controllers/useSetSlotState";
 import { BlockType } from "../dominos/blockType";
 import { FirstDomino } from "../dominos/FirstDomino";
 import { FollowDomino } from "../dominos/FollowDomino";
 import { PlayContext } from "./PlayContext";
 
-export function Play() {
+export function Play({ children }: PropsWithChildren) {
   const { item } = useContext(SlotContext);
   const { blocks } = item.build;
-
-  const lastIndex = useMemo(
-    () => blocks.findIndex((block) => block.type === BlockType.Last),
-    [blocks]
-  );
 
   const [tippeds, setTippeds] = useState<boolean[]>([]);
   useEffect(() => {
@@ -30,20 +29,6 @@ export function Play() {
       }
     });
   }, [blocks.length]);
-
-  const setSlotState = useSetSlotState();
-  useEffect(() => {
-    if (item.state === ItemState.Playing) {
-      if (tippeds) {
-        if (tippeds[lastIndex]) {
-          setSlotState(ItemState.Success);
-        } else {
-          const timer = setTimeout(() => setSlotState(ItemState.Failure), 2000);
-          return () => clearTimeout(timer);
-        }
-      }
-    }
-  }, [item.state, lastIndex, setSlotState, tippeds]);
 
   return (
     <PlayContext.Provider
@@ -66,6 +51,8 @@ export function Play() {
           />
         )
       )}
+
+      {children}
     </PlayContext.Provider>
   );
 }
