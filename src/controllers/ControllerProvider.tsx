@@ -3,6 +3,7 @@ import * as start1 from "../stages/stage1/start";
 import * as start2 from "../stages/stage2/start";
 import * as start3 from "../stages/stage3/start";
 import * as start4 from "../stages/stage4/start";
+import * as start5 from "../stages/stage5/start";
 import { ControllerContext } from "./ControllerContext";
 import { GestureMode } from "./gestureMode";
 import { Item } from "./item";
@@ -15,6 +16,7 @@ export function ControllerProvider({ children }: PropsWithChildren) {
       { level: 2, start: start2 },
       { level: 3, start: start3 },
       { level: 4, start: start4 },
+      { level: 5, start: start5 },
     ].map((content) => ({
       ...content,
       state: ItemState.Idle,
@@ -27,7 +29,7 @@ export function ControllerProvider({ children }: PropsWithChildren) {
     }))
   );
 
-  const [currentLevel, setCurrentLevel] = useState(3);
+  const [currentLevel, setCurrentLevel] = useState(1);
 
   const [gestureMode, setGestureMode] = useState(GestureMode.Build);
 

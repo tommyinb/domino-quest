@@ -2,10 +2,12 @@ import { useContext, useEffect } from "react";
 import { ItemState } from "../../controllers/itemState";
 import { SlotContext } from "../../controllers/SlotContext";
 import { useSetSlotState } from "../../controllers/useSetSlotState";
+import { BlockType } from "../../dominos/blockType";
 import { PlayContext } from "../PlayContext";
 
 export function Judge() {
   const { item } = useContext(SlotContext);
+  const { blocks } = item.build;
 
   const { tippeds } = useContext(PlayContext);
 
@@ -13,16 +15,18 @@ export function Judge() {
 
   useEffect(() => {
     if (item.state === ItemState.Playing) {
-      if (tippeds) {
-        if (tippeds[item.build.blocks.length - 1]) {
-          setSlotState(ItemState.Success);
-        } else {
-          const timer = setTimeout(() => setSlotState(ItemState.Failure), 2000);
-          return () => clearTimeout(timer);
-        }
+      if (
+        blocks.some(
+          (block, index) => block.type === BlockType.Last && tippeds[index]
+        )
+      ) {
+        setSlotState(ItemState.Success);
+      } else {
+        const timer = setTimeout(() => setSlotState(ItemState.Failure), 2000);
+        return () => clearTimeout(timer);
       }
     }
-  }, [item.build.blocks.length, item.state, setSlotState, tippeds]);
+  }, [blocks, item.state, setSlotState, tippeds]);
 
   return <></>;
 }

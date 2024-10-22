@@ -45,8 +45,6 @@ export function useClick(
         return false;
       }
 
-      console.log("fuck2", item.level);
-
       setSlotItem((item) => ({
         ...item,
         build: {
@@ -68,7 +66,6 @@ export function useClick(
       built,
       ending,
       gestureMode,
-      item.level,
       item.state,
       nextPosition,
       setSlotItem,

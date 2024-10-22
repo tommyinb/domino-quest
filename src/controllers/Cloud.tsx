@@ -1,5 +1,6 @@
 import { Box } from "@react-three/drei";
 import { useMemo } from "react";
+import { MeshPhongMaterial } from "three";
 
 export function Cloud({
   positionX,
@@ -9,7 +10,7 @@ export function Cloud({
   size,
 }: Props) {
   const boxes = useMemo(() => {
-    const count = 3 + Math.floor(Math.random() * 3);
+    const count = 2 + Math.floor(Math.random() * 3);
 
     return Array.from({ length: count }, (_, i) => ({
       size: 20 * (0.1 + Math.random() * 0.9),
@@ -19,6 +20,15 @@ export function Cloud({
       rotationY: Math.random() * Math.PI * 2,
       rotationZ: Math.random() * Math.PI * 2,
     }));
+  }, []);
+
+  const material = useMemo(() => {
+    const material = new MeshPhongMaterial();
+    material.color.set(0xd8d0d1);
+    material.flatShading = true;
+    material.opacity = 0.6;
+    material.transparent = true;
+    return material;
   }, []);
 
   return (
@@ -33,13 +43,8 @@ export function Cloud({
           args={[box.size, box.size, box.size]}
           position={[box.positionX, box.positionY, box.positionZ]}
           rotation={[0, box.rotationY, box.rotationZ]}
-        >
-          <meshPhongMaterial
-            color={0xd8d0d1}
-            opacity={0.8}
-            transparent={true}
-          />
-        </Box>
+          material={material}
+        />
       ))}
     </group>
   );

@@ -20,7 +20,7 @@ export function Stage() {
             {
               type: BlockType.First,
               position: new Vector3(...startPosition),
-              rotation: new Euler(),
+              rotation: new Euler(0, Math.PI, 0),
             },
           ]
         : blocks

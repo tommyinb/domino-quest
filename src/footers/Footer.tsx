@@ -3,20 +3,24 @@ import { ControllerContext } from "../controllers/ControllerContext";
 import { GestureMode } from "../controllers/gestureMode";
 import { ItemState } from "../controllers/itemState";
 import { useCurrentItem } from "../controllers/useCurrentItem";
+import { useSetCurrentItem } from "../controllers/useSetCurrentItem";
 import "./Footer.css";
+import { FooterContext } from "./FooterContext";
 
 export function Footer() {
   const item = useCurrentItem();
+  const setItem = useSetCurrentItem();
+
+  const { undoHandlers, retryHandlers } = useContext(FooterContext);
 
   const { gestureMode, setGestureMode } = useContext(ControllerContext);
 
   const [retrying, setRetrying] = useState(false);
   useEffect(() => {
     if (retrying) {
-      const handlers = item?.build.retryHandlers ?? [];
-      if (handlers) {
+      if (retryHandlers.length) {
         const timer = setTimeout(() => {
-          for (const handler of handlers) {
+          for (const handler of retryHandlers) {
             handler();
           }
 
@@ -27,7 +31,7 @@ export function Footer() {
         setRetrying(false);
       }
     }
-  }, [item?.build.retryHandlers, retrying, setGestureMode]);
+  }, [retryHandlers, retrying, setGestureMode]);
 
   return (
     <div
@@ -37,22 +41,29 @@ export function Footer() {
     >
       <div className="content">
         <div
-          className={`undo ${item?.build.undoHandlers.length ? "active" : ""}`}
+          className={`undo ${undoHandlers.length ? "active" : ""}`}
           onClick={() => {
-            for (const handler of item?.build.undoHandlers ?? []) {
+            for (const handler of undoHandlers) {
               handler();
             }
           }}
         />
 
         <div
-          className={`retry ${
-            item?.build.retryHandlers.length ? "active" : ""
-          } ${retrying ? "loading" : ""}`}
+          className={`retry ${retryHandlers.length ? "active" : ""} ${
+            retrying ? "loading" : ""
+          }`}
           onPointerDown={() => setRetrying(true)}
           onPointerOut={() => setRetrying(false)}
           onPointerUp={() => setRetrying(false)}
           onPointerCancel={() => setRetrying(false)}
+        />
+
+        <div
+          className="play"
+          onClick={() => {
+            setItem((item) => ({ ...item, state: ItemState.Playing }));
+          }}
         />
 
         <div

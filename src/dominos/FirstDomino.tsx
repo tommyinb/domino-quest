@@ -1,8 +1,8 @@
 import { Box } from "@react-three/drei";
-import { Vector3 } from "@react-three/fiber";
+import { Vector3 as FiberVector3 } from "@react-three/fiber";
 import { RapierRigidBody, RigidBody } from "@react-three/rapier";
-import { useContext, useRef } from "react";
-import { Euler } from "three";
+import { useContext, useEffect, useRef } from "react";
+import { Euler, Vector3 as ThreeVector3 } from "three";
 import { ItemState } from "../controllers/itemState";
 import { SlotContext } from "../controllers/SlotContext";
 import { useSetSlotState } from "../controllers/useSetSlotState";
@@ -20,16 +20,21 @@ export function FirstDomino({ position, rotation, index }: Props) {
 
   const built = useBuilt();
 
+  useEffect(() => {
+    if (item.state === ItemState.Playing) {
+      const impulse = new ThreeVector3(0, 0, 100000).applyEuler(rotation);
+      ref.current?.applyImpulse(impulse, true);
+    }
+  }, [item.state, rotation]);
+
   return (
     <group position={position} rotation={rotation}>
-      <RigidBody position={[0, 1, 0]} ref={ref}>
+      <RigidBody position={[0, 0.1, 0]} ref={ref}>
         <Box
           args={[width, height, depth]}
           position={[0, height / 2, 0]}
           onClick={() => {
             if (built) {
-              ref.current?.applyImpulse({ x: 0, y: 0, z: -100000 }, true);
-
               setSlotState(ItemState.Playing);
             }
           }}
@@ -50,7 +55,7 @@ export function FirstDomino({ position, rotation, index }: Props) {
 }
 
 interface Props {
-  position: Vector3;
+  position: FiberVector3;
   rotation: Euler;
 
   index: number;

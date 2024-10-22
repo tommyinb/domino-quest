@@ -15,7 +15,11 @@ export const SlotContext = createContext<{
       },
     },
     state: ItemState.Idle,
-    blocks: [],
+    build: {
+      blocks: [],
+      undoHandlers: [],
+      retryHandlers: [],
+    },
     round: 0,
   },
 });

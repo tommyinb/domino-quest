@@ -1,6 +1,8 @@
 import { useThree } from "@react-three/fiber";
 import { Dispatch, SetStateAction, useCallback, useContext } from "react";
 import { Vector2, Vector3 } from "three";
+import { ControllerContext } from "../../controllers/ControllerContext";
+import { GestureMode } from "../../controllers/gestureMode";
 import { getSlotY } from "../../controllers/getSlotY";
 import { ItemState } from "../../controllers/itemState";
 import { SlotContext } from "../../controllers/SlotContext";
@@ -17,12 +19,18 @@ export function useGesture(
 
   const { camera, size } = useThree();
 
+  const { gestureMode } = useContext(ControllerContext);
+
   const built = useBuilt();
 
   useSceneGesture(
     useCallback(
       (event) => {
         if (item.state !== ItemState.Building) {
+          return false;
+        }
+
+        if (gestureMode !== GestureMode.Build) {
           return false;
         }
 
@@ -74,6 +82,7 @@ export function useGesture(
       [
         built,
         camera,
+        gestureMode,
         item.level,
         item.state,
         lastPosition.x,

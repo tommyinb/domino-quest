@@ -29,13 +29,13 @@ export function useTipping(ref: RefObject<RapierRigidBody>, index: number) {
   const { setTippeds } = useContext(PlayContext);
   useEffect(() => {
     if (tipping) {
-      setTippeds((oldTippings) => {
-        if (oldTippings[index]) {
-          return oldTippings;
+      setTippeds((oldTippeds) => {
+        if (oldTippeds[index]) {
+          return oldTippeds;
         } else {
-          const newTippings = [...oldTippings];
-          newTippings[index] = true;
-          return newTippings;
+          const newTippeds = [...oldTippeds];
+          newTippeds[index] = tipping;
+          return newTippeds;
         }
       });
     }

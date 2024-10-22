@@ -29,12 +29,12 @@ export function Slot({ item }: Props) {
 
   return (
     <animated.group position-y={getSlotY(item.level)}>
-      {debug && <Html>{item.state}</Html>}
-
       <SlotContext.Provider value={useMemo(() => ({ item }), [item])}>
         {Math.abs(item.level - currentLevel) <= 1 && (
           <item.start.stageElement />
         )}
+
+        {debug && <Html>{item.state}</Html>}
       </SlotContext.Provider>
     </animated.group>
   );

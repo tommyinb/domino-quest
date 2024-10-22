@@ -1,6 +1,8 @@
 import { useCallback, useContext, useEffect } from "react";
+import { ItemState } from "../../controllers/itemState";
 import { SlotContext } from "../../controllers/SlotContext";
 import { useSetSlotItem } from "../../controllers/useSetSlotItem";
+import { FooterContext } from "../../footers/FooterContext";
 
 export function useUndo(
   setNextAngle: (angle: number) => void,
@@ -33,27 +35,15 @@ export function useUndo(
     }
   }, [blocks, firstAngle, setNextAngle, setItem]);
 
+  const { setUndoHandlers } = useContext(FooterContext);
   useEffect(() => {
-    if (blocks.length > 1) {
-      setItem((item) => ({
-        ...item,
-        build: {
-          ...item.build,
-          undoHandlers: [...item.build.undoHandlers, handler],
-        },
-      }));
+    if (item.state === ItemState.Building && blocks.length > 1) {
+      setUndoHandlers((handlers) => [...handlers, handler]);
 
-      return () => {
-        setItem((item) => ({
-          ...item,
-          build: {
-            ...item.build,
-            undoHandlers: item.build.undoHandlers.filter(
-              (undoHandler) => undoHandler !== handler
-            ),
-          },
-        }));
-      };
+      return () =>
+        setUndoHandlers((handlers) =>
+          handlers.filter((undoHandler) => undoHandler !== handler)
+        );
     }
-  }, [blocks.length, handler, setItem]);
+  }, [blocks.length, handler, item.state, setUndoHandlers]);
 }

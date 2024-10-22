@@ -1,6 +1,8 @@
 import { useCallback, useContext, useEffect } from "react";
+import { ItemState } from "../../controllers/itemState";
 import { SlotContext } from "../../controllers/SlotContext";
 import { useSetSlotItem } from "../../controllers/useSetSlotItem";
+import { FooterContext } from "../../footers/FooterContext";
 
 export function useRetry(
   setNextAngle: (angle: number) => void,
@@ -22,27 +24,15 @@ export function useRetry(
     setNextAngle(firstAngle);
   }, [blocks, firstAngle, setItem, setNextAngle]);
 
+  const { setRetryHandlers } = useContext(FooterContext);
   useEffect(() => {
-    if (blocks.length > 1) {
-      setItem((item) => ({
-        ...item,
-        build: {
-          ...item.build,
-          retryHandlers: [...item.build.undoHandlers, handler],
-        },
-      }));
+    if (item.state === ItemState.Building && blocks.length > 1) {
+      setRetryHandlers((handlers) => [...handlers, handler]);
 
-      return () => {
-        setItem((item) => ({
-          ...item,
-          build: {
-            ...item.build,
-            retryHandlers: item.build.undoHandlers.filter(
-              (undoHandler) => undoHandler !== handler
-            ),
-          },
-        }));
-      };
+      return () =>
+        setRetryHandlers((handlers) =>
+          handlers.filter((retryHandler) => retryHandler !== handler)
+        );
     }
-  }, [blocks.length, handler, setItem]);
+  }, [blocks.length, handler, item.state, setRetryHandlers]);
 }

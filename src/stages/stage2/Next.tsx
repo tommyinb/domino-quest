@@ -75,7 +75,7 @@ export function Next() {
   useGesture(
     useCallback(
       (event) => {
-        if (built) {
+        if (item.state !== ItemState.Building || built) {
           return false;
         } else {
           const firstPointer = event.pointers[0];
@@ -106,7 +106,7 @@ export function Next() {
           }
         }
       },
-      [blockNext, blocks.length, built, inputSteer, targetSteer]
+      [blockNext, blocks.length, built, inputSteer, item.state, targetSteer]
     )
   );
 
