@@ -19,7 +19,7 @@ export function Next() {
     [blocks]
   );
 
-  const ending = useNextClick(nextPosition, endPosition);
+  const ending = useNextClick(nextPosition, 0, endPosition);
 
   return (
     <NextDomino position={nextPosition} rotation={[0, 0, 0]}>

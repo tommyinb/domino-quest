@@ -1,7 +1,5 @@
 import { useContext, useEffect } from "react";
 import { Euler, Vector3 } from "three";
-import { ControllerContext } from "../../controllers/ControllerContext";
-import { GestureMode } from "../../controllers/gestureMode";
 import { ItemState } from "../../controllers/itemState";
 import { SlotContext } from "../../controllers/SlotContext";
 import { useSetSlotBlocks } from "../../controllers/useSetSlotBlocks";
@@ -13,8 +11,6 @@ import { Next } from "./Next";
 import { middlePosition, startPosition } from "./start";
 
 export function Stage() {
-  const { gestureMode } = useContext(ControllerContext);
-
   const { item } = useContext(SlotContext);
   const built = useBuilt();
 
@@ -44,9 +40,7 @@ export function Stage() {
     <>
       <Ground />
 
-      {gestureMode === GestureMode.Build &&
-        item.state === ItemState.Building &&
-        !built && <Next />}
+      {item.state === ItemState.Building && !built && <Next />}
 
       <Play key={item.round} />
     </>

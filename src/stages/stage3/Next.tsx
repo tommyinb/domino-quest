@@ -37,7 +37,7 @@ export function Next({ stationPositions }: Props) {
     () => stationPositions[stationPositions.length - 1],
     [stationPositions]
   );
-  useNextClick(nextPosition, endPosition);
+  useNextClick(nextPosition, angle, endPosition);
 
   return <NextDomino position={nextPosition} rotation={[0, angle, 0]} />;
 }

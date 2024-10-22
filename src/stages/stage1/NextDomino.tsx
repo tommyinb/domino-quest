@@ -1,17 +1,23 @@
 import { Box, Line } from "@react-three/drei";
 import { Euler, useFrame, Vector3 } from "@react-three/fiber";
-import { PropsWithChildren, useState } from "react";
+import { PropsWithChildren, useContext, useState } from "react";
+import { ControllerContext } from "../../controllers/ControllerContext";
+import { GestureMode } from "../../controllers/gestureMode";
 import { depth, height, width } from "../../dominos/FollowDomino";
 
 export function NextDomino({ position, rotation, children }: Props) {
+  const { gestureMode } = useContext(ControllerContext);
+
   const [dashOffset, setDashOffset] = useState(0);
   useFrame(({ clock }) => setDashOffset(clock.getElapsedTime()));
 
   return (
     <group position={position} rotation={rotation}>
-      <Box args={[width, height, depth]} position={[0, height / 2, 0]}>
-        <meshToonMaterial color={0x4ecdc4} opacity={0.2} transparent={true} />
-      </Box>
+      {gestureMode === GestureMode.Build && (
+        <Box args={[width, height, depth]} position={[0, height / 2, 0]}>
+          <meshToonMaterial color={0x4ecdc4} opacity={0.2} transparent={true} />
+        </Box>
+      )}
 
       <Line
         points={[
