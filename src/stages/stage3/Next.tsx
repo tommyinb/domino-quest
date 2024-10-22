@@ -1,5 +1,7 @@
+import { useThree } from "@react-three/fiber";
 import { useCallback, useContext, useMemo, useState } from "react";
-import { Euler, Vector3, Vector3Tuple } from "three";
+import { Euler, Vector2, Vector3, Vector3Tuple } from "three";
+import { getSlotY } from "../../controllers/getSlotY";
 import { SlotContext } from "../../controllers/SlotContext";
 import { useSetSlotItem } from "../../controllers/useSetSlotItem";
 import { BlockType } from "../../dominos/blockType";
@@ -9,6 +11,7 @@ import { NextDomino } from "../stage1/NextDomino";
 
 export function Next({ stationPositions }: Props) {
   const { item } = useContext(SlotContext);
+  const { blocks } = item;
 
   const [angle, setAngle] = useState(() => {
     const startPosition = stationPositions[0];
@@ -19,13 +22,18 @@ export function Next({ stationPositions }: Props) {
       secondPosition[2] - startPosition[2]
     );
   });
+  const direction = useMemo(
+    () => new Vector3(Math.sin(angle) * 20, 0, Math.cos(angle) * 20),
+    [angle]
+  );
 
+  const lastPosition = useMemo(
+    () => blocks[blocks.length - 1]?.position ?? new Vector3(),
+    [blocks]
+  );
   const nextPosition = useMemo(
-    () =>
-      (item.blocks[item.blocks.length - 1]?.position ?? new Vector3())
-        .clone()
-        .add(new Vector3(Math.sin(angle) * 20, 0, Math.cos(angle) * 20)),
-    [angle, item.blocks]
+    () => lastPosition.clone().add(direction),
+    [direction, lastPosition]
   );
 
   const ending = useMemo(() => {
@@ -57,6 +65,7 @@ export function Next({ stationPositions }: Props) {
     [angle, ending, nextPosition, setSlotItem]
   );
 
+  const { camera, size } = useThree();
   useGesture(
     useCallback(
       (event) => {
@@ -72,17 +81,53 @@ export function Next({ stationPositions }: Props) {
           blockNext();
         } else {
           const lastPointer = event.pointers[event.pointers.length - 1];
-          const moveX = lastPointer.clientX - firstPointer.clientX;
+          const pointerVector = new Vector2(
+            lastPointer.clientX - firstPointer.clientX,
+            lastPointer.clientY - firstPointer.clientY
+          );
 
-          if (moveX > 50) {
-            //TODO swipe depends on the current angle
-            setAngle((angle) => angle - Math.PI / 9);
-          } else if (moveX < -50) {
+          const slotY = getSlotY(item.level);
+          const lastPoint = new Vector3(
+            lastPosition.x,
+            lastPosition.y + slotY,
+            lastPosition.z
+          ).project(camera);
+
+          const nextPoint = new Vector3(
+            nextPosition.x,
+            nextPosition.y + slotY,
+            nextPosition.z
+          ).project(camera);
+
+          const directionProjected = new Vector2(
+            (nextPoint.x - lastPoint.x) * size.width,
+            -(nextPoint.y - lastPoint.y) * size.height
+          );
+
+          const cross = pointerVector
+            .normalize()
+            .cross(directionProjected.normalize());
+
+          if (cross > 0.3) {
             setAngle((angle) => angle + Math.PI / 9);
+          } else if (cross < -0.3) {
+            setAngle((angle) => angle - Math.PI / 9);
           }
         }
       },
-      [blockNext]
+      [
+        blockNext,
+        camera,
+        item.level,
+        lastPosition.x,
+        lastPosition.y,
+        lastPosition.z,
+        nextPosition.x,
+        nextPosition.y,
+        nextPosition.z,
+        size.height,
+        size.width,
+      ]
     )
   );
 

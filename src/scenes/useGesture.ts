@@ -15,68 +15,72 @@ export function useGesture(gestureHandler: GestureHandler) {
   );
 
   useEffect(() => {
+    const { current } = eventMap;
+
     const downHandler: PointerEventHandler<HTMLDivElement> = (inputEvent) => {
-      const oldPointers = eventMap.current.get(inputEvent.pointerId);
+      const oldPointers = current.get(inputEvent.pointerId);
       if (oldPointers) {
         oldPointers.push({
           clientX: inputEvent.clientX,
           clientY: inputEvent.clientY,
         });
       } else {
-        eventMap.current.set(inputEvent.pointerId, [
+        current.set(inputEvent.pointerId, [
           { clientX: inputEvent.clientX, clientY: inputEvent.clientY },
         ]);
       }
     };
-    setPointerDownHandlers((oldHandlers) => [...oldHandlers, downHandler]);
+    setPointerDownHandlers((handlers) => [...handlers, downHandler]);
 
     const moveHandler: PointerEventHandler<HTMLDivElement> = (inputEvent) => {
-      const oldPointers = eventMap.current.get(inputEvent.pointerId);
-      if (oldPointers) {
-        oldPointers.push({
+      const pointers = current.get(inputEvent.pointerId);
+      if (pointers) {
+        pointers.push({
           clientX: inputEvent.clientX,
           clientY: inputEvent.clientY,
         });
       }
     };
-    setPointerMoveHandlers((oldHandlers) => [...oldHandlers, moveHandler]);
+    setPointerMoveHandlers((handlers) => [...handlers, moveHandler]);
 
     const upHandler: PointerEventHandler<HTMLDivElement> = (inputEvent) => {
-      const oldPointers = eventMap.current.get(inputEvent.pointerId);
+      const pointers = current.get(inputEvent.pointerId);
 
       gestureHandler({
         pointerId: inputEvent.pointerId,
         pointers: [
-          ...(oldPointers ?? []),
+          ...(pointers ?? []),
           { clientX: inputEvent.clientX, clientY: inputEvent.clientY },
         ],
       });
 
-      eventMap.current.delete(inputEvent.pointerId);
+      current.delete(inputEvent.pointerId);
     };
-    setPointerUpHandlers((oldHandlers) => [...oldHandlers, upHandler]);
+    setPointerUpHandlers((handlers) => [...handlers, upHandler]);
 
     const cancelHandler: PointerEventHandler<HTMLDivElement> = (inputEvent) => {
-      eventMap.current.delete(inputEvent.pointerId);
+      current.delete(inputEvent.pointerId);
     };
-    setPointerCancelHandlers((oldHandlers) => [...oldHandlers, cancelHandler]);
+    setPointerCancelHandlers((handlers) => [...handlers, cancelHandler]);
 
     return () => {
-      setPointerDownHandlers((oldHandlers) =>
-        oldHandlers.filter((handler) => handler !== downHandler)
+      setPointerDownHandlers((handlers) =>
+        handlers.filter((handler) => handler !== downHandler)
       );
 
-      setPointerMoveHandlers((oldHandlers) =>
-        oldHandlers.filter((handler) => handler !== moveHandler)
+      setPointerMoveHandlers((handlers) =>
+        handlers.filter((handler) => handler !== moveHandler)
       );
 
-      setPointerUpHandlers((oldHandlers) =>
-        oldHandlers.filter((handler) => handler !== upHandler)
+      setPointerUpHandlers((handlers) =>
+        handlers.filter((handler) => handler !== upHandler)
       );
 
-      setPointerCancelHandlers((oldHandlers) =>
-        oldHandlers.filter((handler) => handler !== cancelHandler)
+      setPointerCancelHandlers((handlers) =>
+        handlers.filter((handler) => handler !== cancelHandler)
       );
+
+      current.clear();
     };
   }, [
     gestureHandler,

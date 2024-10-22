@@ -5,8 +5,8 @@ import { useContext, useState } from "react";
 import { Vector3 } from "three";
 import { ControllerContext } from "./ControllerContext";
 import { GestureMode } from "./gestureMode";
+import { slotHeight } from "./getSlotY";
 import { ItemState } from "./itemState";
-import { slotHeight } from "./Slot";
 import { useCurrentItem } from "./useCurrentItem";
 
 export function CameraControl() {

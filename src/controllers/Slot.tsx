@@ -3,6 +3,7 @@ import { Html } from "@react-three/drei";
 import { useContext, useEffect, useMemo } from "react";
 import { SceneContext } from "../scenes/SceneContext";
 import { ControllerContext } from "./ControllerContext";
+import { getSlotY } from "./getSlotY";
 import { Item } from "./item";
 import { ItemState } from "./itemState";
 import { SlotContext } from "./SlotContext";
@@ -27,7 +28,7 @@ export function Slot({ item }: Props) {
   const { debug } = useContext(SceneContext);
 
   return (
-    <animated.group position-y={(item.level - 1) * slotHeight}>
+    <animated.group position-y={getSlotY(item.level)}>
       {debug && <Html>{item.state}</Html>}
 
       <SlotContext.Provider value={useMemo(() => ({ item }), [item])}>
@@ -42,5 +43,3 @@ export function Slot({ item }: Props) {
 interface Props {
   item: Item;
 }
-
-export const slotHeight = 500;

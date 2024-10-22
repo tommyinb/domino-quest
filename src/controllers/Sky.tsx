@@ -2,7 +2,7 @@ import { animated, useSpring } from "@react-spring/three";
 import { useContext } from "react";
 import { transitionDuration } from "./CameraControl";
 import { ControllerContext } from "./ControllerContext";
-import { slotHeight } from "./Slot";
+import { slotHeight } from "./getSlotY";
 import { Vortex } from "./Vortex";
 
 export function Sky() {

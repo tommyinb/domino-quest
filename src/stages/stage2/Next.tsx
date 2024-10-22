@@ -93,7 +93,7 @@ export function Next() {
           }
         }
       },
-      [blockNext, blocks.length]
+      [blockNext, blocks.length, inputSteer, targetSteer]
     )
   );
 
