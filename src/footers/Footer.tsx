@@ -33,6 +33,8 @@ export function Footer() {
     }
   }, [retryHandlers, retrying, setGestureMode]);
 
+  //TODO change to build mode if multiple clicks in camera mode
+
   return (
     <div
       className={`footers-Footer ${
@@ -44,7 +46,7 @@ export function Footer() {
           className={`undo ${undoHandlers.length ? "active" : ""}`}
           onClick={() => {
             for (const handler of undoHandlers) {
-              handler();
+              handler(); //TODO undo more if multiple clicks
             }
           }}
         />
