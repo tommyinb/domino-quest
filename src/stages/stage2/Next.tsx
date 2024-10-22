@@ -12,7 +12,7 @@ import { endPosition, middlePosition, startPosition } from "./start";
 
 export function Next() {
   const { item } = useContext(SlotContext);
-  const { blocks } = item;
+  const { blocks } = item.build;
 
   const [inputSteer, setInputSteer] = useState(0);
   const targetSteer =
@@ -53,14 +53,17 @@ export function Next() {
     () =>
       setSlotItem((item) => ({
         ...item,
-        blocks: [
-          ...item.blocks,
-          {
-            type: ending ? BlockType.Last : BlockType.Middle,
-            position: nextPosition,
-            rotation: new Euler(0, angle, 0),
-          },
-        ],
+        build: {
+          ...item.build,
+          blocks: [
+            ...item.build.blocks,
+            {
+              type: ending ? BlockType.Last : BlockType.Middle,
+              position: nextPosition,
+              rotation: new Euler(0, angle, 0),
+            },
+          ],
+        },
       })),
     [angle, ending, nextPosition, setSlotItem]
   );

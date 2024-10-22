@@ -18,12 +18,16 @@ export function ControllerProvider({ children }: PropsWithChildren) {
     ].map((content) => ({
       ...content,
       state: ItemState.Idle,
-      blocks: [],
+      build: {
+        blocks: [],
+        undoHandlers: [],
+        retryHandlers: [],
+      },
       round: 0,
     }))
   );
 
-  const [currentLevel, setCurrentLevel] = useState(1);
+  const [currentLevel, setCurrentLevel] = useState(3);
 
   const [gestureMode, setGestureMode] = useState(GestureMode.Build);
 

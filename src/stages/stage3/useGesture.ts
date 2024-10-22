@@ -4,9 +4,9 @@ import { Vector2, Vector3 } from "three";
 import { getSlotY } from "../../controllers/getSlotY";
 import { SlotContext } from "../../controllers/SlotContext";
 import { clicking } from "../../scenes/clicking";
-import { useGesture } from "../../scenes/useGesture";
+import { useGesture as useSceneGesture } from "../../scenes/useGesture";
 
-export function useNextGesture(
+export function useGesture(
   lastPosition: Vector3,
   nextPosition: Vector3,
   setAngle: Dispatch<SetStateAction<number>>
@@ -14,7 +14,7 @@ export function useNextGesture(
   const { item } = useContext(SlotContext);
 
   const { camera, size } = useThree();
-  useGesture(
+  useSceneGesture(
     useCallback(
       (event) => {
         if (!clicking(event.pointers)) {

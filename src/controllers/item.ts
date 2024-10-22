@@ -1,4 +1,4 @@
-import { Block } from "../dominos/block";
+import { ItemBuild } from "./itemBuild";
 import { ItemStart } from "./itemStart";
 import { ItemState } from "./itemState";
 
@@ -9,7 +9,7 @@ export interface Item {
 
   state: ItemState;
 
-  blocks: Block[];
+  build: ItemBuild;
 
   round: number;
 }

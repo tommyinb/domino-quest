@@ -2,14 +2,16 @@ import { useContext, useMemo, useState } from "react";
 import { Vector3, Vector3Tuple } from "three";
 import { SlotContext } from "../../controllers/SlotContext";
 import { NextDomino } from "../stage1/NextDomino";
-import { useNextClick } from "../stage1/useNextClick";
-import { useNextGesture } from "./useNextGesture";
+import { useClick } from "../stage1/useClick";
+import { useGesture } from "./useGesture";
+import { useRetry } from "./useRetry";
+import { useUndo } from "./useUndo";
 
 export function Next({ stationPositions }: Props) {
   const { item } = useContext(SlotContext);
-  const { blocks } = item;
+  const { blocks } = item.build;
 
-  const [angle, setAngle] = useState(() => {
+  const firstAngle = useMemo(() => {
     const startPosition = stationPositions[0];
     const secondPosition = stationPositions[1];
 
@@ -17,11 +19,16 @@ export function Next({ stationPositions }: Props) {
       secondPosition[0] - startPosition[0],
       secondPosition[2] - startPosition[2]
     );
-  });
+  }, [stationPositions]);
+
+  const [nextAngle, setNextAngle] = useState(firstAngle);
   const direction = useMemo(
-    () => new Vector3(Math.sin(angle) * 20, 0, Math.cos(angle) * 20),
-    [angle]
+    () => new Vector3(Math.sin(nextAngle) * 20, 0, Math.cos(nextAngle) * 20),
+    [nextAngle]
   );
+
+  useUndo(setNextAngle, firstAngle);
+  useRetry(setNextAngle, firstAngle);
 
   const lastPosition = useMemo(
     () => blocks[blocks.length - 1]?.position ?? new Vector3(),
@@ -31,15 +38,15 @@ export function Next({ stationPositions }: Props) {
     () => lastPosition.clone().add(direction),
     [direction, lastPosition]
   );
-  useNextGesture(lastPosition, nextPosition, setAngle);
+  useGesture(lastPosition, nextPosition, setNextAngle);
 
   const endPosition = useMemo(
     () => stationPositions[stationPositions.length - 1],
     [stationPositions]
   );
-  useNextClick(nextPosition, angle, endPosition);
+  useClick(nextPosition, nextAngle, endPosition);
 
-  return <NextDomino position={nextPosition} rotation={[0, angle, 0]} />;
+  return <NextDomino position={nextPosition} rotation={[0, nextAngle, 0]} />;
 }
 
 interface Props {

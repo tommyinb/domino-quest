@@ -13,7 +13,9 @@ export function Title() {
           : ""
       }`}
     >
-      <div className="level">Level {item?.level}</div>
+      <div className="level">{`Level ${item?.level}${
+        item?.start.name ? ` - ${item.start.name}` : ""
+      }`}</div>
     </div>
   );
 }

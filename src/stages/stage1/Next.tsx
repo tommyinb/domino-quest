@@ -5,11 +5,11 @@ import { height } from "../../dominos/FollowDomino";
 import { Hint } from "../../dominos/Hint";
 import { NextDomino } from "./NextDomino";
 import { endPosition } from "./start";
-import { useNextClick } from "./useNextClick";
+import { useClick } from "./useClick";
 
 export function Next() {
   const { item } = useContext(SlotContext);
-  const { blocks } = item;
+  const { blocks } = item.build;
 
   const nextPosition = useMemo(
     () =>
@@ -19,7 +19,7 @@ export function Next() {
     [blocks]
   );
 
-  const ending = useNextClick(nextPosition, 0, endPosition);
+  const ending = useClick(nextPosition, 0, endPosition);
 
   return (
     <NextDomino position={nextPosition} rotation={[0, 0, 0]}>

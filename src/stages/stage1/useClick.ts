@@ -4,9 +4,9 @@ import { ControllerContext } from "../../controllers/ControllerContext";
 import { GestureMode } from "../../controllers/gestureMode";
 import { useSetSlotItem } from "../../controllers/useSetSlotItem";
 import { BlockType } from "../../dominos/blockType";
-import { useClick } from "../../scenes/useClick";
+import { useClick as useSceneClick } from "../../scenes/useClick";
 
-export function useNextClick(
+export function useClick(
   nextPosition: Vector3,
   angle: number,
   endPosition: Vector3Tuple
@@ -25,7 +25,7 @@ export function useNextClick(
     [endPosition, nextPosition]
   );
 
-  useClick(
+  useSceneClick(
     useCallback(() => {
       if (gestureMode !== GestureMode.Build) {
         return;
@@ -33,14 +33,17 @@ export function useNextClick(
 
       setSlotItem((item) => ({
         ...item,
-        blocks: [
-          ...item.blocks,
-          {
-            type: ending ? BlockType.Last : BlockType.Middle,
-            position: nextPosition,
-            rotation: new Euler(0, angle, 0),
-          },
-        ],
+        build: {
+          ...item.build,
+          blocks: [
+            ...item.build.blocks,
+            {
+              type: ending ? BlockType.Last : BlockType.Middle,
+              position: nextPosition,
+              rotation: new Euler(0, angle, 0),
+            },
+          ],
+        },
       }));
     }, [angle, ending, gestureMode, nextPosition, setSlotItem])
   );

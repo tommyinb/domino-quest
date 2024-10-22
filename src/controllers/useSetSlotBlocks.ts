@@ -8,11 +8,17 @@ export function useSetSlotBlocks() {
   return useCallback(
     (setter: (blocks: Block[]) => Block[]) => {
       setSlotItem((item) => {
-        const blocks = setter(item.blocks);
-        if (blocks === item.blocks) {
+        const blocks = setter(item.build.blocks);
+        if (blocks === item.build.blocks) {
           return item;
         } else {
-          return { ...item, blocks };
+          return {
+            ...item,
+            build: {
+              ...item.build,
+              blocks,
+            },
+          };
         }
       });
     },

@@ -16,7 +16,9 @@ export function Failure() {
       <div className="content">
         <div className="level">Level {item?.level}</div>
 
-        <div className="description">{item?.start.description}</div>
+        <div className="message">
+          {item?.start.failMessage ?? item?.start.name}
+        </div>
 
         <div
           className="button"

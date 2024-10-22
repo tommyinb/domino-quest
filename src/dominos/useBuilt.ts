@@ -4,7 +4,7 @@ import { BlockType } from "./blockType";
 
 export function useBuilt() {
   const { item } = useContext(SlotContext);
-  const { blocks } = item;
+  const { blocks } = item.build;
 
   return useMemo(
     () => blocks.some((block) => block.type === BlockType.Last),

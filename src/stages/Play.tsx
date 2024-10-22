@@ -9,25 +9,27 @@ import { PlayContext } from "./PlayContext";
 
 export function Play() {
   const { item } = useContext(SlotContext);
+  const { blocks } = item.build;
+
   const lastIndex = useMemo(
-    () => item.blocks.findIndex((block) => block.type === BlockType.Last),
-    [item.blocks]
+    () => blocks.findIndex((block) => block.type === BlockType.Last),
+    [blocks]
   );
 
   const [tippeds, setTippeds] = useState<boolean[]>([]);
   useEffect(() => {
     setTippeds((tippings) => {
-      if (tippings.length < item.blocks.length) {
+      if (tippings.length < blocks.length) {
         return tippings.concat(
-          new Array(item.blocks.length - tippings.length).fill(false)
+          new Array(blocks.length - tippings.length).fill(false)
         );
-      } else if (tippings.length > item.blocks.length) {
-        return tippings.slice(0, item.blocks.length);
+      } else if (tippings.length > blocks.length) {
+        return tippings.slice(0, blocks.length);
       } else {
         return tippings;
       }
     });
-  }, [item.blocks.length]);
+  }, [blocks.length]);
 
   const setSlotState = useSetSlotState();
   useEffect(() => {
@@ -47,7 +49,7 @@ export function Play() {
     <PlayContext.Provider
       value={useMemo(() => ({ tippeds, setTippeds }), [tippeds])}
     >
-      {item.blocks.map((block, index) =>
+      {blocks.map((block, index) =>
         block.type === BlockType.First ? (
           <FirstDomino
             key={index}

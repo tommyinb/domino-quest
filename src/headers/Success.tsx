@@ -19,7 +19,9 @@ export function Success() {
 
       <div className="content">
         <div className="state">Completed</div>
-        <div className="description">{item?.start.description}</div>
+        <div className="message">
+          {item?.start.successMessage ?? item?.start.name}
+        </div>
       </div>
 
       <div

@@ -3,31 +3,31 @@ import { ControllerContext } from "../controllers/ControllerContext";
 import { GestureMode } from "../controllers/gestureMode";
 import { ItemState } from "../controllers/itemState";
 import { useCurrentItem } from "../controllers/useCurrentItem";
-import { useSetCurrentItem } from "../controllers/useSetCurrentItem";
 import "./Footer.css";
 
 export function Footer() {
   const item = useCurrentItem();
-  const setItem = useSetCurrentItem();
 
   const { gestureMode, setGestureMode } = useContext(ControllerContext);
 
   const [retrying, setRetrying] = useState(false);
   useEffect(() => {
     if (retrying) {
-      const timer = setTimeout(() => {
-        setItem((item) => ({
-          ...item,
-          blocks: item.blocks.slice(0, 1),
-          state: ItemState.Building,
-          round: item.round + 1,
-        }));
+      const handlers = item?.build.retryHandlers ?? [];
+      if (handlers) {
+        const timer = setTimeout(() => {
+          for (const handler of handlers) {
+            handler();
+          }
 
-        setGestureMode(GestureMode.Build);
-      }, 1500);
-      return () => clearTimeout(timer);
+          setGestureMode(GestureMode.Build);
+        }, 1500);
+        return () => clearTimeout(timer);
+      } else {
+        setRetrying(false);
+      }
     }
-  }, [retrying, setGestureMode, setItem]);
+  }, [item?.build.retryHandlers, retrying, setGestureMode]);
 
   return (
     <div
@@ -37,27 +37,18 @@ export function Footer() {
     >
       <div className="content">
         <div
-          className={`undo ${
-            (item?.blocks.length ?? 0) > 1 && gestureMode === GestureMode.Build
-              ? "active"
-              : ""
-          }`}
-          onClick={() =>
-            setItem((item) =>
-              item.blocks.length > 1
-                ? {
-                    ...item,
-                    blocks: item.blocks.slice(0, -1),
-                  }
-                : item
-            )
-          }
+          className={`undo ${item?.build.undoHandlers.length ? "active" : ""}`}
+          onClick={() => {
+            for (const handler of item?.build.undoHandlers ?? []) {
+              handler();
+            }
+          }}
         />
 
         <div
-          className={`retry ${(item?.blocks.length ?? 0) > 1 ? "active" : ""} ${
-            retrying ? "loading" : ""
-          }`}
+          className={`retry ${
+            item?.build.retryHandlers.length ? "active" : ""
+          } ${retrying ? "loading" : ""}`}
           onPointerDown={() => setRetrying(true)}
           onPointerOut={() => setRetrying(false)}
           onPointerUp={() => setRetrying(false)}
