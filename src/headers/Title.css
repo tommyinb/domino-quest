@@ -6,6 +6,6 @@
   user-select: none;
 
   &:not(.active) {
-    display: none;
+    opacity: 0;
   }
 }

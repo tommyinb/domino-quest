@@ -1,6 +1,6 @@
 import { PointerEventHandler, useContext, useEffect, useRef } from "react";
-import { GestureHandler } from "./gestureHandler";
 import { SceneContext } from "./SceneContext";
+import { GestureHandler } from "./gestureHandler";
 
 export function useGesture(gestureHandler: GestureHandler) {
   const {

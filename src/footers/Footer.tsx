@@ -1,39 +1,14 @@
-import { useContext, useEffect, useState } from "react";
-import { ControllerContext } from "../controllers/ControllerContext";
-import { GestureMode } from "../controllers/gestureMode";
 import { ItemState } from "../controllers/itemState";
 import { useCurrentItem } from "../controllers/useCurrentItem";
-import { useSetCurrentItem } from "../controllers/useSetCurrentItem";
+import { Build } from "./Build";
 import "./Footer.css";
-import { FooterContext } from "./FooterContext";
+import { Play } from "./Play";
+import { Retry } from "./Retry";
+import { Undo } from "./Undo";
+import { View } from "./View";
 
 export function Footer() {
   const item = useCurrentItem();
-  const setItem = useSetCurrentItem();
-
-  const { undoHandlers, retryHandlers } = useContext(FooterContext);
-
-  const { gestureMode, setGestureMode } = useContext(ControllerContext);
-
-  const [retrying, setRetrying] = useState(false);
-  useEffect(() => {
-    if (retrying) {
-      if (retryHandlers.length) {
-        const timer = setTimeout(() => {
-          for (const handler of retryHandlers) {
-            handler();
-          }
-
-          setGestureMode(GestureMode.Build);
-        }, 1500);
-        return () => clearTimeout(timer);
-      } else {
-        setRetrying(false);
-      }
-    }
-  }, [retryHandlers, retrying, setGestureMode]);
-
-  //TODO change to build mode if multiple clicks in camera mode
 
   return (
     <div
@@ -42,41 +17,13 @@ export function Footer() {
       }`}
     >
       <div className="content">
-        <div
-          className={`undo ${undoHandlers.length ? "active" : ""}`}
-          onClick={() => {
-            for (const handler of undoHandlers) {
-              handler(); //TODO undo more if multiple clicks
-            }
-          }}
-        />
+        <Undo />
+        <Retry />
 
-        <div
-          className={`retry ${retryHandlers.length ? "active" : ""} ${
-            retrying ? "loading" : ""
-          }`}
-          onPointerDown={() => setRetrying(true)}
-          onPointerOut={() => setRetrying(false)}
-          onPointerUp={() => setRetrying(false)}
-          onPointerCancel={() => setRetrying(false)}
-        />
+        <Play />
 
-        <div
-          className="play"
-          onClick={() => {
-            setItem((item) => ({ ...item, state: ItemState.Playing }));
-          }}
-        />
-
-        <div
-          className={`pen ${gestureMode === GestureMode.Build ? "active" : ""}`}
-          onClick={() => setGestureMode(GestureMode.Build)}
-        />
-
-        <div
-          className={`eye ${gestureMode === GestureMode.View ? "active" : ""}`}
-          onClick={() => setGestureMode(GestureMode.View)}
-        />
+        <Build />
+        <View />
       </div>
     </div>
   );

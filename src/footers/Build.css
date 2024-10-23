@@ -1,0 +1,34 @@
+.footers-Build {
+  position: relative;
+  padding: 10px;
+  transition: 0.3s;
+
+  &::before {
+    display: block;
+    width: 24px;
+    height: 24px;
+    background-image: url(./pen.svg);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    content: "";
+  }
+
+  &::after {
+    position: absolute;
+    left: 50%;
+    right: 50%;
+    bottom: 0;
+    height: 2px;
+    background-color: #ff6b6b;
+    content: "";
+  }
+
+  &.active {
+    &::after {
+      left: 5px;
+      right: 5px;
+      transition: 0.3s;
+    }
+  }
+}

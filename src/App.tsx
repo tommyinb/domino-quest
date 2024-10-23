@@ -13,8 +13,6 @@ import { SceneProvider } from "./scenes/SceneProvider";
 function App() {
   return (
     <div className="App">
-      <h1>Domino Quest</h1>
-
       <SceneProvider>
         <ControllerProvider>
           <FooterProvider>
