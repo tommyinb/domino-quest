@@ -53,25 +53,32 @@ export function Next() {
   const setSlotItem = useSetSlotItem();
   const blockNext = useCallback(
     () =>
-      setSlotItem((item) => ({
-        ...item,
-        build: {
-          ...item.build,
-          blocks: [
-            ...item.build.blocks,
-            {
-              type: ending ? BlockType.Last : BlockType.Middle,
-              position: nextPosition,
-              rotation: new Euler(0, angle, 0),
+      setSlotItem((item) => {
+        if (
+          item.build.blocks.some((block) => block.position.equals(nextPosition))
+        ) {
+          return item;
+        } else {
+          return {
+            ...item,
+            build: {
+              ...item.build,
+              blocks: [
+                ...item.build.blocks,
+                {
+                  type: ending ? BlockType.Last : BlockType.Middle,
+                  position: nextPosition,
+                  rotation: new Euler(0, angle, 0),
+                },
+              ],
             },
-          ],
-        },
-      })),
+          };
+        }
+      }),
     [angle, ending, nextPosition, setSlotItem]
   );
 
   const built = useBuilt();
-
   useGesture(
     useCallback(
       (event) => {
