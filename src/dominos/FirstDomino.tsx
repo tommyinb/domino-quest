@@ -9,11 +9,11 @@ import { useSetSlotState } from "../controllers/useSetSlotState";
 import { depth, height, width } from "./FollowDomino";
 import { Hint } from "./Hint";
 import { useBuilt } from "./useBuilt";
-import { useTipping } from "./useTipping";
+import { useTipped } from "./useTipped";
 
 export function FirstDomino({ position, rotation, index }: Props) {
   const ref = useRef<RapierRigidBody>(null);
-  useTipping(ref, index);
+  useTipped(ref, index);
 
   const { item } = useContext(SlotContext);
   const setSlotState = useSetSlotState();

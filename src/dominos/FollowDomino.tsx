@@ -3,15 +3,15 @@ import { Vector3 } from "@react-three/fiber";
 import { RapierRigidBody, RigidBody } from "@react-three/rapier";
 import { useRef } from "react";
 import { Euler } from "three";
-import { useTipping } from "./useTipping";
+import { useTipped } from "./useTipped";
 
 export function FollowDomino({ position, rotation, index }: Props) {
   const ref = useRef<RapierRigidBody>(null);
-  useTipping(ref, index);
+  useTipped(ref, index);
 
   return (
     <group position={position} rotation={rotation}>
-      <RigidBody ref={ref} position={[0, index < 10 ? 1 : 0.5, 0]}>
+      <RigidBody ref={ref} position={[0, 1, 0]} restitution={0}>
         <Box args={[width, height, depth]} position={[0, height / 2, 0]}>
           <meshPhongMaterial color={0x3ebdb4} flatShading={true} />
         </Box>

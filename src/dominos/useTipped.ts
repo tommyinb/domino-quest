@@ -4,8 +4,8 @@ import { RefObject, useContext, useEffect, useState } from "react";
 import { Quaternion, Vector3 as ThreeVector3 } from "three";
 import { PlayContext } from "../stages/PlayContext";
 
-export function useTipping(ref: RefObject<RapierRigidBody>, index: number) {
-  const [tipping, setTipping] = useState(false);
+export function useTipped(ref: RefObject<RapierRigidBody>, index: number) {
+  const [tipped, setTipped] = useState(false);
 
   useFrame(() => {
     if (ref.current) {
@@ -22,24 +22,24 @@ export function useTipping(ref: RefObject<RapierRigidBody>, index: number) {
       const dominoUp = worldUp.clone().applyQuaternion(quaternion);
 
       const dot = dominoUp.dot(worldUp);
-      setTipping(dot < 0.7);
+      setTipped((tipped) => dot < 0.7 || tipped);
     }
   });
 
   const { setTippeds } = useContext(PlayContext);
   useEffect(() => {
-    if (tipping) {
+    if (tipped) {
       setTippeds((oldTippeds) => {
         if (oldTippeds[index]) {
           return oldTippeds;
         } else {
           const newTippeds = [...oldTippeds];
-          newTippeds[index] = tipping;
+          newTippeds[index] = tipped;
           return newTippeds;
         }
       });
     }
-  }, [index, setTippeds, tipping]);
+  }, [index, setTippeds, tipped]);
 
-  return tipping;
+  return tipped;
 }
