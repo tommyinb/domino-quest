@@ -1,8 +1,6 @@
-import { useCallback, useContext, useEffect } from "react";
-import { ItemState } from "../../controllers/itemState";
+import { useContext, useEffect } from "react";
 import { SlotContext } from "../../controllers/SlotContext";
 import { useSetSlotItem } from "../../controllers/useSetSlotItem";
-import { FooterContext } from "../../footers/FooterContext";
 
 export function useRetry(
   setNextAngle: (angle: number) => void,
@@ -12,27 +10,40 @@ export function useRetry(
   const { blocks } = item.build;
 
   const setItem = useSetSlotItem();
-  const handler = useCallback(() => {
+  useEffect(() => {
+    if (blocks.length < 2) {
+      return;
+    }
+
+    const handler = () => {
+      setItem((item) => ({
+        ...item,
+        build: {
+          ...item.build,
+          blocks: blocks.slice(0, 1),
+        },
+      }));
+
+      setNextAngle(firstAngle);
+    };
+
     setItem((item) => ({
       ...item,
       build: {
         ...item.build,
-        blocks: blocks.slice(0, 1),
+        retryHandlers: [...item.build.retryHandlers, handler],
       },
     }));
 
-    setNextAngle(firstAngle);
+    return () =>
+      setItem((item) => ({
+        ...item,
+        build: {
+          ...item.build,
+          retryHandlers: item.build.retryHandlers.filter(
+            (retryHandler) => retryHandler !== handler
+          ),
+        },
+      }));
   }, [blocks, firstAngle, setItem, setNextAngle]);
-
-  const { setRetryHandlers } = useContext(FooterContext);
-  useEffect(() => {
-    if (item.state === ItemState.Building && blocks.length > 1) {
-      setRetryHandlers((handlers) => [...handlers, handler]);
-
-      return () =>
-        setRetryHandlers((handlers) =>
-          handlers.filter((retryHandler) => retryHandler !== handler)
-        );
-    }
-  }, [blocks.length, handler, item.state, setRetryHandlers]);
 }

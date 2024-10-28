@@ -1,15 +1,16 @@
-import { useContext } from "react";
-import { FooterContext } from "./FooterContext";
+import { useCurrentItem } from "../controllers/useCurrentItem";
 import "./Undo.css";
 
 export function Undo() {
-  const { undoHandlers } = useContext(FooterContext);
+  const item = useCurrentItem();
 
   return (
     <div
-      className={`footers-Undo ${undoHandlers.length ? "active" : ""}`}
+      className={`footers-Undo ${
+        item?.build.undoHandlers.length ? "active" : ""
+      }`}
       onClick={() => {
-        for (const handler of undoHandlers) {
+        for (const handler of item?.build.undoHandlers ?? []) {
           handler();
 
           //TODO undo more if multiple clicks

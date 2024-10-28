@@ -1,20 +1,24 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { ControllerContext } from "../controllers/ControllerContext";
 import { GestureMode } from "../controllers/gestureMode";
-import { FooterContext } from "./FooterContext";
+import { useCurrentItem } from "../controllers/useCurrentItem";
 import "./Retry.css";
 
 export function Retry() {
-  const { retryHandlers } = useContext(FooterContext);
+  const item = useCurrentItem();
+  const handlers = useMemo(
+    () => item?.build.retryHandlers ?? [],
+    [item?.build.retryHandlers]
+  );
 
   const { setGestureMode } = useContext(ControllerContext);
 
   const [retrying, setRetrying] = useState(false);
   useEffect(() => {
     if (retrying) {
-      if (retryHandlers.length) {
+      if (handlers) {
         const timer = setTimeout(() => {
-          for (const handler of retryHandlers) {
+          for (const handler of handlers) {
             handler();
           }
 
@@ -25,11 +29,11 @@ export function Retry() {
         setRetrying(false);
       }
     }
-  }, [retryHandlers, retrying, setGestureMode]);
+  }, [handlers, retrying, setGestureMode]);
 
   return (
     <div
-      className={`footers-Retry ${retryHandlers.length ? "active" : ""} ${
+      className={`footers-Retry ${handlers.length ? "active" : ""} ${
         retrying ? "loading" : ""
       }`}
       onPointerDown={() => setRetrying(true)}
