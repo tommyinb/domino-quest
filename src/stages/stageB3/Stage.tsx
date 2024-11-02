@@ -5,16 +5,19 @@ import { DominoType } from "../../blocks/dominoType";
 import { SlotContext } from "../../controllers/SlotContext";
 import { useSetSlotBlocks } from "../../controllers/useSetSlotBlocks";
 import { Play } from "../Play";
-import { Judge } from "../stage1/Judge";
-import { Ground } from "./Ground";
-import { Next } from "./Next";
-import { middlePosition, startPosition } from "./start";
+import { Judge } from "../stageA/Judge";
+import { Ground } from "../stageB2/Ground";
+import { Next } from "../stageB2/Next";
+import { stationPositions } from "./start";
 
 export function Stage() {
   const { item } = useContext(SlotContext);
 
   const setSlotBlocks = useSetSlotBlocks();
   useEffect(() => {
+    const startPosition = stationPositions[0];
+    const secondPosition = stationPositions[1];
+
     setSlotBlocks((blocks) =>
       blocks.length <= 0
         ? [
@@ -25,8 +28,8 @@ export function Stage() {
               rotation: new Euler(
                 0,
                 Math.atan2(
-                  middlePosition[0] - startPosition[0],
-                  middlePosition[2] - startPosition[2]
+                  secondPosition[0] - startPosition[0],
+                  secondPosition[2] - startPosition[2]
                 ),
                 0
               ),
@@ -38,9 +41,9 @@ export function Stage() {
 
   return (
     <>
-      <Ground />
+      <Ground stationPositions={stationPositions} />
 
-      <Next />
+      <Next stationPositions={stationPositions} />
 
       <Play key={item.round}>
         <Judge />

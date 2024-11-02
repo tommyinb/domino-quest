@@ -1,17 +1,20 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useMemo } from "react";
 import { Euler, Vector3 } from "three";
 import { BlockType } from "../../blocks/blockType";
 import { DominoType } from "../../blocks/dominoType";
 import { SlotContext } from "../../controllers/SlotContext";
 import { useSetSlotBlocks } from "../../controllers/useSetSlotBlocks";
 import { Play } from "../Play";
+import { getNextPosition } from "../stageB1/getNextPosition";
+import { getPathParameters } from "./getPathParameters";
 import { Ground } from "./Ground";
 import { Next } from "./Next";
 import { Path } from "./Path";
-import { endPosition, startPosition } from "./start";
 
 export function Stage() {
   const { item } = useContext(SlotContext);
+
+  const { pointX, pointY } = useMemo(getPathParameters, []);
 
   const setSlotBlocks = useSetSlotBlocks();
   useEffect(() => {
@@ -21,19 +24,23 @@ export function Stage() {
             {
               blockType: BlockType.Domino,
               dominoType: DominoType.First,
-              position: new Vector3(...startPosition),
-              rotation: new Euler(0, -Math.PI / 2, 0),
+              position: getNextPosition(
+                new Vector3(-pointX, 0, -pointY),
+                15,
+                Math.PI / 4
+              ),
+              rotation: new Euler(0, Math.PI / 4, 0),
             },
           ]
         : blocks
     );
-  }, [setSlotBlocks]);
+  }, [pointX, pointY, setSlotBlocks]);
 
   return (
     <>
       <Ground />
 
-      <Next stationPositions={[startPosition, endPosition]} />
+      <Next />
 
       <Play key={item.round}>
         <Path />

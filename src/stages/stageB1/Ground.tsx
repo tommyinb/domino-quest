@@ -1,6 +1,6 @@
-import { GroundBridge } from "../stage1/GroundBridge";
-import { GroundDisk } from "../stage1/GroundDisk";
-import { GroundStation } from "../stage1/GroundStation";
+import { GroundBridge } from "../stageA/GroundBridge";
+import { GroundDisk } from "../stageA/GroundDisk";
+import { GroundStation } from "../stageA/GroundStation";
 import { endPosition, middlePosition, startPosition } from "./start";
 
 export function Ground() {

@@ -1,9 +1,10 @@
 import { PropsWithChildren, useMemo, useState } from "react";
-import * as start1 from "../stages/stage1/start";
-import * as start2 from "../stages/stage2/start";
-import * as start3 from "../stages/stage3/start";
-import * as start4 from "../stages/stage4/start";
-import * as start5 from "../stages/stage5/start";
+import * as startA from "../stages/stageA/start";
+import * as startB1 from "../stages/stageB1/start";
+import * as startB2 from "../stages/stageB2/start";
+import * as startB3 from "../stages/stageB3/start";
+import * as startB4 from "../stages/stageB4/start";
+import * as startC from "../stages/stageC/start";
 import { ControllerContext } from "./ControllerContext";
 import { GestureMode } from "./gestureMode";
 import { Item } from "./item";
@@ -12,16 +13,19 @@ import { ItemState } from "./itemState";
 export function ControllerProvider({ children }: PropsWithChildren) {
   const [items, setItems] = useState<Item[]>(() =>
     [
-      { level: 1, start: start1 },
-      { level: 2, start: start2 },
-      { level: 3, start: start3 },
-      { level: 4, start: start4 },
-      { level: 5, start: start5 },
+      { level: 1, start: startA },
+      { level: 2, start: startB1 },
+      { level: 3, start: startB2 },
+      { level: 4, start: startB3 },
+      { level: 5, start: startB4 },
+      { level: 6, start: startC },
     ].map((content) => ({
       ...content,
       state: ItemState.Idle,
       build: {
         blocks: [],
+        availableNexts: [],
+        selectedNext: undefined,
         undoHandlers: [],
         retryHandlers: [],
       },
@@ -29,7 +33,7 @@ export function ControllerProvider({ children }: PropsWithChildren) {
     }))
   );
 
-  const [currentLevel, setCurrentLevel] = useState(5);
+  const [currentLevel, setCurrentLevel] = useState(6);
 
   const [gestureMode, setGestureMode] = useState(GestureMode.Build);
 

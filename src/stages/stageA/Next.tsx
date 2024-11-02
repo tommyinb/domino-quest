@@ -8,17 +8,16 @@ import { SlotContext } from "../../controllers/SlotContext";
 import { NextDomino } from "./NextDomino";
 import { endPosition } from "./start";
 import { useClick } from "./useClick";
+import { useLastPosition } from "./useLastPosition";
 
 export function Next() {
   const { item } = useContext(SlotContext);
   const { blocks } = item.build;
 
+  const lastPosition = useLastPosition();
   const nextPosition = useMemo(
-    () =>
-      (blocks[blocks.length - 1]?.position ?? new Vector3())
-        .clone()
-        .add(new Vector3(0, 0, -25)),
-    [blocks]
+    () => lastPosition.clone().add(new Vector3(0, 0, -25)),
+    [lastPosition]
   );
 
   const built = useBuilt();

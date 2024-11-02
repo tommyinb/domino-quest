@@ -3,6 +3,7 @@ import { OrbitControls } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import { useContext, useState } from "react";
 import { Vector3 } from "three";
+import { SceneContext } from "../scenes/SceneContext";
 import { ControllerContext } from "./ControllerContext";
 import { GestureMode } from "./gestureMode";
 import { slotHeight } from "./getSlotY";
@@ -51,6 +52,8 @@ export function CameraControl() {
 
   const { gestureMode } = useContext(ControllerContext);
 
+  const { debug } = useContext(SceneContext);
+
   return (
     <OrbitControls
       target={[0, targetY.get(), 0]}
@@ -63,6 +66,15 @@ export function CameraControl() {
             currentItem?.state === ItemState.Failure)) ||
           gestureMode === GestureMode.View)
       }
+      onChange={() => {
+        if (debug) {
+          console.log(
+            "camera",
+            camera.position.toArray(),
+            camera.getWorldDirection(new Vector3()).toArray()
+          );
+        }
+      }}
     />
   );
 }

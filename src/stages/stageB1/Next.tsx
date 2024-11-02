@@ -1,5 +1,6 @@
 import { useCallback, useContext, useMemo, useState } from "react";
-import { Euler, Vector3 } from "three";
+import { Euler } from "three";
+import { BlockType } from "../../blocks/blockType";
 import { DominoType } from "../../blocks/dominoType";
 import { height } from "../../blocks/FollowDomino";
 import { Hint } from "../../blocks/Hint";
@@ -9,7 +10,9 @@ import { SlotContext } from "../../controllers/SlotContext";
 import { useSetSlotItem } from "../../controllers/useSetSlotItem";
 import { clicking } from "../../scenes/clicking";
 import { useGesture } from "../../scenes/useGesture";
-import { NextDomino } from "../stage1/NextDomino";
+import { NextDomino } from "../stageA/NextDomino";
+import { useLastPosition } from "../stageA/useLastPosition";
+import { getNextPosition } from "./getNextPosition";
 import { endPosition, middlePosition, startPosition } from "./start";
 
 export function Next() {
@@ -30,14 +33,10 @@ export function Next() {
     [inputSteer]
   );
 
+  const lastPosition = useLastPosition();
   const nextPosition = useMemo(
-    () =>
-      (blocks[blocks.length - 1]?.position ?? new Vector3())
-        .clone()
-        .add(
-          new Vector3(Math.sin(angle), 0, Math.cos(angle)).multiplyScalar(20)
-        ),
-    [angle, blocks]
+    () => getNextPosition(lastPosition, 20, angle),
+    [angle, lastPosition]
   );
 
   const ending = useMemo(
@@ -66,6 +65,7 @@ export function Next() {
               blocks: [
                 ...item.build.blocks,
                 {
+                  blockType: BlockType.Domino,
                   dominoType: ending ? DominoType.Last : DominoType.Middle,
                   position: nextPosition,
                   rotation: new Euler(0, angle, 0),

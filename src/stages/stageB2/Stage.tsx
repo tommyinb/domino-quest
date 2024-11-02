@@ -5,9 +5,9 @@ import { DominoType } from "../../blocks/dominoType";
 import { SlotContext } from "../../controllers/SlotContext";
 import { useSetSlotBlocks } from "../../controllers/useSetSlotBlocks";
 import { Play } from "../Play";
-import { Judge } from "../stage1/Judge";
-import { Ground } from "../stage3/Ground";
-import { Next } from "../stage3/Next";
+import { Judge } from "../stageA/Judge";
+import { Ground } from "./Ground";
+import { Next } from "./Next";
 import { stationPositions } from "./start";
 
 export function Stage() {

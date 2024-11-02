@@ -1,14 +1,14 @@
 import { useMemo } from "react";
-import { Vector3Tuple } from "three";
+import { Vector3 } from "three";
 import { buttonSize } from "./Ground";
 import { endPosition, startPosition } from "./start";
 
 export function usePath() {
   return useMemo(() => {
-    const points = [] as Vector3Tuple[];
+    const points: Vector3[] = [];
 
     const lapCount = 3;
-    const lapStepCount = 64;
+    const lapStepCount = 32;
     const totalStepCount = lapCount * lapStepCount;
     for (let i = totalStepCount; i >= 0; i--) {
       const angle = (i / lapStepCount) * Math.PI * 2 + Math.PI / 2;
@@ -31,9 +31,9 @@ export function usePath() {
         continue;
       }
 
-      points.push([x, 0, z]);
+      points.push(new Vector3(x, 0, z));
     }
 
-    return points;
+    return points.reverse();
   }, []);
 }

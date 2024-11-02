@@ -1,8 +1,8 @@
 import { Fragment } from "react/jsx-runtime";
 import { Vector3Tuple } from "three";
-import { GroundBridge } from "../stage1/GroundBridge";
-import { GroundDisk } from "../stage1/GroundDisk";
-import { GroundStation } from "../stage1/GroundStation";
+import { GroundBridge } from "../stageA/GroundBridge";
+import { GroundDisk } from "../stageA/GroundDisk";
+import { GroundStation } from "../stageA/GroundStation";
 
 export function Ground({ stationPositions }: Props) {
   return (

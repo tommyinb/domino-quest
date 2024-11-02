@@ -9,12 +9,13 @@ export function Play({ block, index }: Props) {
     case BlockType.Domino:
       switch (block.dominoType) {
         case DominoType.First:
-          <FirstDomino
-            position={block.position}
-            rotation={block.rotation}
-            index={index}
-          />;
-          break;
+          return (
+            <FirstDomino
+              position={block.position}
+              rotation={block.rotation}
+              index={index}
+            />
+          );
 
         case DominoType.Middle:
         case DominoType.Last:
@@ -26,7 +27,6 @@ export function Play({ block, index }: Props) {
             />
           );
       }
-      break;
   }
 
   return <></>;

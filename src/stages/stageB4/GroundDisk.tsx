@@ -1,16 +1,13 @@
 import { Cylinder } from "@react-three/drei";
+import { Vector3 } from "@react-three/fiber";
 import { CuboidCollider } from "@react-three/rapier";
-import { GroundButton } from "../stage1/GroundButton";
-import { useGroundMaterial } from "../stage1/useGroundMaterial";
-import { endPosition, startPosition } from "./start";
+import { useGroundMaterial } from "../stageA/useGroundMaterial";
 
-export function Ground() {
-  const size = endPosition[2] + buttonSize + 30;
-
+export function GroundDisk({ position, size }: Props) {
   const groundMaterial = useGroundMaterial();
 
   return (
-    <>
+    <group position={position}>
       <Cylinder
         args={[size, size, 5, 32]}
         position={[0, -2.5, 0]}
@@ -25,12 +22,11 @@ export function Ground() {
           rotation={[0, (index * Math.PI) / 10, 0]}
         />
       ))}
-
-      <GroundButton position={startPosition} size={buttonSize} />
-
-      <GroundButton position={endPosition} size={buttonSize} />
-    </>
+    </group>
   );
 }
 
-export const buttonSize = 20;
+interface Props {
+  position: Vector3;
+  size: number;
+}

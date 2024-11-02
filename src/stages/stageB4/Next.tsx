@@ -1,38 +1,28 @@
 import { useContext, useMemo, useState } from "react";
-import { Vector3, Vector3Tuple } from "three";
+import { Vector3Tuple } from "three";
 import { useBuilt } from "../../blocks/useBuilt";
 import { ItemState } from "../../controllers/itemState";
 import { SlotContext } from "../../controllers/SlotContext";
-import { NextDomino } from "../stage1/NextDomino";
-import { useClick } from "../stage1/useClick";
-import { useGesture } from "../stage3/useGesture";
-import { useRetry } from "../stage3/useRetry";
-import { useUndo } from "../stage3/useUndo";
+import { NextDomino } from "../stageA/NextDomino";
+import { useClick } from "../stageA/useClick";
+import { useLastPosition } from "../stageA/useLastPosition";
+import { getNextPosition } from "../stageB1/getNextPosition";
+import { useGesture } from "../stageB2/useGesture";
+import { useRetry } from "../stageB2/useRetry";
+import { useUndo } from "../stageB2/useUndo";
 
 export function Next({ stationPositions }: Props) {
-  const { item } = useContext(SlotContext);
-  const { blocks } = item.build;
-
   const firstAngle = -(Math.PI / 2 + Math.PI / 18);
   const [nextAngle, setNextAngle] = useState(firstAngle);
   const outputAngle = useMemo(() => nextAngle % (Math.PI * 2), [nextAngle]);
 
-  const direction = useMemo(
-    () =>
-      new Vector3(Math.sin(outputAngle) * 20, 0, Math.cos(outputAngle) * 20),
-    [outputAngle]
-  );
-
   useUndo(setNextAngle, firstAngle);
   useRetry(setNextAngle, firstAngle);
 
-  const lastPosition = useMemo(
-    () => blocks[blocks.length - 1]?.position ?? new Vector3(),
-    [blocks]
-  );
+  const lastPosition = useLastPosition();
   const nextPosition = useMemo(
-    () => lastPosition.clone().add(direction),
-    [direction, lastPosition]
+    () => getNextPosition(lastPosition, 20, outputAngle),
+    [lastPosition, outputAngle]
   );
   useGesture(lastPosition, nextPosition, setNextAngle);
 
@@ -42,7 +32,9 @@ export function Next({ stationPositions }: Props) {
   );
   useClick(nextPosition, outputAngle, endPosition);
 
+  const { item } = useContext(SlotContext);
   const built = useBuilt();
+
   return (
     <>
       {item.state === ItemState.Building && !built && (
