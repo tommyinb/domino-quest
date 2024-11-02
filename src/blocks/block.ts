@@ -1,4 +1,4 @@
-import { Bridge } from "./bridge";
-import { Domino } from "./domino";
+import { BridgeBlock } from "./bridgeBlock";
+import { DominoBlock } from "./dominoBlock";
 
-export type Block = Domino | Bridge;
+export type Block = DominoBlock | BridgeBlock;

@@ -2,7 +2,7 @@ import { Euler, Vector3 } from "three";
 import { BlockType } from "./blockType";
 import { DominoType } from "./dominoType";
 
-export interface Domino {
+export interface DominoBlock {
   blockType: BlockType.Domino;
 
   dominoType: DominoType;

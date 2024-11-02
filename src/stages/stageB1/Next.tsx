@@ -7,7 +7,7 @@ import { Hint } from "../../blocks/Hint";
 import { useBuilt } from "../../blocks/useBuilt";
 import { ItemState } from "../../controllers/itemState";
 import { SlotContext } from "../../controllers/SlotContext";
-import { useSetSlotItem } from "../../controllers/useSetSlotItem";
+import { useSetSlotBlocks } from "../../controllers/useSetSlotBlocks";
 import { clicking } from "../../scenes/clicking";
 import { useGesture } from "../../scenes/useGesture";
 import { NextDomino } from "../stageA/NextDomino";
@@ -49,33 +49,25 @@ export function Next() {
     [nextPosition]
   );
 
-  const setSlotItem = useSetSlotItem();
+  const setBlocks = useSetSlotBlocks();
   const blockNext = useCallback(
     () =>
-      setSlotItem((item) => {
-        if (
-          item.build.blocks.some((block) => block.position.equals(nextPosition))
-        ) {
-          return item;
-        } else {
-          return {
-            ...item,
-            build: {
-              ...item.build,
-              blocks: [
-                ...item.build.blocks,
-                {
-                  blockType: BlockType.Domino,
-                  dominoType: ending ? DominoType.Last : DominoType.Middle,
-                  position: nextPosition,
-                  rotation: new Euler(0, angle, 0),
-                },
-              ],
-            },
-          };
+      setBlocks((blocks) => {
+        if (blocks.some((block) => block.position.equals(nextPosition))) {
+          return blocks;
         }
+
+        return [
+          ...blocks,
+          {
+            blockType: BlockType.Domino,
+            dominoType: ending ? DominoType.Last : DominoType.Middle,
+            position: nextPosition,
+            rotation: new Euler(0, angle, 0),
+          },
+        ];
       }),
-    [angle, ending, nextPosition, setSlotItem]
+    [angle, ending, nextPosition, setBlocks]
   );
 
   const built = useBuilt();

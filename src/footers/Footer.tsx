@@ -3,6 +3,7 @@ import { useCurrentItem } from "../controllers/useCurrentItem";
 import "./Footer.css";
 import { Retry } from "./histories/Retry";
 import { Undo } from "./histories/Undo";
+import { Next } from "./nexts/Next";
 import { Play } from "./plays/Play";
 import { Build } from "./views/Build";
 import { View } from "./views/View";
@@ -17,6 +18,8 @@ export function Footer() {
       }`}
     >
       <div className="content">
+        <Next />
+
         <Undo />
         <Retry />
 

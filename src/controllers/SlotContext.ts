@@ -17,6 +17,8 @@ export const SlotContext = createContext<{
     state: ItemState.Idle,
     build: {
       blocks: [],
+      availableNexts: [],
+      selectedNext: undefined,
       undoHandlers: [],
       retryHandlers: [],
     },

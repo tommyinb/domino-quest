@@ -1,5 +1,6 @@
 import { Block } from "./block";
 import { BlockType } from "./blockType";
+import { Bridge } from "./Bridge";
 import { DominoType } from "./dominoType";
 import { FirstDomino } from "./FirstDomino";
 import { FollowDomino } from "./FollowDomino";
@@ -19,6 +20,7 @@ export function Play({ block, index }: Props) {
 
         case DominoType.Middle:
         case DominoType.Last:
+        default:
           return (
             <FollowDomino
               position={block.position}
@@ -27,9 +29,16 @@ export function Play({ block, index }: Props) {
             />
           );
       }
-  }
 
-  return <></>;
+    case BlockType.Bridge:
+      return (
+        <Bridge
+          position={block.position}
+          rotation={block.rotation}
+          length={block.length}
+        />
+      );
+  }
 }
 
 interface Props {

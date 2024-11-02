@@ -1,7 +1,7 @@
 import { Euler, Vector3 } from "three";
 import { BlockType } from "./blockType";
 
-export interface Bridge {
+export interface BridgeBlock {
   blockType: BlockType.Bridge;
 
   position: Vector3;

@@ -1,27 +1,24 @@
 import { useCallback } from "react";
 import { Block } from "../blocks/block";
-import { useSetSlotItem } from "./useSetSlotItem";
+import { useSetSlotBuild } from "./useSetSlotBuild";
 
 export function useSetSlotBlocks() {
-  const setSlotItem = useSetSlotItem();
+  const setBuild = useSetSlotBuild();
 
   return useCallback(
     (setter: (blocks: Block[]) => Block[]) => {
-      setSlotItem((item) => {
-        const blocks = setter(item.build.blocks);
-        if (blocks === item.build.blocks) {
-          return item;
+      setBuild((build) => {
+        const blocks = setter(build.blocks);
+        if (blocks === build.blocks) {
+          return build;
         } else {
           return {
-            ...item,
-            build: {
-              ...item.build,
-              blocks,
-            },
+            ...build,
+            blocks,
           };
         }
       });
     },
-    [setSlotItem]
+    [setBuild]
   );
 }

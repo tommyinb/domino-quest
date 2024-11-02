@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { SlotContext } from "../../controllers/SlotContext";
-import { useSetSlotItem } from "../../controllers/useSetSlotItem";
+import { useSetSlotBuild } from "../../controllers/useSetSlotBuild";
 
 export function useRetry(
   setNextAngle: (angle: number) => void,
@@ -9,41 +9,32 @@ export function useRetry(
   const { item } = useContext(SlotContext);
   const { blocks } = item.build;
 
-  const setItem = useSetSlotItem();
+  const setBuild = useSetSlotBuild();
   useEffect(() => {
     if (blocks.length < 2) {
       return;
     }
 
     const handler = () => {
-      setItem((item) => ({
-        ...item,
-        build: {
-          ...item.build,
-          blocks: blocks.slice(0, 1),
-        },
+      setBuild((build) => ({
+        ...build,
+        blocks: blocks.slice(0, 1),
       }));
 
       setNextAngle(firstAngle);
     };
 
-    setItem((item) => ({
-      ...item,
-      build: {
-        ...item.build,
-        retryHandlers: [...item.build.retryHandlers, handler],
-      },
+    setBuild((build) => ({
+      ...build,
+      retryHandlers: [...build.retryHandlers, handler],
     }));
 
     return () =>
-      setItem((item) => ({
-        ...item,
-        build: {
-          ...item.build,
-          retryHandlers: item.build.retryHandlers.filter(
-            (retryHandler) => retryHandler !== handler
-          ),
-        },
+      setBuild((build) => ({
+        ...build,
+        retryHandlers: build.retryHandlers.filter(
+          (retryHandler) => retryHandler !== handler
+        ),
       }));
-  }, [blocks, firstAngle, setItem, setNextAngle]);
+  }, [blocks, firstAngle, setBuild, setNextAngle]);
 }

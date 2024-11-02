@@ -1,0 +1,18 @@
+.footers-nexts-NextBlock {
+  position: relative;
+  width: 44px;
+  height: 44px;
+
+  .limit {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    translate: -50% -50%;
+    font-size: 24px;
+
+    &::before {
+      font-size: 16px;
+      content: "x";
+    }
+  }
+}

@@ -1,0 +1,17 @@
+.footers-nexts-Next {
+  position: relative;
+
+  &:not(.active) {
+    display: none;
+  }
+
+  &::after {
+    position: absolute;
+    left: 5px;
+    right: 5px;
+    bottom: 0;
+    height: 2px;
+    background-color: #ff6b6b;
+    content: "";
+  }
+}

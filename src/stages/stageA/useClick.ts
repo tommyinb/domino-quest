@@ -7,7 +7,7 @@ import { ControllerContext } from "../../controllers/ControllerContext";
 import { SlotContext } from "../../controllers/SlotContext";
 import { GestureMode } from "../../controllers/gestureMode";
 import { ItemState } from "../../controllers/itemState";
-import { useSetSlotItem } from "../../controllers/useSetSlotItem";
+import { useSetSlotBlocks } from "../../controllers/useSetSlotBlocks";
 import { useClick as useSceneClick } from "../../scenes/useClick";
 
 export function useClick(
@@ -16,7 +16,6 @@ export function useClick(
   endPosition: Vector3Tuple
 ) {
   const { item } = useContext(SlotContext);
-  const setSlotItem = useSetSlotItem();
 
   const { gestureMode } = useContext(ControllerContext);
 
@@ -32,6 +31,8 @@ export function useClick(
     [endPosition, nextPosition]
   );
 
+  const setBlocks = useSetSlotBlocks();
+
   useSceneClick(
     useCallback(() => {
       if (item.state !== ItemState.Building) {
@@ -46,40 +47,24 @@ export function useClick(
         return false;
       }
 
-      setSlotItem((item) => {
-        if (
-          item.build.blocks.some((block) => block.position.equals(nextPosition))
-        ) {
-          return item;
-        } else {
-          return {
-            ...item,
-            build: {
-              ...item.build,
-              blocks: [
-                ...item.build.blocks,
-                {
-                  blockType: BlockType.Domino,
-                  dominoType: ending ? DominoType.Last : DominoType.Middle,
-                  position: nextPosition,
-                  rotation: new Euler(0, angle, 0),
-                },
-              ],
-            },
-          };
+      setBlocks((blocks) => {
+        if (blocks.some((block) => block.position.equals(nextPosition))) {
+          return blocks;
         }
+
+        return [
+          ...blocks,
+          {
+            blockType: BlockType.Domino,
+            dominoType: ending ? DominoType.Last : DominoType.Middle,
+            position: nextPosition,
+            rotation: new Euler(0, angle, 0),
+          },
+        ];
       });
 
       return true;
-    }, [
-      angle,
-      built,
-      ending,
-      gestureMode,
-      item.state,
-      nextPosition,
-      setSlotItem,
-    ])
+    }, [angle, built, ending, gestureMode, item.state, nextPosition, setBlocks])
   );
 
   return ending;

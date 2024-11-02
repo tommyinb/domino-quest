@@ -1,46 +1,50 @@
-import { useContext, useMemo, useState } from "react";
-import { Vector3Tuple } from "three";
-import { useBuilt } from "../../blocks/useBuilt";
-import { ItemState } from "../../controllers/itemState";
+import { useContext, useEffect, useState } from "react";
+import { BlockType } from "../../blocks/blockType";
 import { SlotContext } from "../../controllers/SlotContext";
-import { NextDomino } from "../stageA/NextDomino";
-import { useClick } from "../stageA/useClick";
-import { useLastPosition } from "../stageA/useLastPosition";
-import { getNextPosition } from "../stageB1/getNextPosition";
-import { useGesture } from "../stageB2/useGesture";
+import { useSetSlotBuild } from "../../controllers/useSetSlotBuild";
 import { useRetry } from "../stageB2/useRetry";
 import { useUndo } from "../stageB2/useUndo";
-import { getPathParameters } from "./getPathParameters";
+import { NextBridge } from "./NextBridge";
+import { NextDomino } from "./NextDomino";
 
 export function Next() {
+  const { item } = useContext(SlotContext);
+  const blockType = item.build.selectedNext?.blockType ?? BlockType.Domino;
+
+  const setBuild = useSetSlotBuild();
+  useEffect(
+    () =>
+      setBuild((build) => {
+        if (build.availableNexts.length > 0 && build.selectedNext) {
+          return build;
+        } else {
+          const domino = { blockType: BlockType.Domino, limit: undefined };
+          const bridge = { blockType: BlockType.Bridge, limit: undefined };
+
+          return {
+            ...build,
+            availableNexts: [domino, bridge],
+            selectedNext: domino,
+          };
+        }
+      }),
+    [setBuild]
+  );
+
   const firstAngle = Math.PI / 4;
   const [nextAngle, setNextAngle] = useState(firstAngle);
-  const outputAngle = useMemo(() => nextAngle % (Math.PI * 2), [nextAngle]);
 
   useUndo(setNextAngle, firstAngle);
   useRetry(setNextAngle, firstAngle);
 
-  const lastPosition = useLastPosition();
-  const nextPosition = useMemo(
-    () => getNextPosition(lastPosition, 20, outputAngle),
-    [lastPosition, outputAngle]
-  );
-  useGesture(lastPosition, nextPosition, setNextAngle);
-
-  const { pointX, pointY } = useMemo(getPathParameters, []);
-  const endPosition = useMemo<Vector3Tuple>(
-    () => [-pointX, 0, -pointY],
-    [pointX, pointY]
-  );
-  useClick(nextPosition, outputAngle, endPosition);
-
-  const { item } = useContext(SlotContext);
-  const built = useBuilt();
-
   return (
     <>
-      {item.state === ItemState.Building && !built && (
-        <NextDomino position={nextPosition} rotation={[0, outputAngle, 0]} />
+      {blockType === BlockType.Domino && (
+        <NextDomino nextAngle={nextAngle} setNextAngle={setNextAngle} />
+      )}
+
+      {blockType === BlockType.Bridge && (
+        <NextBridge nextAngle={nextAngle} setNextAngle={setNextAngle} />
       )}
     </>
   );
