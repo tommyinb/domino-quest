@@ -5,10 +5,8 @@ import {
   useMemo,
   useState,
 } from "react";
+import { Play as BlockPlay } from "../blocks/Play";
 import { SlotContext } from "../controllers/SlotContext";
-import { BlockType } from "../dominos/blockType";
-import { FirstDomino } from "../dominos/FirstDomino";
-import { FollowDomino } from "../dominos/FollowDomino";
 import { PlayContext } from "./PlayContext";
 
 export function Play({ children }: PropsWithChildren) {
@@ -17,15 +15,15 @@ export function Play({ children }: PropsWithChildren) {
 
   const [tippeds, setTippeds] = useState<boolean[]>([]);
   useEffect(() => {
-    setTippeds((tippings) => {
-      if (tippings.length < blocks.length) {
-        return tippings.concat(
-          new Array(blocks.length - tippings.length).fill(false)
+    setTippeds((tippeds) => {
+      if (tippeds.length < blocks.length) {
+        return tippeds.concat(
+          new Array(blocks.length - tippeds.length).fill(false)
         );
-      } else if (tippings.length > blocks.length) {
-        return tippings.slice(0, blocks.length);
+      } else if (tippeds.length > blocks.length) {
+        return tippeds.slice(0, blocks.length);
       } else {
-        return tippings;
+        return tippeds;
       }
     });
   }, [blocks.length]);
@@ -34,23 +32,9 @@ export function Play({ children }: PropsWithChildren) {
     <PlayContext.Provider
       value={useMemo(() => ({ tippeds, setTippeds }), [tippeds])}
     >
-      {blocks.map((block, index) =>
-        block.type === BlockType.First ? (
-          <FirstDomino
-            key={index}
-            position={block.position}
-            rotation={block.rotation}
-            index={index}
-          />
-        ) : (
-          <FollowDomino
-            key={index}
-            position={block.position}
-            rotation={block.rotation}
-            index={index}
-          />
-        )
-      )}
+      {blocks.map((block, index) => (
+        <BlockPlay key={index} block={block} index={index} />
+      ))}
 
       {children}
     </PlayContext.Provider>

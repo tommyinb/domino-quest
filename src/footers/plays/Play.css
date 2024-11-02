@@ -1,4 +1,5 @@
-.footers-Undo {
+.footers-plays-Play {
+  position: relative;
   padding: 10px;
   transition: 0.3s;
 
@@ -6,15 +7,16 @@
     display: block;
     width: 24px;
     height: 24px;
-    background-image: url(./undo.svg);
+    background-image: url(./play.svg);
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
     content: "";
   }
 
-  &:not(.active) {
-    opacity: 0.2;
-    pointer-events: none;
+  .hint {
+    position: absolute;
+    bottom: calc(100% + 5px);
+    left: 30%;
   }
 }

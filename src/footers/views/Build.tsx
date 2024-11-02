@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import { ControllerContext } from "../controllers/ControllerContext";
-import { GestureMode } from "../controllers/gestureMode";
+import { ControllerContext } from "../../controllers/ControllerContext";
+import { GestureMode } from "../../controllers/gestureMode";
 import "./Build.css";
 
 export function Build() {
@@ -8,7 +8,7 @@ export function Build() {
 
   return (
     <div
-      className={`footers-Build ${
+      className={`footers-views-Build ${
         gestureMode === GestureMode.Build ? "active" : ""
       }`}
       onClick={() => setGestureMode(GestureMode.Build)}

@@ -1,12 +1,12 @@
 import { useCallback, useContext, useMemo, useState } from "react";
 import { Euler, Vector3 } from "three";
+import { DominoType } from "../../blocks/dominoType";
+import { height } from "../../blocks/FollowDomino";
+import { Hint } from "../../blocks/Hint";
+import { useBuilt } from "../../blocks/useBuilt";
 import { ItemState } from "../../controllers/itemState";
 import { SlotContext } from "../../controllers/SlotContext";
 import { useSetSlotItem } from "../../controllers/useSetSlotItem";
-import { BlockType } from "../../dominos/blockType";
-import { height } from "../../dominos/FollowDomino";
-import { Hint } from "../../dominos/Hint";
-import { useBuilt } from "../../dominos/useBuilt";
 import { clicking } from "../../scenes/clicking";
 import { useGesture } from "../../scenes/useGesture";
 import { NextDomino } from "../stage1/NextDomino";
@@ -66,7 +66,7 @@ export function Next() {
               blocks: [
                 ...item.build.blocks,
                 {
-                  type: ending ? BlockType.Last : BlockType.Middle,
+                  dominoType: ending ? DominoType.Last : DominoType.Middle,
                   position: nextPosition,
                   rotation: new Euler(0, angle, 0),
                 },

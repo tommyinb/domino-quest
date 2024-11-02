@@ -1,11 +1,11 @@
 import { ItemState } from "../controllers/itemState";
 import { useCurrentItem } from "../controllers/useCurrentItem";
-import { Build } from "./Build";
 import "./Footer.css";
-import { Play } from "./Play";
-import { Retry } from "./Retry";
-import { Undo } from "./Undo";
-import { View } from "./View";
+import { Retry } from "./histories/Retry";
+import { Undo } from "./histories/Undo";
+import { Play } from "./plays/Play";
+import { Build } from "./views/Build";
+import { View } from "./views/View";
 
 export function Footer() {
   const item = useCurrentItem();

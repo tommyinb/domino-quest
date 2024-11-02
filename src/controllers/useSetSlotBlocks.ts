@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { Block } from "../dominos/block";
+import { Block } from "../blocks/block";
 import { useSetSlotItem } from "./useSetSlotItem";
 
 export function useSetSlotBlocks() {

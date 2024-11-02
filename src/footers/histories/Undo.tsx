@@ -1,4 +1,4 @@
-import { useCurrentItem } from "../controllers/useCurrentItem";
+import { useCurrentItem } from "../../controllers/useCurrentItem";
 import "./Undo.css";
 
 export function Undo() {
@@ -6,7 +6,7 @@ export function Undo() {
 
   return (
     <div
-      className={`footers-Undo ${
+      className={`footers-histories-Undo ${
         item?.build.undoHandlers.length ? "active" : ""
       }`}
       onClick={() => {

@@ -1,5 +1,4 @@
-.footers-Play {
-  position: relative;
+.footers-histories-Undo {
   padding: 10px;
   transition: 0.3s;
 
@@ -7,16 +6,15 @@
     display: block;
     width: 24px;
     height: 24px;
-    background-image: url(./play.svg);
+    background-image: url(./undo.svg);
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
     content: "";
   }
 
-  .hint {
-    position: absolute;
-    bottom: calc(100% + 5px);
-    left: 30%;
+  &:not(.active) {
+    opacity: 0.2;
+    pointer-events: none;
   }
 }

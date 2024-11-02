@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
-import { ControllerContext } from "../controllers/ControllerContext";
-import { GestureMode } from "../controllers/gestureMode";
-import { useCurrentItem } from "../controllers/useCurrentItem";
-import { Hint } from "./Hint";
+import { ControllerContext } from "../../controllers/ControllerContext";
+import { GestureMode } from "../../controllers/gestureMode";
+import { useCurrentItem } from "../../controllers/useCurrentItem";
+import { Hint } from "../plays/Hint";
 import "./View.css";
 
 export function View() {
@@ -16,7 +16,7 @@ export function View() {
 
   return (
     <div
-      className={`footers-View ${
+      className={`footers-views-View ${
         gestureMode === GestureMode.View ? "active" : ""
       }`}
       onClick={() => {

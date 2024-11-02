@@ -1,4 +1,4 @@
-.dominos-Hint {
+.blocks-Hint {
   font-size: min(8vw, 5vh);
   line-height: min(8vw, 5vh);
   color: white;
@@ -17,11 +17,11 @@
     position: absolute;
     bottom: 0;
     right: 0;
-    animation: dominos-Hint-arrow 0.3s infinite alternate;
+    animation: blocks-Hint-arrow 0.3s infinite alternate;
   }
 }
 
-@keyframes dominos-Hint-arrow {
+@keyframes blocks-Hint-arrow {
   0% {
     transform: translateY(0);
   }

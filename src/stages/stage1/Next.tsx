@@ -1,10 +1,10 @@
 import { useContext, useMemo } from "react";
 import { Vector3 } from "three";
+import { height } from "../../blocks/FollowDomino";
+import { Hint } from "../../blocks/Hint";
+import { useBuilt } from "../../blocks/useBuilt";
 import { ItemState } from "../../controllers/itemState";
 import { SlotContext } from "../../controllers/SlotContext";
-import { height } from "../../dominos/FollowDomino";
-import { Hint } from "../../dominos/Hint";
-import { useBuilt } from "../../dominos/useBuilt";
 import { NextDomino } from "./NextDomino";
 import { endPosition } from "./start";
 import { useClick } from "./useClick";

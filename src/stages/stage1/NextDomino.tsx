@@ -1,9 +1,9 @@
 import { Box, Line } from "@react-three/drei";
 import { Euler, useFrame, Vector3 } from "@react-three/fiber";
 import { PropsWithChildren, useContext, useState } from "react";
+import { depth, height, width } from "../../blocks/FollowDomino";
 import { ControllerContext } from "../../controllers/ControllerContext";
 import { GestureMode } from "../../controllers/gestureMode";
-import { depth, height, width } from "../../dominos/FollowDomino";
 
 export function NextDomino({ position, rotation, children }: Props) {
   const { gestureMode } = useContext(ControllerContext);

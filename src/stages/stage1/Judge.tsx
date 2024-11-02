@@ -1,8 +1,8 @@
 import { useContext, useEffect } from "react";
+import { DominoType } from "../../blocks/dominoType";
 import { ItemState } from "../../controllers/itemState";
 import { SlotContext } from "../../controllers/SlotContext";
 import { useSetSlotState } from "../../controllers/useSetSlotState";
-import { BlockType } from "../../dominos/blockType";
 import { PlayContext } from "../PlayContext";
 
 export function Judge() {
@@ -17,7 +17,8 @@ export function Judge() {
     if (item.state === ItemState.Playing) {
       if (
         blocks.some(
-          (block, index) => block.type === BlockType.Last && tippeds[index]
+          (block, index) =>
+            block.dominoType === DominoType.Last && tippeds[index]
         )
       ) {
         setSlotState(ItemState.Success);

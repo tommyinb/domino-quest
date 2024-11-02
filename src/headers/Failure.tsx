@@ -1,8 +1,8 @@
 import { useMemo } from "react";
+import { DominoType } from "../blocks/dominoType";
 import { ItemState } from "../controllers/itemState";
 import { useCurrentItem } from "../controllers/useCurrentItem";
 import { useSetCurrentItem } from "../controllers/useSetCurrentItem";
-import { BlockType } from "../dominos/blockType";
 import "./Failure.css";
 
 export function Failure() {
@@ -10,7 +10,8 @@ export function Failure() {
   const setItem = useSetCurrentItem();
 
   const built = useMemo(
-    () => item?.build.blocks.some((block) => block.type === BlockType.Last),
+    () =>
+      item?.build.blocks.some((block) => block.dominoType === DominoType.Last),
     [item?.build.blocks]
   );
 

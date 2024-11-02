@@ -1,7 +1,7 @@
 import { useFrame } from "@react-three/fiber";
 import { useMemo } from "react";
 import { Color, MeshPhongMaterial } from "three";
-import { useBuilt } from "../../dominos/useBuilt";
+import { useBuilt } from "../../blocks/useBuilt";
 
 export function useButtonMaterial() {
   const material = useMemo(() => {

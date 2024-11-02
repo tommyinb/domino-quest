@@ -1,12 +1,12 @@
 import { useThree } from "@react-three/fiber";
 import { Dispatch, SetStateAction, useCallback, useContext } from "react";
 import { Vector2, Vector3 } from "three";
+import { useBuilt } from "../../blocks/useBuilt";
 import { ControllerContext } from "../../controllers/ControllerContext";
 import { GestureMode } from "../../controllers/gestureMode";
 import { getSlotY } from "../../controllers/getSlotY";
 import { ItemState } from "../../controllers/itemState";
 import { SlotContext } from "../../controllers/SlotContext";
-import { useBuilt } from "../../dominos/useBuilt";
 import { clicking } from "../../scenes/clicking";
 import { useGesture as useSceneGesture } from "../../scenes/useGesture";
 

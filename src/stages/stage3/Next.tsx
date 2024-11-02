@@ -1,8 +1,8 @@
 import { useContext, useMemo, useState } from "react";
 import { Vector3, Vector3Tuple } from "three";
+import { useBuilt } from "../../blocks/useBuilt";
 import { ItemState } from "../../controllers/itemState";
 import { SlotContext } from "../../controllers/SlotContext";
-import { useBuilt } from "../../dominos/useBuilt";
 import { NextDomino } from "../stage1/NextDomino";
 import { useClick } from "../stage1/useClick";
 import { useGesture } from "./useGesture";

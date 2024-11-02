@@ -5,7 +5,7 @@ import "./Hint.css";
 
 export function Hint({ position, children }: Props) {
   return (
-    <Html className="dominos-Hint" position={position}>
+    <Html className="blocks-Hint" position={position}>
       <div className="content">{children}</div>
       <div className="arrow">v</div>
     </Html>

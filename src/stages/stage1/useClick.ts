@@ -1,12 +1,13 @@
 import { useCallback, useContext, useMemo } from "react";
 import { Euler, Vector3, Vector3Tuple } from "three";
+import { BlockType } from "../../blocks/blockType";
+import { DominoType } from "../../blocks/dominoType";
+import { useBuilt } from "../../blocks/useBuilt";
 import { ControllerContext } from "../../controllers/ControllerContext";
 import { SlotContext } from "../../controllers/SlotContext";
 import { GestureMode } from "../../controllers/gestureMode";
 import { ItemState } from "../../controllers/itemState";
 import { useSetSlotItem } from "../../controllers/useSetSlotItem";
-import { BlockType } from "../../dominos/blockType";
-import { useBuilt } from "../../dominos/useBuilt";
 import { useClick as useSceneClick } from "../../scenes/useClick";
 
 export function useClick(
@@ -58,7 +59,8 @@ export function useClick(
               blocks: [
                 ...item.build.blocks,
                 {
-                  type: ending ? BlockType.Last : BlockType.Middle,
+                  blockType: BlockType.Domino,
+                  dominoType: ending ? DominoType.Last : DominoType.Middle,
                   position: nextPosition,
                   rotation: new Euler(0, angle, 0),
                 },

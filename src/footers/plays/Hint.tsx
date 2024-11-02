@@ -3,7 +3,7 @@ import "./Hint.css";
 
 export function Hint({ className, children }: Props) {
   return (
-    <div className={`footers-Hint ${className}`}>
+    <div className={`footers-plays-Hint ${className}`}>
       <div className="content">{children}</div>
       <div className="arrow">v</div>
     </div>

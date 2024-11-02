@@ -1,7 +1,7 @@
 import { useContext, useEffect, useMemo, useState } from "react";
-import { ControllerContext } from "../controllers/ControllerContext";
-import { GestureMode } from "../controllers/gestureMode";
-import { useCurrentItem } from "../controllers/useCurrentItem";
+import { ControllerContext } from "../../controllers/ControllerContext";
+import { GestureMode } from "../../controllers/gestureMode";
+import { useCurrentItem } from "../../controllers/useCurrentItem";
 import "./Retry.css";
 
 export function Retry() {
@@ -33,7 +33,7 @@ export function Retry() {
 
   return (
     <div
-      className={`footers-Retry ${handlers.length ? "active" : ""} ${
+      className={`footers-histories-Retry ${handlers.length ? "active" : ""} ${
         retrying ? "loading" : ""
       }`}
       onPointerDown={() => setRetrying(true)}

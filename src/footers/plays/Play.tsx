@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { ItemState } from "../controllers/itemState";
-import { useCurrentItem } from "../controllers/useCurrentItem";
-import { useSetCurrentItem } from "../controllers/useSetCurrentItem";
+import { ItemState } from "../../controllers/itemState";
+import { useCurrentItem } from "../../controllers/useCurrentItem";
+import { useSetCurrentItem } from "../../controllers/useSetCurrentItem";
 import { Hint } from "./Hint";
 import "./Play.css";
 
@@ -13,7 +13,7 @@ export function Play() {
 
   return (
     <div
-      className="footers-Play"
+      className="footers-plays-Play"
       onClick={() => {
         setItem((item) => ({ ...item, state: ItemState.Playing }));
 
