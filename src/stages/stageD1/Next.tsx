@@ -5,7 +5,7 @@ import { NextBridge } from "./NextBridge";
 import { NextDomino } from "./NextDomino";
 
 export function Next() {
-  const firstAngle = Math.PI / 4;
+  const firstAngle = Math.PI / 2;
   const [nextAngle, setNextAngle] = useState(firstAngle);
 
   useUndo(setNextAngle, firstAngle);

@@ -46,7 +46,7 @@ export function Scene({ children }: PropsWithChildren) {
         }
       }}
     >
-      <fog attach="fog" args={[0xf7d9aa, 100, 950]} />
+      <fog attach="fog" args={[0xf7d9aa, 400, 1200]} />
 
       {debug && <axesHelper args={[10]} />}
 
