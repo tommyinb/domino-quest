@@ -5,13 +5,47 @@
     display: none;
   }
 
+  .items {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    overflow: hidden;
+
+    .item {
+      position: absolute;
+      top: 0;
+      transition: 0.3s;
+
+      &.left {
+        transform: translateX(-100%);
+      }
+
+      &.right {
+        transform: translateX(100%);
+      }
+    }
+  }
+
   &::after {
     position: absolute;
     left: 5px;
     right: 5px;
     bottom: 0;
     height: 2px;
-    background-color: #ff6b6b;
+    background-color: #dcc;
     content: "";
+    transition: 0.3s;
+  }
+
+  &.enabled {
+    &::after {
+      background-color: #ff6b6b;
+    }
+  }
+
+  .hint {
+    position: absolute;
+    bottom: calc(100% + 5px);
+    left: 40%;
   }
 }

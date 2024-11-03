@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { ControllerContext } from "../../controllers/ControllerContext";
 import { GestureMode } from "../../controllers/gestureMode";
 import { useCurrentItem } from "../../controllers/useCurrentItem";
+import * as startB4 from "../../stages/stageB4/start";
 import { Hint } from "../plays/Hint";
 import "./View.css";
 
@@ -25,7 +26,7 @@ export function View() {
         setUsed(true);
       }}
     >
-      {!used && item?.level === 5 && item.build.blocks.length >= 20 && (
+      {!used && item?.start === startB4 && item.build.blocks.length >= 20 && (
         <Hint className="hint">Change the view angle</Hint>
       )}
     </div>

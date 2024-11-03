@@ -1,7 +1,7 @@
 import { Canvas } from "@react-three/fiber";
 import { PropsWithChildren } from "react";
 
-export function Scene({ children }: PropsWithChildren) {
+export function PreviewScene({ children }: PropsWithChildren) {
   return (
     <Canvas
       camera={{

@@ -1,18 +1,17 @@
-import { BlockType } from "../../blocks/blockType";
+import { ItemBuildNext } from "../../controllers/itemBuildNext";
 import "./NextBlock.css";
 import { Preview } from "./Preview";
 
-export function NextBlock({ blockType, limit }: Props) {
+export function NextBlock({ item }: Props) {
   return (
-    <div className="footers-nexts-NextBlock">
-      <Preview blockType={blockType} />
+    <div className={`footers-nexts-NextBlock ${item.enabled ? "active" : ""}`}>
+      <Preview blockType={item.blockType} />
 
-      {limit && <div className="limit">{limit}</div>}
+      {item.limit && <div className="limit">{item.limit}</div>}
     </div>
   );
 }
 
 interface Props {
-  blockType: BlockType;
-  limit: number | undefined;
+  item: ItemBuildNext;
 }

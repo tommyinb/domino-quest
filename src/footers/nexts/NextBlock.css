@@ -3,6 +3,10 @@
   width: 44px;
   height: 44px;
 
+  &:not(.active) {
+    filter: grayscale(80%);
+  }
+
   .limit {
     position: absolute;
     left: 50%;

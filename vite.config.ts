@@ -4,4 +4,5 @@ import { defineConfig } from "vite";
 export default defineConfig({
   base: "/domino-quest",
   plugins: [react()],
+  assetsInclude: ["**/*.glb"],
 });

@@ -25,16 +25,20 @@ export function Slot({ item }: Props) {
     }
   }, [currentLevel, item, setItems]);
 
+  const y = useMemo(() => getSlotY(item.level), [item.level]);
+
   const { debug } = useContext(SceneContext);
 
   return (
-    <animated.group position-y={getSlotY(item.level)}>
+    <animated.group position-y={y}>
       <SlotContext.Provider value={useMemo(() => ({ item }), [item])}>
         {Math.abs(item.level - currentLevel) <= 1 && (
           <item.start.stageElement />
         )}
 
         {debug && <Html>{item.state}</Html>}
+
+        {debug && <axesHelper args={[10]} />}
       </SlotContext.Provider>
     </animated.group>
   );

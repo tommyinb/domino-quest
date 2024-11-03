@@ -31,16 +31,6 @@ export function Stage() {
               ),
               rotation: new Euler(0, Math.PI / 4, 0),
             },
-            {
-              blockType: BlockType.Bridge,
-              position: getNextPosition(
-                new Vector3(-pointX, 0, -pointY),
-                43 + 50,
-                Math.PI / 4
-              ),
-              rotation: new Euler(0, Math.PI / 4, 0),
-              length: 100,
-            },
           ]
         : blocks
     );

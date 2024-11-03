@@ -8,22 +8,32 @@ export function useTipped(ref: RefObject<RapierRigidBody>, index: number) {
   const [tipped, setTipped] = useState(false);
 
   useFrame(() => {
-    if (ref.current) {
-      const worldUp = new ThreeVector3(0, 1, 0);
-
-      const rotation = ref.current.rotation();
-      const quaternion = new Quaternion(
-        rotation.x,
-        rotation.y,
-        rotation.z,
-        rotation.w
-      );
-
-      const dominoUp = worldUp.clone().applyQuaternion(quaternion);
-
-      const dot = dominoUp.dot(worldUp);
-      setTipped((tipped) => dot < 0.7 || tipped);
+    if (!ref.current) {
+      return;
     }
+
+    if (tipped) {
+      return;
+    }
+
+    const worldUp = new ThreeVector3(0, 1, 0);
+
+    const rotation = ref.current.rotation();
+    const quaternion = new Quaternion(
+      rotation.x,
+      rotation.y,
+      rotation.z,
+      rotation.w
+    );
+
+    const dominoUp = worldUp.clone().applyQuaternion(quaternion);
+
+    const dot = dominoUp.dot(worldUp);
+    if (dot >= 0.9) {
+      return;
+    }
+
+    setTipped(true);
   });
 
   const { setTippeds } = useContext(PlayContext);

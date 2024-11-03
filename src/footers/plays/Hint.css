@@ -1,6 +1,6 @@
 .footers-plays-Hint {
-  font-size: min(5vw, 4vh);
-  line-height: min(5vw, 2vh);
+  font-size: min(8vw, 6vh);
+  line-height: min(8vw, 3vh);
   text-align: center;
   translate: -50% 0;
   pointer-events: none;

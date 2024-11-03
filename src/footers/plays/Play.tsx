@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ItemState } from "../../controllers/itemState";
 import { useCurrentItem } from "../../controllers/useCurrentItem";
 import { useSetCurrentItem } from "../../controllers/useSetCurrentItem";
+import * as startB4 from "../../stages/stageB4/start";
 import { Hint } from "./Hint";
 import "./Play.css";
 
@@ -21,7 +22,7 @@ export function Play() {
       }}
     >
       {!used &&
-        item?.level === 5 &&
+        item?.start === startB4 &&
         item.build.blocks.length >= 10 &&
         item.build.blocks.length < 20 && (
           <Hint className="hint">Play to get a preview</Hint>

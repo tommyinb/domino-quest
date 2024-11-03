@@ -1,15 +1,13 @@
-import { Box, Line } from "@react-three/drei";
-import { Euler, useFrame, Vector3 } from "@react-three/fiber";
-import { PropsWithChildren, useContext, useState } from "react";
+import { Box } from "@react-three/drei";
+import { Euler, Vector3 } from "@react-three/fiber";
+import { PropsWithChildren, useContext } from "react";
 import { depth, height, width } from "../../blocks/FollowDomino";
 import { ControllerContext } from "../../controllers/ControllerContext";
 import { GestureMode } from "../../controllers/gestureMode";
+import { Selection } from "./Selection";
 
 export function NextDomino({ position, rotation, children }: Props) {
   const { gestureMode } = useContext(ControllerContext);
-
-  const [dashOffset, setDashOffset] = useState(0);
-  useFrame(({ clock }) => setDashOffset(clock.getElapsedTime()));
 
   return (
     <group position={position} rotation={rotation}>
@@ -19,20 +17,11 @@ export function NextDomino({ position, rotation, children }: Props) {
         </Box>
       )}
 
-      <Line
-        points={[
-          [-width / 2, 0.1, -depth / 2],
-          [width / 2, 0.1, -depth / 2],
-          [width / 2, 0.1, depth / 2],
-          [-width / 2, 0.1, depth / 2],
-          [-width / 2, 0.1, -depth / 2],
-        ]}
+      <Selection
+        width={width}
+        depth={depth}
         position={[0, 0.5, 0]}
         color={0x4ecdc4}
-        dashed={true}
-        dashScale={1}
-        dashOffset={dashOffset}
-        lineWidth={2}
       />
 
       {children}

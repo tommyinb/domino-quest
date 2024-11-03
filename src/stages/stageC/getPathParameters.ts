@@ -1,5 +1,5 @@
 export function getPathParameters() {
-  const centerX = 130;
+  const centerX = 125;
 
   const pointY = centerX * 0.5;
 

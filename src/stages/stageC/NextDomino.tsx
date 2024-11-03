@@ -1,39 +1,16 @@
-import { Dispatch, SetStateAction, useContext, useMemo } from "react";
-import { Vector3Tuple } from "three";
-import { useBuilt } from "../../blocks/useBuilt";
-import { ItemState } from "../../controllers/itemState";
-import { SlotContext } from "../../controllers/SlotContext";
-import { NextDomino as NextDominoA } from "../stageA/NextDomino";
-import { useClick } from "../stageA/useClick";
-import { useLastPosition } from "../stageA/useLastPosition";
-import { getNextPosition } from "../stageB1/getNextPosition";
-import { useGesture } from "../stageB2/useGesture";
-import { getPathParameters } from "./getPathParameters";
+import { Dispatch, SetStateAction } from "react";
+import { NextDominoBridge } from "./NextDominoBridge";
+import { NextDominoGround } from "./NextDominoGround";
+import { useDominoBuildNext } from "./useDominoBuildNext";
 
 export function NextDomino({ nextAngle, setNextAngle }: Props) {
-  const outputAngle = useMemo(() => nextAngle % (Math.PI * 2), [nextAngle]);
-  const lastPosition = useLastPosition();
-  const nextPosition = useMemo(
-    () => getNextPosition(lastPosition, 20, outputAngle),
-    [lastPosition, outputAngle]
-  );
-  useGesture(lastPosition, nextPosition, setNextAngle);
-
-  const { pointX, pointY } = useMemo(getPathParameters, []);
-  const endPosition = useMemo<Vector3Tuple>(
-    () => [-pointX, 0, -pointY],
-    [pointX, pointY]
-  );
-  useClick(nextPosition, outputAngle, endPosition);
-
-  const { item } = useContext(SlotContext);
-  const built = useBuilt();
+  useDominoBuildNext();
 
   return (
     <>
-      {item.state === ItemState.Building && !built && (
-        <NextDominoA position={nextPosition} rotation={[0, outputAngle, 0]} />
-      )}
+      <NextDominoBridge />
+
+      <NextDominoGround nextAngle={nextAngle} setNextAngle={setNextAngle} />
     </>
   );
 }
