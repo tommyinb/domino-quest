@@ -1,4 +1,5 @@
 import { useContext, useEffect } from "react";
+import { BlockType } from "../../blocks/blockType";
 import { DominoType } from "../../blocks/dominoType";
 import { ItemState } from "../../controllers/itemState";
 import { SlotContext } from "../../controllers/SlotContext";
@@ -18,7 +19,9 @@ export function Judge() {
       if (
         blocks.some(
           (block, index) =>
-            block.dominoType === DominoType.Last && tippeds[index]
+            block.blockType === BlockType.Domino &&
+            block.dominoType === DominoType.Last &&
+            tippeds[index]
         )
       ) {
         setSlotState(ItemState.Success);

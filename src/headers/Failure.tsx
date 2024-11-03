@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { BlockType } from "../blocks/blockType";
 import { DominoType } from "../blocks/dominoType";
 import { ItemState } from "../controllers/itemState";
 import { useCurrentItem } from "../controllers/useCurrentItem";
@@ -11,7 +12,11 @@ export function Failure() {
 
   const built = useMemo(
     () =>
-      item?.build.blocks.some((block) => block.dominoType === DominoType.Last),
+      item?.build.blocks.some(
+        (block) =>
+          block.blockType === BlockType.Domino &&
+          block.dominoType === DominoType.Last
+      ),
     [item?.build.blocks]
   );
 
