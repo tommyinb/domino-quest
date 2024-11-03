@@ -1,7 +1,7 @@
 import { BlockType } from "../../blocks/blockType";
 import { useCurrentItem } from "../../controllers/useCurrentItem";
 import { useSetCurrentItem } from "../../controllers/useSetCurrentItem";
-import * as startC1 from "../../stages/stageC1/start";
+import * as startC from "../../stages/stageC/start";
 import { Hint } from "../plays/Hint";
 import "./Next.css";
 import { NextBlock } from "./NextBlock";
@@ -49,7 +49,7 @@ export function Next() {
         ))}
       </div>
 
-      {item?.start === startC1 &&
+      {item?.start === startC &&
         selectedNext?.blockType === BlockType.Domino &&
         !item.build.blocks.some(
           (block) => block.blockType === BlockType.Bridge
