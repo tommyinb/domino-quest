@@ -6,6 +6,7 @@ import { NextDominoGround } from "./NextDominoGround";
 export function NextDomino({
   facingAngle,
   setFacingAngle,
+  steeringSize,
   steeringAngle,
   steer,
   endPosition,
@@ -19,6 +20,7 @@ export function NextDomino({
       <NextDominoGround
         facingAngle={facingAngle}
         setFacingAngle={setFacingAngle}
+        steeringSize={steeringSize}
         steeringAngle={steeringAngle}
         steer={steer}
         endPosition={endPosition}
@@ -30,6 +32,8 @@ export function NextDomino({
 interface Props {
   facingAngle: number;
   setFacingAngle: (angle: number) => void;
+
+  steeringSize: number;
   steeringAngle: number;
   steer: (side: number) => void;
 

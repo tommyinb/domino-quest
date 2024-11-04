@@ -9,10 +9,11 @@ export const SlotContext = createContext<{
     level: 0,
     start: {
       name: "",
-      cameraPosition: [0, 0, 0],
       stageElement: () => {
         throw new Error("Not implemented");
       },
+      stageHeight: 600,
+      cameraPosition: [0, 0, 0],
     },
     state: ItemState.Idle,
     build: {

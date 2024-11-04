@@ -2,25 +2,31 @@ import { useCallback, useMemo, useState } from "react";
 import { Vector3Tuple } from "three";
 import { useRetry } from "../stageB2/useRetry";
 import { useUndo } from "../stageB2/useUndo";
-import { NextBridge } from "./NextBridge";
-import { NextDomino } from "./NextDomino";
+import { NextBridge } from "../stageC2/NextBridge";
+import { NextDomino } from "../stageC2/NextDomino";
 
 export function Next() {
-  const firstAngle = Math.PI / 2;
   const [facingAngle, setFacingAngle] = useState(firstAngle);
 
   const [steeringStep, setSteeringStep] = useState(0);
-  const steeringAngle = useMemo(() => {
+  const steeringSize = useMemo(() => {
     if (steeringStep === 0) {
       return 0;
     } else {
-      const counts = [14, 10, 6];
-      const index = (Math.abs(steeringStep) - 1) % counts.length;
-      const count = counts[index];
+      const sizes = [38, 32, 10, 6];
+      const index = (Math.abs(steeringStep) - 1) % sizes.length;
 
-      return Math.sign(steeringStep) * (Math.PI / count / 2);
+      return sizes[index];
     }
   }, [steeringStep]);
+
+  const steeringAngle = useMemo(
+    () =>
+      steeringSize > 0
+        ? Math.sign(steeringStep) * (Math.PI / steeringSize / 2)
+        : 0,
+    [steeringSize, steeringStep]
+  );
   const steer = useCallback(
     (side: number) =>
       setSteeringStep((steering) => Math.min(Math.max(steering + side, -3), 3)),
@@ -37,16 +43,19 @@ export function Next() {
       <NextDomino
         facingAngle={facingAngle}
         setFacingAngle={setFacingAngle}
+        steeringSize={steeringSize}
         steeringAngle={steeringAngle}
         steer={steer}
         endPosition={endPosition}
       />
 
       <NextBridge
-        length={120}
+        length={150}
         angle={facingAngle + steeringAngle}
         steer={steer}
       />
     </>
   );
 }
+
+export const firstAngle = Math.PI * 1.1;

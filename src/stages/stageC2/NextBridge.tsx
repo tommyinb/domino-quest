@@ -17,7 +17,7 @@ import { useBridgeClick } from "../stageC1/useBridgeClick";
 import { useGesture } from "../stageC1/useGesture";
 import { distance } from "./NextDominoGround";
 
-export function NextBridge({ angle, steer }: Props) {
+export function NextBridge({ length, angle, steer }: Props) {
   const { item } = useContext(SlotContext);
   const { blocks } = item.build;
 
@@ -33,7 +33,7 @@ export function NextBridge({ angle, steer }: Props) {
   const lastPosition = useLastPosition();
   const nextPosition = useMemo(
     () => getNextPosition(lastPosition, distance + length / 2, angle),
-    [lastPosition, angle]
+    [lastPosition, length, angle]
   );
 
   useGesture(lastPosition, nextPosition, steer, enabled);
@@ -76,8 +76,7 @@ export function NextBridge({ angle, steer }: Props) {
 }
 
 interface Props {
+  length: number;
   angle: number;
   steer: (side: number) => void;
 }
-
-export const length = 120;
