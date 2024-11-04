@@ -13,12 +13,15 @@ import { SlotContext } from "../../controllers/SlotContext";
 import { NextDomino } from "../stageA/NextDomino";
 import { useLastPosition } from "../stageA/useLastPosition";
 import { getNextPosition } from "../stageB1/getNextPosition";
-import { getPathParameters } from "./getPathParameters";
-import { useDominoClick } from "./useDominoClick";
-import { useGesture } from "./useGesture";
-import { useNextBridging } from "./useNextBridging";
+import { useDominoClick } from "../stageC1/useDominoClick";
+import { useGesture } from "../stageC1/useGesture";
+import { useNextBridging } from "../stageC1/useNextBridging";
 
-export function NextDominoGround({ nextAngle, setNextAngle }: Props) {
+export function NextDominoGround({
+  nextAngle,
+  setNextAngle,
+  endPosition,
+}: Props) {
   const { item } = useContext(SlotContext);
   const selected = item.build.selectedNext?.blockType === BlockType.Domino;
 
@@ -37,10 +40,6 @@ export function NextDominoGround({ nextAngle, setNextAngle }: Props) {
     [lastPosition, outputAngle]
   );
 
-  const bridged = item.build.blocks.some(
-    (block) => block.blockType === BlockType.Bridge
-  );
-
   useGesture(
     lastPosition,
     nextPosition,
@@ -48,18 +47,10 @@ export function NextDominoGround({ nextAngle, setNextAngle }: Props) {
       (side) => setNextAngle((angle) => angle + (side * Math.PI) / 9),
       [setNextAngle]
     ),
-    enabled && bridged
+    enabled
   );
 
-  const endPosition = useMemo<Vector3Tuple>(() => {
-    const { pointX, pointY } = getPathParameters();
-    return [-pointX, 0, -pointY];
-  }, []);
-  useDominoClick(
-    enabled && bridged ? nextPosition : undefined,
-    outputAngle,
-    endPosition
-  );
+  useDominoClick(enabled ? nextPosition : undefined, outputAngle, endPosition);
 
   const built = useBuilt();
 
@@ -75,4 +66,6 @@ export function NextDominoGround({ nextAngle, setNextAngle }: Props) {
 interface Props {
   nextAngle: number;
   setNextAngle: Dispatch<SetStateAction<number>>;
+
+  endPosition: Vector3Tuple;
 }

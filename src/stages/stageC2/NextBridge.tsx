@@ -10,19 +10,17 @@ import {
   boardThickness,
   BridgeModel,
   stepDepth,
-  stepHeight,
 } from "../../blocks/BridgeModel";
 import { width } from "../../blocks/FollowDomino";
-import { Hint } from "../../blocks/Hint";
 import { useBuilt } from "../../blocks/useBuilt";
 import { ItemState } from "../../controllers/itemState";
 import { SlotContext } from "../../controllers/SlotContext";
 import { Selection } from "../stageA/Selection";
 import { useLastPosition } from "../stageA/useLastPosition";
 import { getNextPosition } from "../stageB1/getNextPosition";
-import { useBridgeBuildNext } from "./useBridgeBuildNext";
-import { useBridgeClick } from "./useBridgeClick";
-import { useGesture } from "./useGesture";
+import { useBridgeBuildNext } from "../stageC1/useBridgeBuildNext";
+import { useBridgeClick } from "../stageC1/useBridgeClick";
+import { useGesture } from "../stageC1/useGesture";
 
 export function NextBridge({ nextAngle, setNextAngle }: Props) {
   const { item } = useContext(SlotContext);
@@ -44,10 +42,6 @@ export function NextBridge({ nextAngle, setNextAngle }: Props) {
     [lastPosition, outputAngle]
   );
 
-  const bridged = useMemo(
-    () => blocks.some((block) => block.blockType === BlockType.Bridge),
-    [blocks]
-  );
   useGesture(
     lastPosition,
     nextPosition,
@@ -55,7 +49,7 @@ export function NextBridge({ nextAngle, setNextAngle }: Props) {
       (side) => setNextAngle((angle) => angle + (side * Math.PI) / 9),
       [setNextAngle]
     ),
-    enabled && bridged
+    enabled
   );
 
   useBridgeClick(nextPosition, outputAngle, length, enabled);
@@ -89,12 +83,6 @@ export function NextBridge({ nextAngle, setNextAngle }: Props) {
             ]}
             color={0xffafcc}
           />
-
-          {!bridged && (
-            <Hint
-              position={[0, stepHeight * 4, 10]}
-            >{`Bridge the junction!`}</Hint>
-          )}
         </group>
       )}
     </>

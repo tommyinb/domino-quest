@@ -1,4 +1,4 @@
-import { useContext, useMemo, useState } from "react";
+import { useCallback, useContext, useMemo, useState } from "react";
 import { Vector3Tuple } from "three";
 import { useBuilt } from "../../blocks/useBuilt";
 import { ItemState } from "../../controllers/itemState";
@@ -34,7 +34,14 @@ export function Next({ stationPositions }: Props) {
     () => getNextPosition(lastPosition, 20, nextAngle),
     [lastPosition, nextAngle]
   );
-  useGesture(lastPosition, nextPosition, setNextAngle);
+  useGesture(
+    lastPosition,
+    nextPosition,
+    useCallback(
+      (side) => setNextAngle((angle) => angle + (side * Math.PI) / 9),
+      []
+    )
+  );
 
   const endPosition = useMemo(
     () => stationPositions[stationPositions.length - 1],

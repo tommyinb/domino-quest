@@ -1,10 +1,11 @@
+import { useMemo } from "react";
+import { getPath } from "./getPath";
 import { PathLine } from "./PathLine";
 import { useJudge } from "./useJudge";
-import { usePath } from "./usePath";
 import { useProgress } from "./useProgress";
 
 export function Path() {
-  const points = usePath();
+  const points = useMemo(getPath, []);
 
   const progress = useProgress(points);
 

@@ -1,25 +1,16 @@
-import { Box, useTexture } from "@react-three/drei";
-import { RigidBody } from "@react-three/rapier";
+import { useTexture } from "@react-three/drei";
 import { GroundButton } from "../stageA/GroundButton";
-import { useGroundMaterial } from "../stageA/useGroundMaterial";
 import bearFace from "./bearFace.png";
+import { GroundBox } from "./GroundBox";
 
 useTexture.preload(bearFace);
 
 export function Ground() {
-  const groundMaterial = useGroundMaterial();
-
   const bearTexture = useTexture(bearFace);
 
   return (
     <>
-      <RigidBody type="fixed">
-        <Box
-          args={[400, 5, 400]}
-          position={[0, -2.5, 0]}
-          material={groundMaterial}
-        />
-      </RigidBody>
+      <GroundBox width={400} height={400} />
 
       <mesh position={[0, 1, 30]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[150, 120]} />

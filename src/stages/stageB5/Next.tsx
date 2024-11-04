@@ -1,4 +1,4 @@
-import { useContext, useMemo, useState } from "react";
+import { useCallback, useContext, useMemo, useState } from "react";
 import { Vector3Tuple } from "three";
 import { useBuilt } from "../../blocks/useBuilt";
 import { ItemState } from "../../controllers/itemState";
@@ -24,7 +24,14 @@ export function Next() {
     () => getNextPosition(lastPosition, 20, outputAngle),
     [lastPosition, outputAngle]
   );
-  useGesture(lastPosition, nextPosition, setNextAngle);
+  useGesture(
+    lastPosition,
+    nextPosition,
+    useCallback(
+      (side) => setNextAngle((angle) => angle + (side * Math.PI) / 9),
+      []
+    )
+  );
 
   const endPosition = useMemo<Vector3Tuple>(() => [0, 0, 180], []);
   useClick(nextPosition, outputAngle, endPosition);

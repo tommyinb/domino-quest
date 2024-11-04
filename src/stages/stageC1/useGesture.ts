@@ -1,23 +1,23 @@
-import { Dispatch, SetStateAction, useCallback } from "react";
+import { useCallback } from "react";
 import { Vector3 } from "three";
 import { useGesture as useGestureB } from "../stageB2/useGesture";
 
 export function useGesture(
   lastPosition: Vector3,
   nextPosition: Vector3,
-  setNextAngle: Dispatch<SetStateAction<number>>,
+  steer: (side: number) => void,
   enabled: boolean
 ) {
   useGestureB(
     lastPosition,
     nextPosition,
     useCallback(
-      (angle) => {
+      (side) => {
         if (enabled) {
-          setNextAngle(angle);
+          steer(side);
         }
       },
-      [enabled, setNextAngle]
+      [enabled, steer]
     )
   );
 }

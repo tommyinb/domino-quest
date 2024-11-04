@@ -1,5 +1,5 @@
 import { useThree } from "@react-three/fiber";
-import { useCallback, useContext } from "react";
+import { Dispatch, SetStateAction, useCallback, useContext } from "react";
 import { Vector2, Vector3 } from "three";
 import { useBuilt } from "../../blocks/useBuilt";
 import { ControllerContext } from "../../controllers/ControllerContext";
@@ -12,7 +12,8 @@ import { useGesture as useSceneGesture } from "../../scenes/useGesture";
 export function useGesture(
   lastPosition: Vector3,
   nextPosition: Vector3,
-  steer: (side: number) => void
+  setAngle: Dispatch<SetStateAction<number>>,
+  enabled: boolean
 ) {
   const { item } = useContext(SlotContext);
 
@@ -25,6 +26,10 @@ export function useGesture(
   useSceneGesture(
     useCallback(
       (event) => {
+        if (!enabled) {
+          return false;
+        }
+
         if (item.state !== ItemState.Building) {
           return false;
         }
@@ -75,9 +80,9 @@ export function useGesture(
           .cross(directionProjected.normalize());
 
         if (cross > 0.3) {
-          steer(1);
+          setAngle((angle) => angle + Math.PI / 9);
         } else if (cross < -0.3) {
-          steer(-1);
+          setAngle((angle) => angle - Math.PI / 9);
         }
 
         return true;
@@ -95,9 +100,9 @@ export function useGesture(
         nextPosition.x,
         nextPosition.y,
         nextPosition.z,
+        setAngle,
         size.height,
         size.width,
-        steer,
       ]
     )
   );
