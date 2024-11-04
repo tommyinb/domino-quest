@@ -5,7 +5,7 @@ import * as startB2 from "../stages/stageB2/start";
 import * as startB3 from "../stages/stageB3/start";
 import * as startB4 from "../stages/stageB4/start";
 import * as startB5 from "../stages/stageB5/start";
-import * as startC from "../stages/stageC/start";
+import * as startC from "../stages/stageC1/start";
 import { ControllerContext } from "./ControllerContext";
 import { GestureMode } from "./gestureMode";
 import { Item } from "./item";

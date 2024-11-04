@@ -1,7 +1,7 @@
 import { BlockType } from "../../blocks/blockType";
 import { useCurrentItem } from "../../controllers/useCurrentItem";
 import { useSetCurrentItem } from "../../controllers/useSetCurrentItem";
-import * as startC from "../../stages/stageC/start";
+import * as startC from "../../stages/stageC1/start";
 import { Hint } from "../plays/Hint";
 import "./Next.css";
 import { NextBlock } from "./NextBlock";
