@@ -2,19 +2,27 @@ import { animated, useSpring } from "@react-spring/three";
 import { useContext, useMemo } from "react";
 import { transitionDuration } from "./CameraControl";
 import { ControllerContext } from "./ControllerContext";
-import { slotHeight } from "./getSlotY";
 import { Vortex } from "./Vortex";
 
 export function Sky() {
-  const { currentLevel } = useContext(ControllerContext);
+  const { items, currentLevel } = useContext(ControllerContext);
 
-  const { y } = useSpring({
-    y: (currentLevel - 1) * slotHeight,
+  const levelY = useMemo(
+    () =>
+      items
+        .filter((item) => item.level < currentLevel)
+        .map((item) => item.start.stageHeight)
+        .reduce((a, b) => a + b, 0),
+    [currentLevel, items]
+  );
+
+  const { y: outputY } = useSpring({
+    y: levelY,
     config: { duration: transitionDuration },
   });
 
   return (
-    <animated.group position-y={y}>
+    <animated.group position-y={outputY}>
       {useMemo(
         () => (
           <>

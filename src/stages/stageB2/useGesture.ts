@@ -4,7 +4,6 @@ import { Vector2, Vector3 } from "three";
 import { useBuilt } from "../../blocks/useBuilt";
 import { ControllerContext } from "../../controllers/ControllerContext";
 import { GestureMode } from "../../controllers/gestureMode";
-import { getSlotY } from "../../controllers/getSlotY";
 import { ItemState } from "../../controllers/itemState";
 import { SlotContext } from "../../controllers/SlotContext";
 import { clicking } from "../../scenes/clicking";
@@ -19,7 +18,7 @@ export function useGesture(
 
   const { camera, size } = useThree();
 
-  const { gestureMode } = useContext(ControllerContext);
+  const { items, gestureMode } = useContext(ControllerContext);
 
   const built = useBuilt();
 
@@ -49,7 +48,11 @@ export function useGesture(
           lastPointer.clientY - firstPointer.clientY
         );
 
-        const slotY = getSlotY(item.level);
+        const slotY = items
+          .filter((t) => t.level < item.level)
+          .map((item) => item.start.stageHeight)
+          .reduce((a, b) => a + b, 0);
+
         const lastPoint = new Vector3(
           lastPosition.x,
           lastPosition.y + slotY,
@@ -85,6 +88,7 @@ export function useGesture(
         gestureMode,
         item.level,
         item.state,
+        items,
         lastPosition.x,
         lastPosition.y,
         lastPosition.z,

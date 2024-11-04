@@ -3,8 +3,9 @@ import { Stage } from "./Stage";
 
 export const name = "Follow the Line";
 
-export const cameraPosition: Vector3Tuple = [0, 170, 270];
 export const stageElement = Stage;
+export const stageHeight = 600;
+export const cameraPosition: Vector3Tuple = [0, 170, 270];
 
 export const startPosition: Vector3Tuple = [0, 0, 20];
 export const endPosition: Vector3Tuple = [0, 0, 170];

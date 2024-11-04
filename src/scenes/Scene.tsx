@@ -1,6 +1,7 @@
 import { Stats } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { PropsWithChildren, useContext } from "react";
+import { useCurrentItem } from "../controllers/useCurrentItem";
 import { Lighting } from "./Lighting";
 import "./Scene.css";
 import { SceneContext } from "./SceneContext";
@@ -13,6 +14,8 @@ export function Scene({ children }: PropsWithChildren) {
     pointerUpHandlers,
     pointerCancelHandlers,
   } = useContext(SceneContext);
+
+  const item = useCurrentItem();
 
   return (
     <Canvas
@@ -46,7 +49,10 @@ export function Scene({ children }: PropsWithChildren) {
         }
       }}
     >
-      <fog attach="fog" args={[0xf7d9aa, 400, 1200]} />
+      <fog
+        attach="fog"
+        args={[0xf7d9aa, 200, (item?.start.stageHeight ?? 600) * 2]}
+      />
 
       {debug && <axesHelper args={[10]} />}
 
