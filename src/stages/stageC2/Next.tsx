@@ -10,17 +10,24 @@ export function Next() {
   const [facingAngle, setFacingAngle] = useState(firstAngle);
 
   const [steeringStep, setSteeringStep] = useState(0);
-  const steeringAngle = useMemo(() => {
+  const steeringSize = useMemo(() => {
     if (steeringStep === 0) {
       return 0;
     } else {
-      const counts = [14, 10, 6];
-      const index = (Math.abs(steeringStep) - 1) % counts.length;
-      const count = counts[index];
+      const sizes = [14, 10, 6];
+      const index = (Math.abs(steeringStep) - 1) % sizes.length;
 
-      return Math.sign(steeringStep) * (Math.PI / count / 2);
+      return sizes[index];
     }
   }, [steeringStep]);
+
+  const steeringAngle = useMemo(
+    () =>
+      steeringSize > 0
+        ? Math.sign(steeringStep) * (Math.PI / steeringSize / 2)
+        : 0,
+    [steeringSize, steeringStep]
+  );
   const steer = useCallback(
     (side: number) =>
       setSteeringStep((steering) => Math.min(Math.max(steering + side, -3), 3)),
@@ -37,6 +44,7 @@ export function Next() {
       <NextDomino
         facingAngle={facingAngle}
         setFacingAngle={setFacingAngle}
+        steeringSize={steeringSize}
         steeringAngle={steeringAngle}
         steer={steer}
         endPosition={endPosition}
