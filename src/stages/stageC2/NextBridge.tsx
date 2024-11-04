@@ -1,10 +1,4 @@
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useContext,
-  useMemo,
-} from "react";
+import { useContext, useMemo } from "react";
 import { BlockType } from "../../blocks/blockType";
 import {
   boardThickness,
@@ -21,8 +15,9 @@ import { getNextPosition } from "../stageB1/getNextPosition";
 import { useBridgeBuildNext } from "../stageC1/useBridgeBuildNext";
 import { useBridgeClick } from "../stageC1/useBridgeClick";
 import { useGesture } from "../stageC1/useGesture";
+import { distance } from "./NextDominoGround";
 
-export function NextBridge({ nextAngle, setNextAngle }: Props) {
+export function NextBridge({ angle, steer }: Props) {
   const { item } = useContext(SlotContext);
   const { blocks } = item.build;
 
@@ -35,31 +30,22 @@ export function NextBridge({ nextAngle, setNextAngle }: Props) {
   const selected = item.build.selectedNext?.blockType === BlockType.Bridge;
   const enabled = !lastBridge && selected;
 
-  const outputAngle = useMemo(() => nextAngle % (Math.PI * 2), [nextAngle]);
   const lastPosition = useLastPosition();
   const nextPosition = useMemo(
-    () => getNextPosition(lastPosition, 15 + length / 2, outputAngle),
-    [lastPosition, outputAngle]
+    () => getNextPosition(lastPosition, distance + length / 2, angle),
+    [lastPosition, angle]
   );
 
-  useGesture(
-    lastPosition,
-    nextPosition,
-    useCallback(
-      (side) => setNextAngle((angle) => angle + (side * Math.PI) / 9),
-      [setNextAngle]
-    ),
-    enabled
-  );
+  useGesture(lastPosition, nextPosition, steer, enabled);
 
-  useBridgeClick(nextPosition, outputAngle, length, enabled);
+  useBridgeClick(nextPosition, angle, length, enabled);
 
   const built = useBuilt();
 
   return (
     <>
       {item.state === ItemState.Building && !built && enabled && (
-        <group position={nextPosition} rotation={[0, outputAngle, 0]}>
+        <group position={nextPosition} rotation={[0, angle, 0]}>
           <BridgeModel length={length} opacity={0.4} />
 
           <Selection
@@ -90,8 +76,8 @@ export function NextBridge({ nextAngle, setNextAngle }: Props) {
 }
 
 interface Props {
-  nextAngle: number;
-  setNextAngle: Dispatch<SetStateAction<number>>;
+  angle: number;
+  steer: (side: number) => void;
 }
 
 export const length = 120;

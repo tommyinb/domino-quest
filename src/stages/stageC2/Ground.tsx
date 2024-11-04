@@ -4,9 +4,9 @@ import { GroundBox } from "../stageB5/GroundBox";
 export function Ground() {
   return (
     <>
-      <GroundBox width={500} height={650} />
+      <GroundBox width={500} height={680} />
 
-      <GroundButton position={[-100, 0, 250]} size={20} />
+      <GroundButton position={[-90, 0, 250]} size={20} />
       <GroundButton position={[0, 0, 300]} size={20} />
     </>
   );

@@ -3,33 +3,50 @@ import { Vector3 } from "three";
 export function getPath() {
   const parts: Array<ReturnType<typeof getLine>> = [];
 
-  parts.push(getLine(new Vector3(-100, 0, 250), new Vector3(-70, 0, 250)));
+  let z = 250;
+  parts.push(getLine(new Vector3(-90, 0, z), new Vector3(0, 0, z)));
+
+  const radius1 = 28.97777479;
 
   for (let i = 0; i < 4; i++) {
     const x = 70 + i * 20;
-    const z = 250 - i * 100;
+    parts.push(getLine(new Vector3(0, 0, z), new Vector3(x, 0, z)));
 
+    z -= radius1;
     parts.push(
-      getLine(new Vector3(-x, 0, z), new Vector3(x, 0, z)),
-      getTurn(new Vector3(x, 0, z - 25), 25, Math.PI * 0.5, -Math.PI * 0.5),
-      getLine(new Vector3(x, 0, z - 50), new Vector3(-x, 0, z - 50)),
-      getTurn(new Vector3(-x, 0, z - 75), 25, Math.PI * 0.5, Math.PI * 1.5)
+      getTurn(new Vector3(x, 0, z), 25, Math.PI * 0.5, -Math.PI * 0.5)
     );
+
+    z -= radius1;
+    parts.push(getLine(new Vector3(x, 0, z), new Vector3(-x, 0, z)));
+
+    z -= radius1;
+    parts.push(
+      getTurn(new Vector3(-x, 0, z), 25, Math.PI * 0.5, Math.PI * 1.5)
+    );
+
+    z -= radius1;
+    parts.push(getLine(new Vector3(-x, 0, z), new Vector3(0, 0, z)));
   }
 
+  parts.push(getLine(new Vector3(-130, 0, z), new Vector3(150, 0, z)));
+
+  const radius2 = 47.94339916;
+
+  z -= radius2;
   parts.push(
-    getLine(new Vector3(-150, 0, -125 - 25), new Vector3(150, 0, -125 - 25)),
-    getTurn(new Vector3(150, 0, -125 - 50), 25, Math.PI * 0.5, -Math.PI * 0.5),
-    getLine(new Vector3(150, 0, -125 - 75), new Vector3(-150, 0, -125 - 75))
+    getTurn(new Vector3(150, 0, z), radius2, Math.PI * 0.5, -Math.PI * 0.5)
   );
 
+  z -= radius2;
+  parts.push(getLine(new Vector3(150, 0, z), new Vector3(radius2, 0, z)));
+
+  z += radius2;
   parts.push(
-    getTurn(new Vector3(-170, 0, -250), 50, Math.PI * 0.5, Math.PI * 1.5),
-    getLine(new Vector3(-170, 0, -300), new Vector3(-50, 0, -300)),
-    getTurn(new Vector3(-50, 0, -250), 50, Math.PI * 1.5, Math.PI * 2)
+    getTurn(new Vector3(radius2, 0, z), radius2, Math.PI * 1.5, Math.PI)
   );
 
-  parts.push(getLine(new Vector3(0, 0, -250), new Vector3(0, 0, 300)), [
+  parts.push(getLine(new Vector3(0, 0, -z), new Vector3(0, 0, 300)), [
     new Vector3(0, 0, 300),
   ]);
 

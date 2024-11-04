@@ -90,6 +90,7 @@ export function useGesture(
       [
         built,
         camera,
+        enabled,
         gestureMode,
         item.level,
         item.state,

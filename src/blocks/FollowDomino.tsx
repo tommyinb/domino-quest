@@ -1,4 +1,4 @@
-import { Box, Line } from "@react-three/drei";
+import { Box } from "@react-three/drei";
 import { Vector3 } from "@react-three/fiber";
 import { RapierRigidBody, RigidBody } from "@react-three/rapier";
 import { useRef } from "react";
@@ -16,24 +16,6 @@ export function FollowDomino({ position, rotation, index }: Props) {
           <meshPhongMaterial color={0x3ebdb4} flatShading={true} />
         </Box>
       </RigidBody>
-
-      <Line
-        points={[
-          [-width / 2, 0.1, -depth / 2],
-          [width / 2, 0.1, -depth / 2],
-          [width / 2, 0.1, depth / 2],
-          [-width / 2, 0.1, depth / 2],
-          [-width / 2, 0.1, -depth / 2],
-        ]}
-        position={[0, 0.5, 0]}
-        color={0x3ebdb4}
-        dashed={true}
-        dashScale={1}
-        dashOffset={0}
-        lineWidth={1}
-        opacity={0.3}
-        transparent={true}
-      />
     </group>
   );
 }

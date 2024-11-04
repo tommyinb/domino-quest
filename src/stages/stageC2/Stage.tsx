@@ -20,7 +20,7 @@ export function Stage() {
             {
               blockType: BlockType.Domino,
               dominoType: DominoType.First,
-              position: new Vector3(-100, 0, 250),
+              position: new Vector3(-90, 0, 250),
               rotation: new Euler(0, Math.PI / 2, 0),
             },
           ]
