@@ -54,7 +54,7 @@ export function NextDominoGround({
     let position = nextPosition;
     let angle = facingAngle + steeringAngle;
 
-    const previewCount = Math.max(steeringSize / 3, 3);
+    const previewCount = Math.max(steeringSize / 5, 3);
     for (let i = 0; i < previewCount; i++) {
       position = getNextPosition(
         new Vector3(position.x, 0, position.z),
