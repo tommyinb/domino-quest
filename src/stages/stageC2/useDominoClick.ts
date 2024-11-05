@@ -9,6 +9,7 @@ import { GestureMode } from "../../controllers/gestureMode";
 import { ItemState } from "../../controllers/itemState";
 import { useSetSlotBlocks } from "../../controllers/useSetSlotBlocks";
 import { useClick as useSceneClick } from "../../scenes/useClick";
+import { size } from "../stageA/GroundButton";
 
 export function useDominoClick(
   nextPosition: Vector3 | undefined,
@@ -46,7 +47,7 @@ export function useDominoClick(
         Math.sqrt(
           Math.pow(nextPosition.x - endPosition[0], 2) +
             Math.pow(nextPosition.z - endPosition[2], 2)
-        ) <= 20;
+        ) <= size;
 
       setBlocks((blocks) => {
         if (blocks.some((block) => block.position.equals(nextPosition))) {

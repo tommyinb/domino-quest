@@ -17,7 +17,7 @@ export function Next() {
   useUndo(setFacingAngle, firstAngle);
   useRetry(setFacingAngle, firstAngle);
 
-  const endPosition = useMemo<Vector3Tuple>(() => [0, 0, -320], []);
+  const endPosition = useMemo<Vector3Tuple>(() => [0, 0, -350], []);
 
   return (
     <>
