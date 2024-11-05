@@ -1,6 +1,6 @@
 import { animated, useSpring } from "@react-spring/three";
 import { useContext, useMemo } from "react";
-import { transitionDuration } from "./CameraControlAnimation";
+import { transitionDuration } from "../scenes/CameraControlAnimation";
 import { ControllerContext } from "./ControllerContext";
 import { Vortex } from "./Vortex";
 

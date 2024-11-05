@@ -11,10 +11,10 @@ import {
   useState,
 } from "react";
 import { Vector3, Vector3Tuple } from "three";
-import { ControllerContext } from "./ControllerContext";
-import { GestureMode } from "./gestureMode";
-import { ItemState } from "./itemState";
-import { useCurrentItem } from "./useCurrentItem";
+import { ControllerContext } from "../controllers/ControllerContext";
+import { GestureMode } from "../controllers/gestureMode";
+import { ItemState } from "../controllers/itemState";
+import { useCurrentItem } from "../controllers/useCurrentItem";
 
 export function CameraControlAnimation({ lastTarget, setLastTarget }: Props) {
   const [animating, setAnimating] = useState(true);

@@ -1,7 +1,6 @@
 import { Physics } from "@react-three/rapier";
 import { useContext } from "react";
 import { SceneContext } from "../scenes/SceneContext";
-import { CameraControl } from "./CameraControl";
 import { ControllerContext } from "./ControllerContext";
 import { Sky } from "./Sky";
 import { Slot } from "./Slot";
@@ -20,8 +19,6 @@ export function Controller() {
           <Slot key={item.level} item={item} />
         ))}
       </Physics>
-
-      <CameraControl />
     </>
   );
 }
