@@ -1,13 +1,18 @@
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import { ControllerContext } from "../controllers/ControllerContext";
 import { ItemState } from "../controllers/itemState";
 import { useCurrentItem } from "../controllers/useCurrentItem";
 import "./Success.css";
 
 export function Success() {
-  const { setCurrentLevel } = useContext(ControllerContext);
+  const { items, setCurrentLevel } = useContext(ControllerContext);
 
   const item = useCurrentItem();
+
+  const maxLevel = useMemo(
+    () => Math.max(...items.map((item) => item.level)),
+    [items]
+  );
 
   return (
     <div
@@ -19,17 +24,20 @@ export function Success() {
 
       <div className="content">
         <div className="state">Completed</div>
+
         <div className="message">
           {item?.start.successMessage ?? item?.start.name}
         </div>
       </div>
 
-      <div
-        className="button"
-        onClick={() => setCurrentLevel((item?.level ?? 0) + 1)}
-      >
-        Next Level
-      </div>
+      {item && item.level < maxLevel && (
+        <div
+          className="button"
+          onClick={() => setCurrentLevel((item?.level ?? 0) + 1)}
+        >
+          Next Level
+        </div>
+      )}
     </div>
   );
 }
