@@ -6,7 +6,7 @@ import { endPosition, middlePosition, startPosition } from "./start";
 export function Ground() {
   return (
     <>
-      <GroundStation position={startPosition} diskSize={40} buttonSize={20} />
+      <GroundStation position={startPosition} />
 
       <GroundBridge fromPosition={startPosition} toPosition={middlePosition} />
 
@@ -14,7 +14,7 @@ export function Ground() {
 
       <GroundBridge fromPosition={middlePosition} toPosition={endPosition} />
 
-      <GroundStation position={endPosition} diskSize={40} buttonSize={20} />
+      <GroundStation position={endPosition} />
     </>
   );
 }

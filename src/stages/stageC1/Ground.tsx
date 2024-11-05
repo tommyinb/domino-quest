@@ -11,7 +11,7 @@ export function Ground() {
       <GroundDisk position={[centerX, 0, 0]} size={centerX + 10} />
       <GroundDisk position={[-centerX, 0, 0]} size={centerX + 10} />
 
-      <GroundButton position={[-pointX, 0, -pointY]} size={20} />
+      <GroundButton position={[-pointX, 0, -pointY]} />
     </>
   );
 }

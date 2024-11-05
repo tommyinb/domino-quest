@@ -10,8 +10,8 @@ export function Ground() {
     <>
       <GroundDisk position={[0, 0, 0]} size={560} />
 
-      <GroundButton position={start} size={20} />
-      <GroundButton position={end} size={20} />
+      <GroundButton position={start} />
+      <GroundButton position={end} />
     </>
   );
 }

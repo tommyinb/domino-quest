@@ -6,8 +6,8 @@ export function Ground() {
     <>
       <GroundBox width={500} height={680} />
 
-      <GroundButton position={[-90, 0, 250]} size={20} />
-      <GroundButton position={[0, 0, 300]} size={20} />
+      <GroundButton position={[-90, 0, 250]} />
+      <GroundButton position={[0, 0, 300]} />
     </>
   );
 }

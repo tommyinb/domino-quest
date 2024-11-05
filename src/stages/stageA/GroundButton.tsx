@@ -2,7 +2,7 @@ import { Cylinder } from "@react-three/drei";
 import { Vector3 } from "@react-three/fiber";
 import { useButtonMaterial } from "./useButtonMaterial";
 
-export function GroundButton({ position, size }: Props) {
+export function GroundButton({ position }: Props) {
   const buttonMaterial = useButtonMaterial();
 
   return (
@@ -18,5 +18,6 @@ export function GroundButton({ position, size }: Props) {
 
 interface Props {
   position: Vector3;
-  size: number;
 }
+
+export const size = 20;

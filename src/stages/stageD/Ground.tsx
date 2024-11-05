@@ -64,7 +64,7 @@ export function Ground() {
     <>
       {boxes.map(({ x, z }) => (
         <GroundBox
-          key={`${x}, ${z}`}
+          key={`${x},${z}`}
           width={boxSize}
           depth={boxSize}
           x={x}
@@ -72,8 +72,8 @@ export function Ground() {
         />
       ))}
 
-      <GroundButton position={[0, 0, 350]} size={20} />
-      <GroundButton position={[0, 0, -350]} size={20} />
+      <GroundButton position={[0, 0, 350]} />
+      <GroundButton position={[0, 0, -350]} />
     </>
   );
 }

@@ -7,11 +7,7 @@ import { GroundStation } from "../stageA/GroundStation";
 export function Ground({ stationPositions }: Props) {
   return (
     <>
-      <GroundStation
-        position={stationPositions[0]}
-        diskSize={40}
-        buttonSize={20}
-      />
+      <GroundStation position={stationPositions[0]} />
 
       {stationPositions.slice(1).map((position, index) => (
         <Fragment key={index}>
@@ -29,11 +25,7 @@ export function Ground({ stationPositions }: Props) {
         toPosition={stationPositions[stationPositions.length - 1]}
       />
 
-      <GroundStation
-        position={stationPositions[stationPositions.length - 1]}
-        diskSize={40}
-        buttonSize={20}
-      />
+      <GroundStation position={stationPositions[stationPositions.length - 1]} />
     </>
   );
 }

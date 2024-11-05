@@ -17,7 +17,7 @@ export function Ground() {
         <meshBasicMaterial map={bearTexture} opacity={0.8} transparent />
       </mesh>
 
-      <GroundButton position={[0, 0, 180]} size={20} />
+      <GroundButton position={[0, 0, 180]} />
     </>
   );
 }

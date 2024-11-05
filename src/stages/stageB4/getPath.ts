@@ -1,5 +1,5 @@
 import { Vector3 } from "three";
-import { buttonSize } from "./Ground";
+import { size } from "../stageA/GroundButton";
 import { endPosition, startPosition } from "./start";
 
 export function getPath() {
@@ -21,10 +21,10 @@ export function getPath() {
     if (
       Math.sqrt(
         Math.pow(x - startPosition[0], 2) + Math.pow(z - startPosition[2], 2)
-      ) <= buttonSize ||
+      ) <= size ||
       Math.sqrt(
         Math.pow(x - endPosition[0], 2) + Math.pow(z - endPosition[2], 2)
-      ) <= buttonSize
+      ) <= size
     ) {
       continue;
     }

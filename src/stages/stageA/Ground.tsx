@@ -5,11 +5,11 @@ import { endPosition, startPosition } from "./start";
 export function Ground() {
   return (
     <>
-      <GroundStation position={startPosition} diskSize={40} buttonSize={20} />
+      <GroundStation position={startPosition} />
 
       <GroundBridge fromPosition={startPosition} toPosition={endPosition} />
 
-      <GroundStation position={endPosition} diskSize={40} buttonSize={20} />
+      <GroundStation position={endPosition} />
     </>
   );
 }
