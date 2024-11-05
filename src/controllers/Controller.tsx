@@ -7,7 +7,7 @@ import { Sky } from "./Sky";
 import { Slot } from "./Slot";
 
 export function Controller() {
-  const { items, currentLevel } = useContext(ControllerContext);
+  const { items } = useContext(ControllerContext);
 
   const { debug } = useContext(SceneContext);
 
@@ -21,7 +21,7 @@ export function Controller() {
         ))}
       </Physics>
 
-      <CameraControl key={currentLevel} />
+      <CameraControl />
     </>
   );
 }

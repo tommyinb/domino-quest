@@ -22,6 +22,7 @@ export const SlotContext = createContext<{
       selectedNext: undefined,
       undoHandlers: [],
       retryHandlers: [],
+      view: 0,
     },
     round: 0,
   },

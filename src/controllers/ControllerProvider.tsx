@@ -36,12 +36,13 @@ export function ControllerProvider({ children }: PropsWithChildren) {
         selectedNext: undefined,
         undoHandlers: [],
         retryHandlers: [],
+        view: 0,
       },
       round: 0,
     }))
   );
 
-  const [currentLevel, setCurrentLevel] = useState(10);
+  const [currentLevel, setCurrentLevel] = useState(1);
 
   const [gestureMode, setGestureMode] = useState(GestureMode.Build);
 
