@@ -1,0 +1,42 @@
+.settings-FormLanguage {
+  .title {
+    line-height: 24px;
+    color: #888;
+    text-align: center;
+
+    &.en {
+      font-size: 22px;
+    }
+
+    &.zh,
+    &.ja {
+      font-size: 18px;
+    }
+  }
+
+  .content {
+    display: flex;
+    gap: 1px;
+
+    .en,
+    .zh,
+    .ja {
+      width: 60px;
+      height: 60px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 25px;
+
+      &.active {
+        background-color: #ff6b6bcc;
+        color: white;
+      }
+
+      &:not(.active) {
+        color: #ccc;
+        background-color: #00000011;
+      }
+    }
+  }
+}

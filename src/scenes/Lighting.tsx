@@ -1,9 +1,12 @@
-import { useRef } from "react";
+import { useContext, useRef } from "react";
 import { DirectionalLight, HemisphereLight } from "three";
+import { SettingContext } from "../settings/SettingContext";
 
-export function Lighting({ debug }: Props) {
+export function Lighting() {
   const hemisphereLight = useRef<HemisphereLight>(null!);
   const directionalLight = useRef<DirectionalLight>(null!);
+
+  const { debug } = useContext(SettingContext);
 
   return (
     <>
@@ -27,8 +30,4 @@ export function Lighting({ debug }: Props) {
       {debug && <directionalLightHelper args={[directionalLight.current, 1]} />}
     </>
   );
-}
-
-interface Props {
-  debug: boolean;
 }

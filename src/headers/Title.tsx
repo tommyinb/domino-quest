@@ -1,9 +1,14 @@
+import { useContext } from "react";
 import { ItemState } from "../controllers/itemState";
 import { useCurrentItem } from "../controllers/useCurrentItem";
+import { LanguageContext } from "../languages/LanguageContext";
+import { Languaged } from "../languages/Languaged";
 import "./Title.css";
 
 export function Title() {
   const item = useCurrentItem();
+
+  const { language } = useContext(LanguageContext);
 
   return (
     <div
@@ -13,9 +18,18 @@ export function Title() {
           : ""
       }`}
     >
-      <div className="level">{`Level ${item?.level}${
-        item?.start.name ? ` - ${item.start.name}` : ""
-      }`}</div>
+      <div className="level">
+        <span className={`label ${language}`}>
+          <Languaged en="Level" zh="關卡" ja="レベル" />
+        </span>{" "}
+        {item?.level}
+        {item?.start.name && (
+          <>
+            {" - "}
+            <span className={`name ${language}`}>{item.start.name}</span>
+          </>
+        )}
+      </div>
     </div>
   );
 }

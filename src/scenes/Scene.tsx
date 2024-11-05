@@ -2,6 +2,7 @@ import { Stats } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { PropsWithChildren, useContext } from "react";
 import { useCurrentItem } from "../controllers/useCurrentItem";
+import { SettingContext } from "../settings/SettingContext";
 import { CameraControl } from "./CameraControl";
 import { Lighting } from "./Lighting";
 import "./Scene.css";
@@ -9,7 +10,6 @@ import { SceneContext } from "./SceneContext";
 
 export function Scene({ children }: PropsWithChildren) {
   const {
-    debug,
     pointerDownHandlers,
     pointerMoveHandlers,
     pointerUpHandlers,
@@ -17,6 +17,8 @@ export function Scene({ children }: PropsWithChildren) {
   } = useContext(SceneContext);
 
   const item = useCurrentItem();
+
+  const { debug } = useContext(SettingContext);
 
   return (
     <Canvas
@@ -57,7 +59,7 @@ export function Scene({ children }: PropsWithChildren) {
 
       {debug && <axesHelper args={[10]} />}
 
-      <Lighting debug={debug} />
+      <Lighting />
 
       <CameraControl />
 

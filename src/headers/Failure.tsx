@@ -1,9 +1,10 @@
-import { useMemo } from "react";
+import { useContext, useMemo } from "react";
 import { BlockType } from "../blocks/blockType";
 import { DominoType } from "../blocks/dominoType";
 import { ItemState } from "../controllers/itemState";
 import { useCurrentItem } from "../controllers/useCurrentItem";
 import { useSetCurrentItem } from "../controllers/useSetCurrentItem";
+import { SettingContext } from "../settings/SettingContext";
 import "./Failure.css";
 
 export function Failure() {
@@ -20,10 +21,12 @@ export function Failure() {
     [item?.build.blocks]
   );
 
+  const { formActive } = useContext(SettingContext);
+
   return (
     <div
       className={`headers-Failure ${
-        item?.state === ItemState.Failure ? "active" : ""
+        item?.state === ItemState.Failure && !formActive ? "active" : ""
       }`}
     >
       <div className="content">

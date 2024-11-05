@@ -1,0 +1,45 @@
+.settings-Form {
+  position: fixed;
+  left: 50%;
+  top: 40%;
+  translate: -50% -50%;
+  transition: 0.3s;
+  user-select: none;
+
+  &:not(.active) {
+    translate: -50% calc(-50% + 10px);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  > .content {
+    background-color: #ffffffdd;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    padding: 30px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .button {
+    background-color: #ff6b6b;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    padding-top: 8px;
+    padding-bottom: 10px;
+    color: white;
+    line-height: 24px;
+    text-align: center;
+    cursor: pointer;
+
+    &.en {
+      font-size: 22px;
+    }
+
+    &.zh,
+    &.ja {
+      font-size: 18px;
+    }
+  }
+}

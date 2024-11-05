@@ -10,6 +10,7 @@ import { SlotContext } from "../../controllers/SlotContext";
 import { useSetSlotBlocks } from "../../controllers/useSetSlotBlocks";
 import { clicking } from "../../scenes/clicking";
 import { useGesture } from "../../scenes/useGesture";
+import { SettingContext } from "../../settings/SettingContext";
 import { NextDomino } from "../stageA/NextDomino";
 import { useLastPosition } from "../stageA/useLastPosition";
 import { getNextPosition } from "./getNextPosition";
@@ -109,30 +110,38 @@ export function Next() {
     )
   );
 
+  const { formActive } = useContext(SettingContext);
+
   return (
     <>
       {item.state === ItemState.Building && !built && (
         <NextDomino position={nextPosition} rotation={[0, angle, 0]}>
-          {blocks.length <= 1 && inputSteer === targetSteer && (
-            <Hint position={[0, height, 0]}>Press to build</Hint>
+          {!formActive && (
+            <>
+              {blocks.length <= 1 && inputSteer === targetSteer && (
+                <Hint position={[0, height, 0]}>Press to build</Hint>
+              )}
+
+              {inputSteer !== targetSteer &&
+                (blocks.length === 5 && inputSteer === 0 ? (
+                  <Hint
+                    position={[0, height, 0]}
+                  >{`Swipe right\nto steer`}</Hint>
+                ) : blocks.length <= 8 && targetSteer === inputSteer - 1 ? (
+                  <Hint position={[0, height, 0]}>{`Steer right`}</Hint>
+                ) : (
+                  <Hint position={[0, height, 0]}>{`Swipe ${
+                    inputSteer - targetSteer > 0 ? "right" : "left"
+                  }\nto steer back`}</Hint>
+                ))}
+
+              {blocks.length >= 5 && !ending && inputSteer === targetSteer && (
+                <Hint position={[0, height, 0]}>Press</Hint>
+              )}
+
+              {ending && <Hint position={[0, height, 0]}>Last piece</Hint>}
+            </>
           )}
-
-          {inputSteer !== targetSteer &&
-            (blocks.length === 5 && inputSteer === 0 ? (
-              <Hint position={[0, height, 0]}>{`Swipe right\nto steer`}</Hint>
-            ) : blocks.length <= 8 && targetSteer === inputSteer - 1 ? (
-              <Hint position={[0, height, 0]}>{`Steer right`}</Hint>
-            ) : (
-              <Hint position={[0, height, 0]}>{`Swipe ${
-                inputSteer - targetSteer > 0 ? "right" : "left"
-              }\nto steer back`}</Hint>
-            ))}
-
-          {blocks.length >= 5 && !ending && inputSteer === targetSteer && (
-            <Hint position={[0, height, 0]}>Press</Hint>
-          )}
-
-          {ending && <Hint position={[0, height, 0]}>Last piece</Hint>}
         </NextDomino>
       )}
     </>

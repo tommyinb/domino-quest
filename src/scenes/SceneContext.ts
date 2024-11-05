@@ -6,8 +6,6 @@ import {
 } from "react";
 
 export const SceneContext = createContext<{
-  debug: boolean;
-
   pointerDownHandlers: PointerEventHandler<HTMLDivElement>[];
   setPointerDownHandlers: Dispatch<
     SetStateAction<PointerEventHandler<HTMLDivElement>[]>
@@ -28,8 +26,6 @@ export const SceneContext = createContext<{
     SetStateAction<PointerEventHandler<HTMLDivElement>[]>
   >;
 }>({
-  debug: false,
-
   pointerDownHandlers: [],
   setPointerDownHandlers: () => {},
   pointerMoveHandlers: [],

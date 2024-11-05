@@ -1,6 +1,6 @@
-import { Html } from "@react-three/drei";
+import { Text } from "@react-three/drei";
 import { useContext, useEffect, useMemo } from "react";
-import { SceneContext } from "../scenes/SceneContext";
+import { SettingContext } from "../settings/SettingContext";
 import { ControllerContext } from "./ControllerContext";
 import { Item } from "./item";
 import { ItemState } from "./itemState";
@@ -32,7 +32,7 @@ export function Slot({ item }: Props) {
     }
   }, [currentLevel, item, setItems]);
 
-  const { debug } = useContext(SceneContext);
+  const { debug } = useContext(SettingContext);
 
   return (
     <group position={[0, y, 0]}>
@@ -41,7 +41,15 @@ export function Slot({ item }: Props) {
           <item.start.stageElement />
         )}
 
-        {debug && <Html>{item.state}</Html>}
+        {debug && (
+          <Text
+            scale={[10, 10, 10]}
+            position={[0, 5, 0]}
+            rotation={[-Math.PI / 2, 0, 0]}
+          >
+            {item.state}
+          </Text>
+        )}
 
         {debug && <axesHelper args={[10]} />}
       </SlotContext.Provider>

@@ -8,4 +8,16 @@
   &:not(.active) {
     opacity: 0;
   }
+
+  .level {
+    font-size: 16px;
+
+    .label,
+    .name {
+      &.zh,
+      &.ja {
+        font-size: 14px;
+      }
+    }
+  }
 }

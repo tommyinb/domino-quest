@@ -6,8 +6,8 @@ import { Euler, Vector3 as ThreeVector3 } from "three";
 import { ItemState } from "../controllers/itemState";
 import { SlotContext } from "../controllers/SlotContext";
 import { useSetSlotState } from "../controllers/useSetSlotState";
+import { FirstDominoHints } from "./FirstDominoHints";
 import { depth, height, width } from "./FollowDomino";
-import { Hint } from "./Hint";
 import { useBuilt } from "./useBuilt";
 import { useTipped } from "./useTipped";
 
@@ -43,13 +43,7 @@ export function FirstDomino({ position, rotation, index }: Props) {
         </Box>
       </RigidBody>
 
-      {item.state === ItemState.Building &&
-        built &&
-        (item.level <= 1 ? (
-          <Hint position={[0, height, 0]}>Now, give it a push!</Hint>
-        ) : (
-          <Hint position={[0, height, 0]}>Push!</Hint>
-        ))}
+      <FirstDominoHints />
     </group>
   );
 }

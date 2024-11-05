@@ -1,6 +1,6 @@
 import { Physics } from "@react-three/rapier";
 import { useContext } from "react";
-import { SceneContext } from "../scenes/SceneContext";
+import { SettingContext } from "../settings/SettingContext";
 import { ControllerContext } from "./ControllerContext";
 import { Sky } from "./Sky";
 import { Slot } from "./Slot";
@@ -8,7 +8,7 @@ import { Slot } from "./Slot";
 export function Controller() {
   const { items } = useContext(ControllerContext);
 
-  const { debug } = useContext(SceneContext);
+  const { debug } = useContext(SettingContext);
 
   return (
     <>

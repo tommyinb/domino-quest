@@ -1,0 +1,27 @@
+.settings-Button {
+  position: fixed;
+  top: 0;
+  right: 0;
+
+  .content {
+    background-color: #ffffffbb;
+    border-bottom-left-radius: 40px;
+    padding: 10px 10px 20px 20px;
+    transition: 0.3s;
+
+    &::before {
+      width: 24px;
+      height: 24px;
+      background-image: url(./gear.svg);
+      background-size: contain;
+      background-repeat: no-repeat;
+      display: block;
+      content: "";
+    }
+
+    &:not(.active) {
+      translate: 10px -10px;
+      opacity: 0;
+    }
+  }
+}

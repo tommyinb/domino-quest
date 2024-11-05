@@ -17,6 +17,7 @@ import { Hint } from "../../blocks/Hint";
 import { useBuilt } from "../../blocks/useBuilt";
 import { ItemState } from "../../controllers/itemState";
 import { SlotContext } from "../../controllers/SlotContext";
+import { SettingContext } from "../../settings/SettingContext";
 import { Selection } from "../stageA/Selection";
 import { useLastPosition } from "../stageA/useLastPosition";
 import { getNextPosition } from "../stageB1/getNextPosition";
@@ -62,6 +63,8 @@ export function NextBridge({ nextAngle, setNextAngle }: Props) {
 
   const built = useBuilt();
 
+  const { formActive } = useContext(SettingContext);
+
   return (
     <>
       {item.state === ItemState.Building && !built && enabled && (
@@ -90,7 +93,7 @@ export function NextBridge({ nextAngle, setNextAngle }: Props) {
             color={0xffafcc}
           />
 
-          {!bridged && (
+          {!bridged && !formActive && (
             <Hint
               position={[0, stepHeight * 4, 10]}
             >{`Bridge the junction!`}</Hint>
