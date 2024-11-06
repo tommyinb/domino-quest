@@ -18,5 +18,5 @@ export const stationPositions: Vector3Tuple[] = [
 export const successMessage: Record<Language, string> = {
   en: "Circle Round",
   zh: "轉得很開心嘛",
-  ja: "曲がったね！",
+  ja: "上手に曲がったね！",
 };

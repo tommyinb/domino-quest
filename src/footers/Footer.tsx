@@ -23,17 +23,15 @@ export function Footer() {
           : ""
       }`}
     >
-      <div className="content">
-        <Next />
+      <Next />
 
-        <Undo />
-        <Retry />
+      <Undo />
+      <Retry />
 
-        <Play />
+      <Play />
 
-        <Build />
-        <View />
-      </div>
+      <Build />
+      <View />
     </div>
   );
 }

@@ -1,5 +1,5 @@
 .headers-Title {
-  position: fixed;
+  position: absolute;
   left: 25px;
   top: 15px;
   pointer-events: none;
