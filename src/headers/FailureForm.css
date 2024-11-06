@@ -30,7 +30,7 @@
     }
   }
 
-  .button {
+  .next {
     margin-top: 20px;
     border-radius: 30px;
     background-color: #ff6b6b;
@@ -62,7 +62,7 @@
     opacity: 0;
     pointer-events: none;
 
-    .button {
+    .next {
       scale: 0.8;
       opacity: 0;
     }

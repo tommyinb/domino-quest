@@ -56,7 +56,7 @@ export function SuccessForm({ level }: Props) {
 
       {level < maxLevel && (
         <div
-          className={`button ${language}`}
+          className={`next ${language}`}
           onClick={() => setCurrentLevel(level + 1)}
         >
           <Languaged en="Next Level" zh="下一關" ja="次へ" />

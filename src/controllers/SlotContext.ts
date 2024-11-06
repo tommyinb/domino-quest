@@ -8,7 +8,6 @@ export const SlotContext = createContext<{
   item: {
     level: 0,
     start: {
-      name: "",
       stageElement: () => {
         throw new Error("Not implemented");
       },

@@ -20,7 +20,7 @@ export function Form() {
       </div>
 
       <div
-        className={`button ${language}`}
+        className={`close ${language}`}
         onClick={() => setFormActive(!formActive)}
       >
         <Languaged en="Okay" zh="確定" ja="設定する" />

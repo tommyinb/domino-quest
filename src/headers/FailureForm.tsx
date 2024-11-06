@@ -52,7 +52,7 @@ export function FailureForm({ level }: Props) {
         </div>
 
         <div
-          className={`button ${language}`}
+          className={`next ${language}`}
           onClick={() =>
             setItems((items) =>
               items.map((item) =>
