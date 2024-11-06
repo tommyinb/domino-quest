@@ -1,0 +1,22 @@
+.blocks-HintContent {
+  position: relative;
+
+  .space,
+  .content {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding: 10px 20px;
+  }
+
+  .space {
+    white-space: pre;
+    word-break: keep-all;
+    opacity: 0;
+  }
+
+  .content {
+    white-space: pre-line;
+    color: white;
+  }
+}

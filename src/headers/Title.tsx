@@ -26,7 +26,9 @@ export function Title() {
         {item?.start.name && (
           <>
             {" - "}
-            <span className={`name ${language}`}>{item.start.name}</span>
+            <span className={`name ${language}`}>
+              <Languaged {...item.start.name} />
+            </span>
           </>
         )}
       </div>

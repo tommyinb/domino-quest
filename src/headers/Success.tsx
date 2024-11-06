@@ -40,7 +40,10 @@ export function Success() {
         </div>
 
         <div className="message">
-          {item?.start.successMessage ?? item?.start.name}
+          {(item?.start.successMessage && (
+            <Languaged {...item.start.successMessage} />
+          )) ||
+            (item?.start.name && <Languaged {...item.start.name} />)}
         </div>
       </div>
 

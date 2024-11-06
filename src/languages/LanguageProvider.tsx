@@ -3,7 +3,7 @@ import { Language } from "./language";
 import { LanguageContext } from "./LanguageContext";
 
 export function LanguageProvider({ children }: PropsWithChildren) {
-  const [language, setLanguage] = useState<Language>("ja");
+  const [language, setLanguage] = useState<Language>("en");
 
   return (
     <LanguageContext.Provider

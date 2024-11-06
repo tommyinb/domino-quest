@@ -25,7 +25,12 @@ export function Play() {
         item?.start === startB4 &&
         item.build.blocks.length >= 10 &&
         item.build.blocks.length < 20 && (
-          <Hint className="hint">Play to get a preview</Hint>
+          <Hint
+            className="hint"
+            en="Play to get a preview"
+            zh="試推一下"
+            ja="プレビューを見る"
+          />
         )}
     </div>
   );

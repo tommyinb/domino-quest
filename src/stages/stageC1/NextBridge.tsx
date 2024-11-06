@@ -96,7 +96,10 @@ export function NextBridge({ nextAngle, setNextAngle }: Props) {
           {!bridged && !formActive && (
             <Hint
               position={[0, stepHeight * 4, 10]}
-            >{`Bridge the junction!`}</Hint>
+              en="Bridge the junction!"
+              zh="交差點搭橋！"
+              ja="橋をかける"
+            />
           )}
         </group>
       )}

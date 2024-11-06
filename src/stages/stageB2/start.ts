@@ -1,4 +1,5 @@
 import { Vector3Tuple } from "three";
+import { Language } from "../../languages/language";
 import { Stage } from "./Stage";
 
 export const stageElement = Stage;
@@ -12,4 +13,8 @@ export const stationPositions: Vector3Tuple[] = [
   [-10, 0, -150],
 ];
 
-export const successMessage = "Steering Practice";
+export const successMessage: Record<Language, string> = {
+  en: "Steering Practice",
+  zh: "左轉右轉",
+  ja: "曲がり練習",
+};

@@ -4,6 +4,8 @@ import { DominoType } from "../blocks/dominoType";
 import { ItemState } from "../controllers/itemState";
 import { useCurrentItem } from "../controllers/useCurrentItem";
 import { useSetCurrentItem } from "../controllers/useSetCurrentItem";
+import { LanguageContext } from "../languages/LanguageContext";
+import { Languaged } from "../languages/Languaged";
 import { SettingContext } from "../settings/SettingContext";
 import "./Failure.css";
 
@@ -23,6 +25,8 @@ export function Failure() {
 
   const { formActive } = useContext(SettingContext);
 
+  const { language } = useContext(LanguageContext);
+
   return (
     <div
       className={`headers-Failure ${
@@ -30,14 +34,22 @@ export function Failure() {
       }`}
     >
       <div className="content">
-        <div className="level">Level {item?.level}</div>
+        <div className="level">
+          <span className={`label ${language}`}>
+            <Languaged en="Level" zh="關卡" ja="レベル" />
+          </span>{" "}
+          {item?.level}
+        </div>
 
         <div className="message">
-          {item?.start.failMessage ?? item?.start.name}
+          {(item?.start.failureMessage && (
+            <Languaged {...item.start.failureMessage} />
+          )) ||
+            (item?.start.name && <Languaged {...item.start.name} />)}
         </div>
 
         <div
-          className="button"
+          className={`button ${language}`}
           onClick={() =>
             setItem((item) => ({
               ...item,
@@ -46,7 +58,11 @@ export function Failure() {
             }))
           }
         >
-          {built ? "Try again" : "Keep building"}
+          {built ? (
+            <Languaged en="Try again" zh="再試一次" ja="もう一回" />
+          ) : (
+            <Languaged en="Keep building" zh="繼續" ja="並べ続ける" />
+          )}
         </div>
       </div>
     </div>

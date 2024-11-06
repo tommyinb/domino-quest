@@ -1,13 +1,15 @@
 .footers-plays-Hint {
   font-size: min(8vw, 6vh);
-  line-height: min(8vw, 3vh);
+  line-height: min(8vw, 6vh);
   text-align: center;
   translate: -50% 0;
   pointer-events: none;
   user-select: none;
 
-  .content {
-    white-space: pre;
+  > .content {
+    position: absolute;
+    left: 0;
+    bottom: calc(100% - 10px);
   }
 
   .arrow {

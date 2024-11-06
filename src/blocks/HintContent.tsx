@@ -1,14 +1,7 @@
-import {
-  PropsWithChildren,
-  useContext,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from "react";
-import { LanguageContext } from "../languages/LanguageContext";
-import "./HintText.css";
+import { PropsWithChildren, useLayoutEffect, useRef, useState } from "react";
+import "./HintContent.css";
 
-export function HintText({ children }: PropsWithChildren) {
+export function HintContent({ children }: PropsWithChildren) {
   const [display, setDisplay] = useState<{ left: number; right: number }>();
 
   const mainRef = useRef<HTMLDivElement>(null);
@@ -54,6 +47,9 @@ export function HintText({ children }: PropsWithChildren) {
     }
 
     const resizeObserver = new ResizeObserver(handler);
+    if (spaceRef.current) {
+      resizeObserver.observe(spaceRef.current);
+    }
     resizeObserver.observe(document.body);
 
     return () => {
@@ -62,10 +58,8 @@ export function HintText({ children }: PropsWithChildren) {
     };
   }, []);
 
-  const { language } = useContext(LanguageContext);
-
   return (
-    <div ref={mainRef} className={`blocks-HintContent ${language}`}>
+    <div ref={mainRef} className="blocks-HintContent">
       <div ref={spaceRef} className="space">
         {children}
       </div>

@@ -12,7 +12,7 @@ import { SettingContext } from "../../settings/SettingContext";
 import { NextDomino } from "../stageA/NextDomino";
 import { useLastPosition } from "../stageA/useLastPosition";
 import { getNextPosition } from "./getNextPosition";
-import { NextHints } from "./NextHints";
+import { NextHint } from "./NextHint";
 import { endPosition, middlePosition, startPosition } from "./start";
 
 export function Next() {
@@ -116,7 +116,7 @@ export function Next() {
       {item.state === ItemState.Building && !built && (
         <NextDomino position={nextPosition} rotation={[0, angle, 0]}>
           {!formActive && (
-            <NextHints
+            <NextHint
               inputSteer={inputSteer}
               targetSteer={targetSteer}
               ending={ending}

@@ -53,7 +53,7 @@ export function Next() {
         selectedNext?.blockType === BlockType.Domino &&
         !item.build.blocks.some(
           (block) => block.blockType === BlockType.Bridge
-        ) && <Hint className="hint">Switch!</Hint>}
+        ) && <Hint className="hint" en="Switch!" zh="切換建物！" ja="New!" />}
     </div>
   );
 }

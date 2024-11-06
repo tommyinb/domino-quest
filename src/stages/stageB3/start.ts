@@ -1,4 +1,5 @@
 import { Vector3Tuple } from "three";
+import { Language } from "../../languages/language";
 import { Stage } from "./Stage";
 
 export const stageElement = Stage;
@@ -14,4 +15,8 @@ export const stationPositions: Vector3Tuple[] = [
   [40, 0, 40],
 ];
 
-export const successMessage = "Circle Round";
+export const successMessage: Record<Language, string> = {
+  en: "Circle Round",
+  zh: "轉得很開心嘛",
+  ja: "曲がったね！",
+};

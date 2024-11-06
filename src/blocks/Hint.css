@@ -1,7 +1,6 @@
 .blocks-Hint {
   font-size: min(8vw, 5vh);
   line-height: min(8vw, 5vh);
-  color: white;
   pointer-events: none;
   user-select: none;
 
@@ -9,13 +8,18 @@
     position: absolute;
     bottom: 25px;
     right: -40px;
-    white-space: pre-line;
+
+    &.zh,
+    &.ja {
+      font-size: min(6vw, 4vh);
+    }
   }
 
   .arrow {
     position: absolute;
     bottom: 0;
     right: 0;
+    color: white;
     animation: blocks-Hint-arrow 0.3s infinite alternate;
   }
 }

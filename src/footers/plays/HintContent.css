@@ -1,14 +1,14 @@
-.blocks-HintContent {
+.footers-plays-HintContent {
   position: relative;
 
   .space,
   .content {
     position: absolute;
-    right: 0;
+    left: 0;
     bottom: 0;
     padding: 10px 20px;
-    font-size: min(8vw, 5vh);
-    line-height: min(8vw, 5vh);
+    font-size: min(8vw, 6vh);
+    line-height: min(8vw, 6vh);
 
     &.zh,
     &.ja {

@@ -42,7 +42,9 @@ export function NextDominoBridge() {
         >
           {item.build.blocks.length === 2 &&
             item.build.blocks[1].blockType === BlockType.Bridge &&
-            !formActive && <Hint position={[0, height, 0]}>Press</Hint>}
+            !formActive && (
+              <Hint position={[0, height, 0]} en="Press" zh="按下" ja="押す" />
+            )}
         </NextDomino>
       )}
     </>

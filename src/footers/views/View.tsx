@@ -44,7 +44,12 @@ export function View() {
       }}
     >
       {!used && item?.start === startB4 && item.build.blocks.length >= 20 && (
-        <Hint className="hint">Change the view angle</Hint>
+        <Hint
+          className="hint"
+          en="Change the view angle"
+          zh="改變視角"
+          ja="視点を変える"
+        />
       )}
     </div>
   );

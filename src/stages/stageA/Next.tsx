@@ -5,7 +5,7 @@ import { ItemState } from "../../controllers/itemState";
 import { SlotContext } from "../../controllers/SlotContext";
 import { SettingContext } from "../../settings/SettingContext";
 import { NextDomino } from "./NextDomino";
-import { NextHints } from "./NextHints";
+import { NextHint } from "./NextHint";
 import { endPosition } from "./start";
 import { useClick } from "./useClick";
 import { useLastPosition } from "./useLastPosition";
@@ -29,7 +29,7 @@ export function Next() {
     <>
       {item.state === ItemState.Building && !built && (
         <NextDomino position={nextPosition} rotation={[0, 0, 0]}>
-          {!formActive && <NextHints ending={ending} />}
+          {!formActive && <NextHint ending={ending} />}
         </NextDomino>
       )}
     </>
