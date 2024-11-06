@@ -1,15 +1,16 @@
 import { Html } from "@react-three/drei";
 import { Vector3 } from "@react-three/fiber";
-import { PropsWithChildren, useContext } from "react";
-import { LanguageContext } from "../languages/LanguageContext";
+import { PropsWithChildren } from "react";
 import "./Hint.css";
+import { HintText } from "./HintText";
 
 export function Hint({ position, children }: Props) {
-  const { language } = useContext(LanguageContext);
-
   return (
     <Html className="blocks-Hint" position={position}>
-      <div className={`content ${language}`}>{children}</div>
+      <div className="content">
+        <HintText>{children}</HintText>
+      </div>
+
       <div className="arrow">v</div>
     </Html>
   );

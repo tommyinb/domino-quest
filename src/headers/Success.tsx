@@ -36,7 +36,7 @@ export function Success() {
 
       <div className="content">
         <div className="state">
-          <Languaged en="Completed" zh="目標達成" ja="クリア" />
+          <Languaged en="Completed" zh="目標達成" ja="CLEAR!" />
         </div>
 
         <div className="message">

@@ -31,7 +31,9 @@ export function FirstDominoHints() {
   return (
     <>
       {item.state === ItemState.Building && built && !formActive && (
-        <Hint position={[0, height, 0]}>{hint}</Hint>
+        <Hint key={hint} position={[0, height, 0]}>
+          {hint}
+        </Hint>
       )}
     </>
   );

@@ -5,12 +5,10 @@
   pointer-events: none;
   user-select: none;
 
-  .content {
+  > .content {
     position: absolute;
-    bottom: 0.8em;
-    right: -1em;
-    text-align: right;
-    white-space: pre;
+    bottom: 25px;
+    right: -20px;
   }
 
   .arrow {

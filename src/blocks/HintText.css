@@ -1,0 +1,23 @@
+.blocks-HintContent {
+  position: relative;
+
+  .space,
+  .content {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    font-size: min(8vw, 5vh);
+    line-height: min(8vw, 5vh);
+
+    &.zh,
+    &.ja {
+      font-size: min(6vw, 4vh);
+    }
+  }
+
+  .space {
+    white-space: nowrap;
+    word-break: keep-all;
+    opacity: 0;
+  }
+}

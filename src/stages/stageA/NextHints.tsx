@@ -33,14 +33,22 @@ export function NextHints({ ending }: Props) {
           ? {
               en: "Last piece",
               zh: "最後一塊",
-              ja: "最後の",
+              ja: "最後のピース",
             }
           : undefined,
       [blocks.length, ending]
     )
   );
 
-  return <>{hint && <Hint position={[0, height, 0]}>{hint}</Hint>}</>;
+  return (
+    <>
+      {hint && (
+        <Hint key={hint} position={[0, height, 0]}>
+          {hint}
+        </Hint>
+      )}
+    </>
+  );
 }
 
 interface Props {
