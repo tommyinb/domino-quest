@@ -6,7 +6,7 @@ import { Euler, Vector3 as ThreeVector3 } from "three";
 import { ItemState } from "../controllers/itemState";
 import { SlotContext } from "../controllers/SlotContext";
 import { useSetSlotState } from "../controllers/useSetSlotState";
-import { FirstDominoHints } from "./FirstDominoHints";
+import { FirstDominoHint } from "./FirstDominoHint";
 import { depth, height, width } from "./FollowDomino";
 import { useBuilt } from "./useBuilt";
 import { useTipped } from "./useTipped";
@@ -43,7 +43,7 @@ export function FirstDomino({ position, rotation, index }: Props) {
         </Box>
       </RigidBody>
 
-      <FirstDominoHints />
+      <FirstDominoHint />
     </group>
   );
 }

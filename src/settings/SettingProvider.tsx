@@ -1,5 +1,4 @@
 import { PropsWithChildren, useEffect, useMemo, useState } from "react";
-import { Language } from "../languages/language";
 import { SettingContext } from "./SettingContext";
 
 export function SettingProvider({ children }: PropsWithChildren) {
@@ -14,9 +13,7 @@ export function SettingProvider({ children }: PropsWithChildren) {
     };
   }, []);
 
-  const [formActive, setFormActive] = useState(true);
-
-  const [language, setLanguage] = useState<Language>("en");
+  const [formActive, setFormActive] = useState(false);
 
   return (
     <SettingContext.Provider
@@ -26,10 +23,8 @@ export function SettingProvider({ children }: PropsWithChildren) {
           debug,
           formActive,
           setFormActive,
-          language,
-          setLanguage,
         }),
-        [debug, formActive, language, startTime]
+        [debug, formActive, startTime]
       )}
     >
       {children}

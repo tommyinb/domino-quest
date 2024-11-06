@@ -7,26 +7,26 @@ import { height } from "./FollowDomino";
 import { Hint } from "./Hint";
 import { useBuilt } from "./useBuilt";
 
-export function FirstDominoHints() {
+export function FirstDominoHint() {
   const { item } = useContext(SlotContext);
+
+  const built = useBuilt();
+
+  const { formActive } = useContext(SettingContext);
 
   const hint = useLanguaged(
     item.level <= 1
       ? {
           en: "Now, give it a push!",
           zh: "好！推一下！",
-          ja: "押してみて！",
+          ja: "倒してみよう！",
         }
       : {
           en: "Push!",
           zh: "推！",
-          ja: "押す！",
+          ja: "倒す！",
         }
   );
-
-  const built = useBuilt();
-
-  const { formActive } = useContext(SettingContext);
 
   return (
     <>

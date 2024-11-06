@@ -2,8 +2,6 @@ import { useCallback, useContext, useMemo, useState } from "react";
 import { Euler } from "three";
 import { BlockType } from "../../blocks/blockType";
 import { DominoType } from "../../blocks/dominoType";
-import { height } from "../../blocks/FollowDomino";
-import { Hint } from "../../blocks/Hint";
 import { useBuilt } from "../../blocks/useBuilt";
 import { ItemState } from "../../controllers/itemState";
 import { SlotContext } from "../../controllers/SlotContext";
@@ -14,6 +12,7 @@ import { SettingContext } from "../../settings/SettingContext";
 import { NextDomino } from "../stageA/NextDomino";
 import { useLastPosition } from "../stageA/useLastPosition";
 import { getNextPosition } from "./getNextPosition";
+import { NextHints } from "./NextHints";
 import { endPosition, middlePosition, startPosition } from "./start";
 
 export function Next() {
@@ -117,30 +116,11 @@ export function Next() {
       {item.state === ItemState.Building && !built && (
         <NextDomino position={nextPosition} rotation={[0, angle, 0]}>
           {!formActive && (
-            <>
-              {blocks.length <= 1 && inputSteer === targetSteer && (
-                <Hint position={[0, height, 0]}>Press to build</Hint>
-              )}
-
-              {inputSteer !== targetSteer &&
-                (blocks.length === 5 && inputSteer === 0 ? (
-                  <Hint
-                    position={[0, height, 0]}
-                  >{`Swipe right\nto steer`}</Hint>
-                ) : blocks.length <= 8 && targetSteer === inputSteer - 1 ? (
-                  <Hint position={[0, height, 0]}>{`Steer right`}</Hint>
-                ) : (
-                  <Hint position={[0, height, 0]}>{`Swipe ${
-                    inputSteer - targetSteer > 0 ? "right" : "left"
-                  }\nto steer back`}</Hint>
-                ))}
-
-              {blocks.length >= 5 && !ending && inputSteer === targetSteer && (
-                <Hint position={[0, height, 0]}>Press</Hint>
-              )}
-
-              {ending && <Hint position={[0, height, 0]}>Last piece</Hint>}
-            </>
+            <NextHints
+              inputSteer={inputSteer}
+              targetSteer={targetSteer}
+              ending={ending}
+            />
           )}
         </NextDomino>
       )}

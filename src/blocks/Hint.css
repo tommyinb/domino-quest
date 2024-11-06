@@ -8,7 +8,8 @@
   > .content {
     position: absolute;
     bottom: 25px;
-    right: -20px;
+    right: -40px;
+    white-space: pre-line;
   }
 
   .arrow {
