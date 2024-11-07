@@ -39,7 +39,7 @@ export function Slot({ item }: Props) {
   return (
     <group position={[0, y, 0]}>
       <SlotContext.Provider value={useMemo(() => ({ item }), [item])}>
-        {levels.includes(item.level) && <item.start.stageElement />}
+        {Math.abs(item.level - level) <= 1 && <item.start.stageElement />}
 
         {debug && (
           <>
