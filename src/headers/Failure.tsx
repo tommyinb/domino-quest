@@ -1,12 +1,13 @@
+import { useContext } from "react";
+import { ControllerContext } from "../controllers/ControllerContext";
 import { FailureForm } from "./FailureForm";
-import { useLevels } from "./useLevels";
 
 export function Failure() {
-  const levels = useLevels(2);
+  const { levels } = useContext(ControllerContext);
 
   return (
     <>
-      {levels.map((level) => (
+      {levels.slice(-3).map((level) => (
         <FailureForm key={level} level={level} />
       ))}
     </>

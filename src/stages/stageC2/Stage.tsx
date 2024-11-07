@@ -2,8 +2,8 @@ import { useContext, useEffect } from "react";
 import { Euler, Vector3 } from "three";
 import { BlockType } from "../../blocks/blockType";
 import { DominoType } from "../../blocks/dominoType";
-import { ControllerContext } from "../../controllers/ControllerContext";
 import { SlotContext } from "../../controllers/SlotContext";
+import { useCurrentLevel } from "../../controllers/useCurrentLevel";
 import { useSetSlotBlocks } from "../../controllers/useSetSlotBlocks";
 import { Play } from "../Play";
 import { Ground } from "./Ground";
@@ -12,7 +12,6 @@ import { Path } from "./Path";
 
 export function Stage() {
   const { item } = useContext(SlotContext);
-  const { currentLevel } = useContext(ControllerContext);
 
   const setSlotBlocks = useSetSlotBlocks();
   useEffect(() => {
@@ -29,6 +28,8 @@ export function Stage() {
         : blocks
     );
   }, [setSlotBlocks]);
+
+  const currentLevel = useCurrentLevel();
 
   return (
     <>

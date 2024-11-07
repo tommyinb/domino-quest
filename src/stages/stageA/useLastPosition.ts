@@ -7,7 +7,8 @@ export function useLastPosition() {
   const { blocks } = item.build;
 
   return useMemo(
-    () => blocks[blocks.length - 1]?.position ?? new Vector3(),
+    () =>
+      blocks.length > 0 ? blocks[blocks.length - 1].position : new Vector3(),
     [blocks]
   );
 }

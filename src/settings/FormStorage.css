@@ -1,9 +1,17 @@
 .settings-FormStorage {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  transition: grid-template-rows 0.3s;
 
   .content {
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    visibility: hidden;
+    transition: visibility 0.3s;
+
     .title {
       line-height: 24px;
       color: #888;
@@ -79,14 +87,23 @@
         }
       }
     }
+
+    .description {
+      font-size: 14px;
+      margin-bottom: 8px;
+
+      &:not(.selected) {
+        opacity: 0;
+        user-select: none;
+      }
+    }
   }
 
-  .description {
-    font-size: 14px;
+  &.active {
+    grid-template-rows: 1fr;
 
-    &:not(.active) {
-      opacity: 0;
-      user-select: none;
+    .content {
+      visibility: visible;
     }
   }
 }

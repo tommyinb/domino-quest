@@ -2,6 +2,8 @@ import { Vector3Tuple } from "three";
 import { Language } from "../../languages/language";
 import { Stage } from "./Stage";
 
+export const uuid = "1094a95f-8cb7-49c8-8cee-bec29076a7d2";
+
 export const stageElement = Stage;
 export const stageHeight = 600;
 export const cameraPosition: Vector3Tuple = [-75, 150, 250];

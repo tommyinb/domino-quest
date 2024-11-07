@@ -1,13 +1,16 @@
-import { PropsWithChildren, useMemo, useState } from "react";
-import { Language } from "./language";
+import { PropsWithChildren, useMemo } from "react";
 import { LanguageContext } from "./LanguageContext";
+import { useStoredLanguage } from "./useStoredLanguage";
 
 export function LanguageProvider({ children }: PropsWithChildren) {
-  const [language, setLanguage] = useState<Language>("en");
+  const { language, setLanguage } = useStoredLanguage();
 
   return (
     <LanguageContext.Provider
-      value={useMemo(() => ({ language, setLanguage }), [language])}
+      value={useMemo(
+        () => ({ language, setLanguage }),
+        [language, setLanguage]
+      )}
     >
       {children}
     </LanguageContext.Provider>

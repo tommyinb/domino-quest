@@ -1,15 +1,18 @@
 import { useCallback, useContext } from "react";
 import { ControllerContext } from "./ControllerContext";
 import { Item } from "./item";
+import { useCurrentLevel } from "./useCurrentLevel";
 
 export function useSetCurrentItem() {
-  const { currentLevel, setItems } = useContext(ControllerContext);
+  const { setItems } = useContext(ControllerContext);
+
+  const level = useCurrentLevel();
 
   return useCallback(
     (setter: (item: Item) => Item) => {
       setItems((oldItems) => {
         const newOutput = oldItems.map((oldItem) => {
-          if (oldItem.level === currentLevel) {
+          if (oldItem.level === level) {
             const newItem = setter(oldItem);
 
             return {
@@ -31,6 +34,6 @@ export function useSetCurrentItem() {
         return newOutput.map((item) => item.item);
       });
     },
-    [currentLevel, setItems]
+    [level, setItems]
   );
 }

@@ -1,19 +1,23 @@
 import { useContext, useMemo } from "react";
 import { ControllerContext } from "../controllers/ControllerContext";
 import { ItemState } from "../controllers/itemState";
+import { useCurrentLevel } from "../controllers/useCurrentLevel";
+import { useSetCurrentLevel } from "../controllers/useSetCurrentLevel";
 import { LanguageContext } from "../languages/LanguageContext";
 import { Languaged } from "../languages/Languaged";
 import { SettingContext } from "../settings/SettingContext";
 import "./SuccessForm.css";
 
-export function SuccessForm({ level }: Props) {
-  const { items, currentLevel, setCurrentLevel } =
-    useContext(ControllerContext);
+export function SuccessForm({ level: formLevel }: Props) {
+  const { items } = useContext(ControllerContext);
 
   const item = useMemo(
-    () => items.find((item) => item.level === level),
-    [items, level]
+    () => items.find((item) => item.level === formLevel),
+    [items, formLevel]
   );
+
+  const currentLevel = useCurrentLevel();
+  const setCurrentLevel = useSetCurrentLevel();
 
   const maxLevel = useMemo(
     () => Math.max(...items.map((item) => item.level)),
@@ -27,7 +31,7 @@ export function SuccessForm({ level }: Props) {
   return (
     <div
       className={`headers-SuccessForm ${
-        level === currentLevel &&
+        formLevel === currentLevel &&
         item?.state === ItemState.Success &&
         !formActive
           ? "active"
@@ -38,7 +42,7 @@ export function SuccessForm({ level }: Props) {
         <span className={`label ${language}`}>
           <Languaged en="Level" zh="關卡" ja="レベル" />
         </span>{" "}
-        {level}
+        {formLevel}
       </div>
 
       <div className="content">
@@ -54,10 +58,10 @@ export function SuccessForm({ level }: Props) {
         </div>
       </div>
 
-      {level < maxLevel && (
+      {formLevel < maxLevel && (
         <div
           className={`next ${language}`}
-          onClick={() => setCurrentLevel(level + 1)}
+          onClick={() => setCurrentLevel(formLevel + 1)}
         >
           <Languaged en="Next Level" zh="下一關" ja="次へ" />
         </div>

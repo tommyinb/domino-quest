@@ -7,7 +7,7 @@ import { ItemState } from "./itemState";
 import { SlotContext } from "./SlotContext";
 
 export function Slot({ item }: Props) {
-  const { items, setItems, currentLevel } = useContext(ControllerContext);
+  const { items, setItems, levels } = useContext(ControllerContext);
 
   const y = useMemo(
     () =>
@@ -18,8 +18,10 @@ export function Slot({ item }: Props) {
     [item.level, items]
   );
 
+  const level = levels[levels.length - 1];
+
   useEffect(() => {
-    if (currentLevel === item.level) {
+    if (item.level === level) {
       if (item.state === ItemState.Idle) {
         setItems((oldItems) =>
           oldItems.map((oldItem) =>
@@ -30,16 +32,14 @@ export function Slot({ item }: Props) {
         );
       }
     }
-  }, [currentLevel, item, setItems]);
+  }, [item.level, item.state, level, setItems]);
 
   const { debug } = useContext(SettingContext);
 
   return (
     <group position={[0, y, 0]}>
       <SlotContext.Provider value={useMemo(() => ({ item }), [item])}>
-        {Math.abs(item.level - currentLevel) <= 1 && (
-          <item.start.stageElement />
-        )}
+        {levels.includes(item.level) && <item.start.stageElement />}
 
         {debug && (
           <>

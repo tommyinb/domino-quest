@@ -2,6 +2,7 @@ import { Vector3Tuple } from "three";
 import { Language } from "../../languages/language";
 import { Stage } from "./Stage";
 
+export const uuid = "5a828621-2e6e-469a-be31-51aacfdb54fe";
 export const name: Record<Language, string> = {
   en: "Bridges",
   zh: "九道橋",

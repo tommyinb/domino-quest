@@ -2,6 +2,7 @@ import { Vector3Tuple } from "three";
 import { Language } from "../languages/language";
 
 export interface ItemStart {
+  uuid: string;
   name?: Record<Language, string>;
 
   stageElement: () => JSX.Element;

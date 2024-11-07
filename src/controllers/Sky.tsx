@@ -3,21 +3,24 @@ import { useContext, useMemo } from "react";
 import { transitionDuration } from "../scenes/CameraControlAnimation";
 import { ControllerContext } from "./ControllerContext";
 import { Vortex } from "./Vortex";
+import { useCurrentLevel } from "./useCurrentLevel";
 
 export function Sky() {
-  const { items, currentLevel } = useContext(ControllerContext);
+  const { items } = useContext(ControllerContext);
 
-  const levelY = useMemo(
+  const level = useCurrentLevel();
+
+  const inputY = useMemo(
     () =>
       items
-        .filter((item) => item.level < currentLevel)
+        .filter((item) => item.level < level)
         .map((item) => item.start.stageHeight)
         .reduce((a, b) => a + b, 0),
-    [currentLevel, items]
+    [items, level]
   );
 
   const { y: outputY } = useSpring({
-    y: levelY,
+    y: inputY,
     config: { duration: transitionDuration },
   });
 

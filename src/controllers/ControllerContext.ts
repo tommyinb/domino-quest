@@ -6,8 +6,8 @@ export const ControllerContext = createContext<{
   items: Item[];
   setItems: Dispatch<SetStateAction<Item[]>>;
 
-  currentLevel: number;
-  setCurrentLevel: (level: number) => void;
+  levels: number[];
+  setLevels: Dispatch<SetStateAction<number[]>>;
 
   gestureMode: GestureMode;
   setGestureMode: (mode: GestureMode) => void;
@@ -15,8 +15,8 @@ export const ControllerContext = createContext<{
   items: [],
   setItems: () => {},
 
-  currentLevel: 0,
-  setCurrentLevel: () => {},
+  levels: [],
+  setLevels: () => {},
 
   gestureMode: GestureMode.Build,
   setGestureMode: () => {},
