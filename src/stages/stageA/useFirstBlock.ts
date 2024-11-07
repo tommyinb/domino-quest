@@ -1,24 +1,17 @@
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { Block } from "../../blocks/block";
 import { ItemState } from "../../controllers/itemState";
-import { useSetSlotItem } from "../../controllers/useSetSlotItem";
+import { SlotContext } from "../../controllers/SlotContext";
+import { useSetSlotBlocks } from "../../controllers/useSetSlotBlocks";
 
 export function useFirstBlock(block: Block) {
-  const setSlotItem = useSetSlotItem();
+  const { item } = useContext(SlotContext);
 
-  useEffect(
-    () =>
-      setSlotItem((item) =>
-        item.state === ItemState.Building && item.build.blocks.length <= 0
-          ? {
-              ...item,
-              build: {
-                ...item.build,
-                blocks: [block],
-              },
-            }
-          : item
-      ),
-    [block, setSlotItem]
-  );
+  const setBlocks = useSetSlotBlocks();
+
+  useEffect(() => {
+    if (item.state === ItemState.Building && item.build.blocks.length <= 0) {
+      setBlocks((blocks) => (blocks.length <= 0 ? [block] : blocks));
+    }
+  }, [block, item.build.blocks.length, item.state, setBlocks]);
 }
