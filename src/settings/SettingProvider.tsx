@@ -21,6 +21,7 @@ export function SettingProvider({ children }: PropsWithChildren) {
         () => ({
           startTime,
           debug,
+          setDebug,
           formActive,
           setFormActive,
         }),

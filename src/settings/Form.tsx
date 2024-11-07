@@ -2,8 +2,10 @@ import { useContext } from "react";
 import { LanguageContext } from "../languages/LanguageContext";
 import { Languaged } from "../languages/Languaged";
 import "./Form.css";
+import { FormDebug } from "./FormDebug";
 import { FormLanguage } from "./FormLanguage";
 import { FormLevel } from "./FormLevel";
+import { FormStorage } from "./FormStorage";
 import { SettingContext } from "./SettingContext";
 
 export function Form() {
@@ -17,6 +19,10 @@ export function Form() {
         <FormLanguage />
 
         <FormLevel />
+
+        <FormDebug />
+
+        <FormStorage />
       </div>
 
       <div

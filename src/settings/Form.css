@@ -2,12 +2,13 @@
   position: absolute;
   width: min(80vw, 260px);
   left: calc(50% - (min(80vw, 260px) / 2));
-  top: 20vh;
+  top: 45%;
+  translate: 0 -50%;
   transition: 0.3s;
   user-select: none;
 
   &:not(.active) {
-    translate: 0 10px;
+    translate: 0 calc(-50% + 10px);
     opacity: 0;
     pointer-events: none;
   }
@@ -16,7 +17,7 @@
     background-color: #ffffffdd;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
-    padding: 30px 20px;
+    padding: 30px 20px 8px;
     display: flex;
     flex-direction: column;
     align-items: center;

@@ -1,0 +1,79 @@
+.settings-FormDebug {
+  .title {
+    line-height: 24px;
+    color: #888;
+    text-align: center;
+
+    &.en {
+      font-size: 22px;
+    }
+
+    &.zh,
+    &.ja {
+      font-size: 18px;
+    }
+  }
+
+  .content {
+    border-radius: 10px;
+    background-color: #00000011;
+    padding: 5px 15px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    .radio {
+      width: 24px;
+      height: 24px;
+      box-sizing: border-box;
+      border: 2px solid #ccc;
+      border-radius: 12px;
+      background-color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &::after {
+        display: block;
+        width: 12px;
+        height: 12px;
+        border-radius: 6px;
+        content: "";
+      }
+    }
+
+    .text {
+      color: #ccc;
+    }
+
+    &.en {
+      .text {
+        font-size: 25px;
+      }
+    }
+
+    &.zh,
+    &.ja {
+      padding-top: 10px;
+      padding-bottom: 10px;
+
+      .text {
+        font-size: 20px;
+      }
+    }
+
+    &.active {
+      .radio {
+        border-color: #ff6b6b;
+
+        &::after {
+          background-color: #ff6b6bcc;
+        }
+      }
+
+      .text {
+        color: #ff6b6bcc;
+      }
+    }
+  }
+}

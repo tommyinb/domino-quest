@@ -42,16 +42,18 @@ export function Slot({ item }: Props) {
         )}
 
         {debug && (
-          <Text
-            scale={[10, 10, 10]}
-            position={[0, 5, 0]}
-            rotation={[-Math.PI / 2, 0, 0]}
-          >
-            {item.state}
-          </Text>
-        )}
+          <>
+            <axesHelper args={[10]} />
 
-        {debug && <axesHelper args={[10]} />}
+            <Text scale={[10, 10, 10]} position={[0, 50, -10]}>
+              {item.state}
+            </Text>
+
+            <Text scale={[10, 10, 10]} position={[0, 50, 10]}>
+              blocks: {item.build.blocks.length}
+            </Text>
+          </>
+        )}
       </SlotContext.Provider>
     </group>
   );
