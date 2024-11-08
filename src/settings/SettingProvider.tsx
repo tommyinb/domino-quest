@@ -2,8 +2,6 @@ import { PropsWithChildren, useEffect, useMemo, useState } from "react";
 import { SettingContext } from "./SettingContext";
 
 export function SettingProvider({ children }: PropsWithChildren) {
-  const startTime = useMemo(() => new Date(), []);
-
   const [debug, setDebug] = useState(false);
   useEffect(() => {
     Object.assign(window, { setDebug });
@@ -19,13 +17,12 @@ export function SettingProvider({ children }: PropsWithChildren) {
     <SettingContext.Provider
       value={useMemo(
         () => ({
-          startTime,
           debug,
           setDebug,
           formActive,
           setFormActive,
         }),
-        [debug, formActive, startTime]
+        [debug, formActive]
       )}
     >
       {children}

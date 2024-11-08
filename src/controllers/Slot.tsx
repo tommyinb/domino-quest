@@ -1,5 +1,6 @@
 import { Text } from "@react-three/drei";
 import { useContext, useEffect, useMemo } from "react";
+import ReactGa4 from "react-ga4";
 import { SettingContext } from "../settings/SettingContext";
 import { ControllerContext } from "./ControllerContext";
 import { Item } from "./item";
@@ -33,6 +34,20 @@ export function Slot({ item }: Props) {
       }
     }
   }, [item.level, item.state, level, setItems]);
+
+  useEffect(() => {
+    const data = { level_name: `level-${item.level} (${item.start.uuid})` };
+
+    switch (item.state) {
+      case ItemState.Building:
+        ReactGa4.event("level_start", data);
+        break;
+
+      case ItemState.Success:
+        ReactGa4.event("level_end", data);
+        break;
+    }
+  }, [item.level, item.start.uuid, item.state]);
 
   const { debug } = useContext(SettingContext);
 
