@@ -23,17 +23,23 @@
     border-radius: 10px;
     padding: 10px 10px;
     background-color: #ffffffcc;
-    color: #ff6b6b;
 
     .state {
       padding: 5px 30px;
       font-size: 50px;
+      color: #ff6b6b;
       word-break: keep-all;
     }
 
     .message {
-      font-size: 30px;
       border-top: 1px solid #ff6b6b;
+      font-size: 30px;
+      color: #ff6b6b;
+    }
+
+    .over {
+      border-top: 1px solid #ff6b6b;
+      padding: 10px;
     }
   }
 

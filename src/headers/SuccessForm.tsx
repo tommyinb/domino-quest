@@ -7,6 +7,7 @@ import { LanguageContext } from "../languages/LanguageContext";
 import { Languaged } from "../languages/Languaged";
 import { SettingContext } from "../settings/SettingContext";
 import "./SuccessForm.css";
+import { SuccessFormOver } from "./SuccessFormOver";
 
 export function SuccessForm({ level: formLevel }: Props) {
   const { items } = useContext(ControllerContext);
@@ -56,6 +57,12 @@ export function SuccessForm({ level: formLevel }: Props) {
           )) ||
             (item?.start.name && <Languaged {...item.start.name} />)}
         </div>
+
+        {formLevel >= maxLevel && (
+          <div className="over">
+            <SuccessFormOver />
+          </div>
+        )}
       </div>
 
       {formLevel < maxLevel && (
