@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Euler, Vector3 } from "three";
 import { Block } from "../blocks/block";
-import { getStages } from "./getStages";
+import { getStarts } from "./getStarts";
 import { Item } from "./item";
 import { ItemState } from "./itemState";
 
@@ -11,9 +11,9 @@ export function useStoredItems() {
   const storedRef = useRef(new Map<string, Block[]>());
 
   const [items, setItems] = useState(() =>
-    getStages().map<Item>((stage) => {
+    getStarts().map<Item>((start, index) => {
       const blocksText = localStorage.getItem(
-        `${storageKeyPrefix}.${stage.start.uuid}`
+        `${storageKeyPrefix}.${start.uuid}`
       );
 
       const blocksValue = (() => {
@@ -40,10 +40,11 @@ export function useStoredItems() {
         }
       })();
 
-      storedRef.current.set(stage.start.uuid, blocksValue);
+      storedRef.current.set(start.uuid, blocksValue);
 
       return {
-        ...stage,
+        level: index + 1,
+        start,
         state: ItemState.Idle,
         build: {
           blocks: blocksValue,

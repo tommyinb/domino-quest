@@ -1,25 +1,25 @@
 import { useEffect, useState } from "react";
-import { getStages } from "./getStages";
+import { getStarts } from "./getStarts";
 
 export function useStoredLevels() {
   const storageKey = "controllers-useStoredLevels-1";
 
   const [levels, setLevels] = useState(() => {
-    const stages = getStages();
+    const starts = getStarts();
 
     const text = localStorage.getItem(storageKey);
     if (!text) {
-      return [stages[0].level];
+      return [1];
     }
 
-    const value = parseInt(text);
+    const inputValue = parseInt(text);
 
-    const stage = stages.find((stage) => stage.level === value);
-    if (!stage) {
-      return [stages[0].level];
-    }
+    const outputValue = Math.min(
+      Math.max(Math.floor(inputValue), 1),
+      starts.length
+    );
 
-    return [stage.level];
+    return [outputValue];
   });
 
   useEffect(() => {

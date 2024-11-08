@@ -9,17 +9,20 @@ import * as startC2 from "../stages/stageC2/start";
 import * as startC3 from "../stages/stageC3/start";
 import * as startD from "../stages/stageD/start";
 
-export function getStages() {
+export function getStarts() {
   return [
-    { level: 1, start: startA },
-    { level: 2, start: startB1 },
-    { level: 3, start: startB2 },
-    { level: 4, start: startB3 },
-    { level: 5, start: startB4 },
-    { level: 6, start: startB5 },
-    { level: 7, start: startC1 },
-    { level: 8, start: startC2 },
-    { level: 9, start: startC3 },
-    { level: 10, start: startD },
+    startA,
+
+    startB1,
+    startB2,
+    startB3,
+    startB4,
+    startB5,
+
+    startC1,
+    startC2,
+    startC3,
+
+    startD,
   ];
 }
